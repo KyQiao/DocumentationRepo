@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Linux下的常用指令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Common">
+<meta property="og:url" content="http://yoursite.com/2020/04/25/linuxCommon/LinuxCommon/index.html">
+<meta property="og:site_name" content="Documentation Repo">
+<meta property="og:description" content="Linux下的常用指令">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-25T03:32:42.000Z">
+<meta property="article:modified_time" content="2020-04-28T06:07:28.250Z">
+<meta property="article:author" content="KY">
+<meta property="article:tag" content="reference">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/25/linuxCommon/LinuxCommon/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux Common | Documentation Repo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Documentation Repo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/25/linuxCommon/LinuxCommon/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Documentation Repo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux Common
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-25 11:32:42" itemprop="dateCreated datePublished" datetime="2020-04-25T11:32:42+08:00">2020-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-28 14:07:28" itemprop="dateModified" datetime="2020-04-28T14:07:28+08:00">2020-04-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">Linux下的常用指令</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="常用指令"><a class="header-anchor" href="#常用指令">¶</a>常用指令</h2>
+<h3 id="后台运行"><a class="header-anchor" href="#后台运行">¶</a>后台运行</h3>
+<ul>
+<li><code>nohup</code></li>
+</ul>
+<p>使用&amp;命令后, 作业被提交到后台运行, 当前控制台没有被占用, 但是一但把当前控制台关掉(退出帐户时), 作业就会停止运行. <code>nohup</code>命令可以在你退出帐户之后继续运行相应的进程. <code>nohup</code>就是不挂起的意思( no hang up). 该命令的一般形式为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup command &gt; myout.file 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<p>在使用<code>nohup</code>命令后台运行命令之后，需要使用exit正常退出当前账户，这样才能保证命令一直在后台运行。</p>
+<h3 id="系统"><a class="header-anchor" href="#系统">¶</a><strong>系统</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># uname -a               # 查看内核&#x2F;操作系统&#x2F;CPU信息</span><br><span class="line"># head -n 1 &#x2F;etc&#x2F;issue   # 查看操作系统版本</span><br><span class="line"># cat &#x2F;proc&#x2F;cpuinfo      # 查看CPU信息</span><br><span class="line"># hostname               # 查看计算机名</span><br><span class="line"># lspci -tv              # 列出所有PCI设备</span><br><span class="line"># lsusb -tv              # 列出所有USB设备</span><br><span class="line"># lsmod                  # 列出加载的内核模块</span><br><span class="line"># env                    # 查看环境变量</span><br></pre></td></tr></table></figure>
+<h3 id="资源"><a class="header-anchor" href="#资源">¶</a><strong>资源</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># free -m                # 查看内存使用量和交换区使用量</span><br><span class="line"># df -h                  # 查看各分区使用情况</span><br><span class="line"># du -sh &lt;目录名&gt;        # 查看指定目录的大小</span><br><span class="line"># grep MemTotal &#x2F;proc&#x2F;meminfo   # 查看内存总量</span><br><span class="line"># grep MemFree &#x2F;proc&#x2F;meminfo    # 查看空闲内存量</span><br><span class="line"># uptime                 # 查看系统运行时间、用户数、负载</span><br><span class="line"># cat &#x2F;proc&#x2F;loadavg      # 查看系统负载</span><br></pre></td></tr></table></figure>
+<h3 id="磁盘和分区"><a class="header-anchor" href="#磁盘和分区">¶</a><strong>磁盘和分区</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># mount | column -t      # 查看挂接的分区状态</span><br><span class="line"># fdisk -l               # 查看所有分区</span><br><span class="line"># swapon -s              # 查看所有交换分区</span><br><span class="line"># hdparm -i &#x2F;dev&#x2F;hda     # 查看磁盘参数(仅适用于IDE设备)</span><br><span class="line"># dmesg | grep IDE       # 查看启动时IDE设备检测状况</span><br></pre></td></tr></table></figure>
+<h3 id="网络"><a class="header-anchor" href="#网络">¶</a><strong>网络</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># ifconfig               # 查看所有网络接口的属性</span><br><span class="line"># iptables -L            # 查看防火墙设置</span><br><span class="line"># route -n               # 查看路由表</span><br><span class="line"># netstat -lntp          # 查看所有监听端口</span><br><span class="line"># netstat -antp          # 查看所有已经建立的连接</span><br><span class="line"># netstat -s             # 查看网络统计信息</span><br></pre></td></tr></table></figure>
+<h3 id="进程"><a class="header-anchor" href="#进程">¶</a><strong>进程</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ps -ef                 # 查看所有进程</span><br><span class="line"># top                    # 实时显示进程状态</span><br></pre></td></tr></table></figure>
+<h3 id="用户"><a class="header-anchor" href="#用户">¶</a><strong>用户</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># w                      # 查看活动用户</span><br><span class="line"># id &lt;用户名&gt;            # 查看指定用户信息</span><br><span class="line"># last                   # 查看用户登录日志</span><br><span class="line"># cut -d: -f1 &#x2F;etc&#x2F;passwd   # 查看系统所有用户</span><br><span class="line"># cut -d: -f1 &#x2F;etc&#x2F;group    # 查看系统所有组</span><br><span class="line"># crontab -l             # 查看当前用户的计划任务</span><br></pre></td></tr></table></figure>
+<h3 id="服务"><a class="header-anchor" href="#服务">¶</a><strong>服务</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig --list       # 列出所有系统服务</span><br><span class="line"># chkconfig --list | grep on    # 列出所有启动的系统服务</span><br></pre></td></tr></table></figure>
+<h3 id="CPU"><a class="header-anchor" href="#CPU">¶</a>CPU</h3>
+<p>树莓派查看cpu温度</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> $[$(cat /sys/class/thermal/thermal_zone0/temp)/1000]°</span><br><span class="line"><span class="comment">#or</span></span><br><span class="line">watch -n 0.1 <span class="built_in">echo</span> CPU: $[$(cat /sys/class/thermal/thermal_zone0/temp)/1000]°</span><br></pre></td></tr></table></figure>
+<h2 id="添加用户"><a class="header-anchor" href="#添加用户">¶</a>添加用户</h2>
+<p>Linux adduser命令用于新增使用者帐号或更新预设的使用者资料。</p>
+<p>adduser 与 useradd 指令为同一指令（经由符号连结 symbolic link）。</p>
+<p>adduser： 会自动为创建的用户指定主目录、系统shell版本，会在创建时输入用户密码。</p>
+<p>useradd：需要使用参数选项指定上述基本设置，如果不使用任何参数，则创建的用户无密码、无主目录、没有指定shell版本。</p>
+<p>使用权限：系统管理员。</p>
+<p>adduser是增加使用者。相对的，也有删除使用者的指令，userdel。<strong>语法</strong>:userdel [login ID]</p>
+<h3 id="语法"><a class="header-anchor" href="#语法">¶</a>语法</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adduser [-c comment] [-d home_dir] [-e expire_date] [-f inactive_time] [-g initial_group] [-G group[,...]] [-m [-k skeleton_dir] | -M] [-p passwd] [-s shell] [-u uid [ -o]] [-n] [-r] loginid</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adduser -D [-g default_group] [-b default_home] [-f default_inactive] [-e default_expire_date] [-s default_shell]</span><br></pre></td></tr></table></figure>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li>-c comment 新使用者位于密码档（通常是 /etc/passwd）的注解资料</li>
+<li>-d home_dir 设定使用者的家目录为 home_dir ，预设值为预设的 home 后面加上使用者帐号 loginid</li>
+<li>-e expire_date 设定此帐号的使用期限（格式为 YYYY-MM-DD），预设值为永久有效</li>
+<li>-f inactive_time 范例：</li>
+</ul>
+<h3 id="实例"><a class="header-anchor" href="#实例">¶</a>实例</h3>
+<p>添加一个一般用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># useradd kk &#x2F;&#x2F;添加用户kk</span><br></pre></td></tr></table></figure>
+<p>为添加的用户指定相应的用户组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># useradd ?g root kk &#x2F;&#x2F;添加用户kk，并指定用户所在的组为root用户组</span><br></pre></td></tr></table></figure>
+<p>创建一个系统用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># useradd ?r kk &#x2F;&#x2F;创建一个系统用户kk</span><br></pre></td></tr></table></figure>
+<p>为新添加的用户指定/home目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># useradd-d &#x2F;home&#x2F;myf kk &#x2F;&#x2F;新添加用户kk，其home目录为&#x2F;home&#x2F;myf</span><br><span class="line">&#x2F;&#x2F;当用户名kk登录主机时，系统进入的默认目录为&#x2F;home&#x2F;myf</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/reference/" rel="tag"># reference</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/25/buildGuide/InstallationGuide/" rel="prev" title="Installation Guide">
+      <i class="fa fa-chevron-left"></i> Installation Guide
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/25/server/Maintenance_of_servers/" rel="next" title="Maintenance of servers">
+      Maintenance of servers <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用指令"><span class="nav-number">1.</span> <span class="nav-text">常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#后台运行"><span class="nav-number">1.1.</span> <span class="nav-text">后台运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统"><span class="nav-number">1.2.</span> <span class="nav-text">系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源"><span class="nav-number">1.3.</span> <span class="nav-text">资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#磁盘和分区"><span class="nav-number">1.4.</span> <span class="nav-text">磁盘和分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络"><span class="nav-number">1.5.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程"><span class="nav-number">1.6.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户"><span class="nav-number">1.7.</span> <span class="nav-text">用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务"><span class="nav-number">1.8.</span> <span class="nav-text">服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU"><span class="nav-number">1.9.</span> <span class="nav-text">CPU</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加用户"><span class="nav-number">2.</span> <span class="nav-text">添加用户</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">2.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">2.2.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">KY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KY</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

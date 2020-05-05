@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# exercise0
+def ex0():
+	print('The quick brown fox', 'jumps over', 'the lazy dog')
+
+# exercise1
+def ex1():
+	print("1024 * 768 = xxx")
+
+# some char in Pyhton:
+# \n : next line \\ : \  \' and \" represent the ' and "  \t : tab
+
+def ex2():
+	print('''line1
+line2 
+line3''')
+	# the tab is valid in the '''enviromnet
+	print(r'''Hello,
+world''')
+	s2 = 'Hello, \'Adam\''
+	print(s2)
+	s3 = r'Hello, "Bart"'
+	print(s3)
+	# r set the context will not be transfered
+
+def ex3():
+	s1 = 72
+	s2 = 85
+	r = -(s1-s2)
+	print( 'the grades increased by %3.1f%%' % r )
+
+def ex4():
+	birth = int(input('tell me your birthday \n'))
+	print('%d'%birth)
+
+def ex5():
+	l = ['Bart', 'Lisa', 'Adam']
+	for i in l:
+		print('Hello,'+i)
+
+def ex6():
+	a,b = set(),set()
+	for i in range(4):
+		a.add(i)
+		b.add(i+2)
+	print(a & b)
+	# set operation must use & | 
+	a.add(3)
+	print(a)
+
+def ex7(a,b,c):
+	try:
+		d = sqrt(b**2-4*a*c)
+		s1 = (-b+d)/(2*a)
+		s2 = (-b-d)/(2*a)
+		# print("The solution of the equation is %f and %f" % s1,s2)
+		return s1,s2
+	except:
+		print('imagnary part involved')
+
+def calc(*numbers):
+	sum = 0
+	for n in numbers:
+		sum = sum + n * n
+	return sum
+
+def ex8(a,m,n=3):
+	s = 0
+	if a > 0:
+		for i in range(a):
+			s += i**n
+	else: 
+		for i in list(m):
+			print(m)
+			s += i**n
+	print(s)		
+
+# the solution for the halou tower
+def move(n,a = 'A', b = 'B',c = 'C'):
+	def mo(n):
+		move(n,a='A',b='C',c='B')
+		move(1)
+		move(n,a='B',b='A',c="C")
+	def m(a,b):
+		print(a+'-->'+b)
+	if n is 1:
+		m(a,c)
+	elif n is 2:
+		m(a,b)
+		m(a,c)
+		m(b,c)
+	elif n > 2:
+		return mo(n-1)
+
+def ex9():
+	print([m+n for m in 'abc' for n in 'xyz'])
+
+def main(argv):
+	# ex0()
+	# ex1()
+	# ex2()
+	# ex3()
+	# ex4()
+	# ex5()
+	# ex6()
+	# print(ex7(1,1,1))
+	# print(calc(1,2,3))
+	# ex8(5,2,n=5)
+	# ex8(-1,(1,2,3,5))
+	# move(6)
+	ex9()
+
+if __name__ == '__main__':
+	import sys
+	from math import sqrt
+	main(sys.argv)
