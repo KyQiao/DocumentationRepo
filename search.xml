@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>书单(施工中)</title>
+    <url>/DocumentationRepo/2020/04/29/booklist/</url>
+    <content><![CDATA[<h2 id="小说">小说</h2>
+<h3 id="莱博维兹的赞歌小沃尔特m米勒">莱博维兹的赞歌（小沃尔特·M·米勒）</h3>
+<blockquote>
+<p>后启示录</p>
+<p>人类毁灭与新生的轮回史诗。</p>
+</blockquote>
+<p><a href="https://www.biikan.com/xiaoshuo/read-13926_5.shtml" target="_blank" rel="noopener">已看完</a></p>
+<h2 id="哲学">哲学</h2>
+<h3 id="尼采">尼采</h3>
+<h4 id="悲剧的诞生">悲剧的诞生</h4>
+<p><a href="https://www.99csw.com/book/2468/74331.htm" target="_blank" rel="noopener">进度</a></p>
+<h3 id="加缪">加缪</h3>
+<h4 id="西西弗神话">西西弗神话</h4>
+<p><a href="https://www.99csw.com/book/9812/351636.htm" target="_blank" rel="noopener">进度</a></p>
+<h2 id="社会学">社会学</h2>
+<h3 id="乡土中国费孝通">乡土中国（费孝通）</h3>
+<p><a href="https://www.danseshu.com/books/796" target="_blank" rel="noopener">进度</a></p>
+]]></content>
+      <tags>
+        <tag>书单</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>FFmpeg snippet(施工中)</title>
     <url>/DocumentationRepo/2020/04/24/FFmpeg/FFmpeg-snippet/</url>
     <content><![CDATA[<h2 id="全局选项">全局选项</h2>
@@ -61,33 +86,6 @@
       </categories>
       <tags>
         <tag>reference</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>书单(施工中)</title>
-    <url>/DocumentationRepo/2020/04/29/booklist/</url>
-    <content><![CDATA[<p>[toc]</p>
-<h2 id="小说">小说</h2>
-<h3 id="莱博维兹的赞歌小沃尔特m米勒">莱博维兹的赞歌（小沃尔特·M·米勒）</h3>
-<p>后启示录</p>
-<p>人类毁灭与新生的轮回史诗。</p>
-<blockquote>
-
-</blockquote>
-<p><a href="https://www.biikan.com/xiaoshuo/read-13926_5.shtml" target="_blank" rel="noopener">已看完</a></p>
-<h2 id="哲学">哲学</h2>
-<h3 id="尼采">尼采</h3>
-<h4 id="悲剧的诞生">悲剧的诞生</h4>
-<p><a href="https://www.99csw.com/book/2468/74331.htm" target="_blank" rel="noopener">进度</a></p>
-<h3 id="加缪">加缪</h3>
-<h4 id="西西弗神话">西西弗神话</h4>
-<p><a href="https://www.99csw.com/book/9812/351636.htm" target="_blank" rel="noopener">进度</a></p>
-<h2 id="社会学">社会学</h2>
-<h3 id="乡土中国费孝通">乡土中国（费孝通）</h3>
-<p><a href="https://www.danseshu.com/books/796" target="_blank" rel="noopener">进度</a></p>
-]]></content>
-      <tags>
-        <tag>书单</tag>
       </tags>
   </entry>
   <entry>
@@ -220,39 +218,39 @@
   <entry>
     <title>Linux Common</title>
     <url>/DocumentationRepo/2020/04/25/linuxCommon/LinuxCommon/</url>
-    <content><![CDATA[<h2 id="常用指令">常用指令</h2>
-<h3 id="后台运行">后台运行</h3>
+    <content><![CDATA[<h2 id="常用指令"><a class="header-anchor" href="#常用指令">¶</a>常用指令</h2>
+<h3 id="后台运行"><a class="header-anchor" href="#后台运行">¶</a>后台运行</h3>
 <ul>
 <li><code>nohup</code></li>
 </ul>
 <p>使用&amp;命令后, 作业被提交到后台运行, 当前控制台没有被占用, 但是一但把当前控制台关掉(退出帐户时), 作业就会停止运行. <code>nohup</code>命令可以在你退出帐户之后继续运行相应的进程. <code>nohup</code>就是不挂起的意思( no hang up). 该命令的一般形式为:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nohup command &gt; myout.file 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
 <p>在使用<code>nohup</code>命令后台运行命令之后，需要使用exit正常退出当前账户，这样才能保证命令一直在后台运行。</p>
-<h3 id="系统"><strong>系统</strong></h3>
+<h3 id="系统"><a class="header-anchor" href="#系统">¶</a><strong>系统</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># uname -a               # 查看内核&#x2F;操作系统&#x2F;CPU信息</span><br><span class="line"># head -n 1 &#x2F;etc&#x2F;issue   # 查看操作系统版本</span><br><span class="line"># cat &#x2F;proc&#x2F;cpuinfo      # 查看CPU信息</span><br><span class="line"># hostname               # 查看计算机名</span><br><span class="line"># lspci -tv              # 列出所有PCI设备</span><br><span class="line"># lsusb -tv              # 列出所有USB设备</span><br><span class="line"># lsmod                  # 列出加载的内核模块</span><br><span class="line"># env                    # 查看环境变量</span><br></pre></td></tr></table></figure>
-<h3 id="资源"><strong>资源</strong></h3>
+<h3 id="资源"><a class="header-anchor" href="#资源">¶</a><strong>资源</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># free -m                # 查看内存使用量和交换区使用量</span><br><span class="line"># df -h                  # 查看各分区使用情况</span><br><span class="line"># du -sh &lt;目录名&gt;        # 查看指定目录的大小</span><br><span class="line"># grep MemTotal &#x2F;proc&#x2F;meminfo   # 查看内存总量</span><br><span class="line"># grep MemFree &#x2F;proc&#x2F;meminfo    # 查看空闲内存量</span><br><span class="line"># uptime                 # 查看系统运行时间、用户数、负载</span><br><span class="line"># cat &#x2F;proc&#x2F;loadavg      # 查看系统负载</span><br></pre></td></tr></table></figure>
-<h3 id="磁盘和分区"><strong>磁盘和分区</strong></h3>
+<h3 id="磁盘和分区"><a class="header-anchor" href="#磁盘和分区">¶</a><strong>磁盘和分区</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># mount | column -t      # 查看挂接的分区状态</span><br><span class="line"># fdisk -l               # 查看所有分区</span><br><span class="line"># swapon -s              # 查看所有交换分区</span><br><span class="line"># hdparm -i &#x2F;dev&#x2F;hda     # 查看磁盘参数(仅适用于IDE设备)</span><br><span class="line"># dmesg | grep IDE       # 查看启动时IDE设备检测状况</span><br></pre></td></tr></table></figure>
-<h3 id="网络"><strong>网络</strong></h3>
+<h3 id="网络"><a class="header-anchor" href="#网络">¶</a><strong>网络</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ifconfig               # 查看所有网络接口的属性</span><br><span class="line"># iptables -L            # 查看防火墙设置</span><br><span class="line"># route -n               # 查看路由表</span><br><span class="line"># netstat -lntp          # 查看所有监听端口</span><br><span class="line"># netstat -antp          # 查看所有已经建立的连接</span><br><span class="line"># netstat -s             # 查看网络统计信息</span><br></pre></td></tr></table></figure>
-<h3 id="进程"><strong>进程</strong></h3>
+<h3 id="进程"><a class="header-anchor" href="#进程">¶</a><strong>进程</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ps -ef                 # 查看所有进程</span><br><span class="line"># top                    # 实时显示进程状态</span><br></pre></td></tr></table></figure>
-<h3 id="用户"><strong>用户</strong></h3>
+<h3 id="用户"><a class="header-anchor" href="#用户">¶</a><strong>用户</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># w                      # 查看活动用户</span><br><span class="line"># id &lt;用户名&gt;            # 查看指定用户信息</span><br><span class="line"># last                   # 查看用户登录日志</span><br><span class="line"># cut -d: -f1 &#x2F;etc&#x2F;passwd   # 查看系统所有用户</span><br><span class="line"># cut -d: -f1 &#x2F;etc&#x2F;group    # 查看系统所有组</span><br><span class="line"># crontab -l             # 查看当前用户的计划任务</span><br></pre></td></tr></table></figure>
-<h3 id="服务"><strong>服务</strong></h3>
+<h3 id="服务"><a class="header-anchor" href="#服务">¶</a><strong>服务</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># chkconfig --list       # 列出所有系统服务</span><br><span class="line"># chkconfig --list | grep on    # 列出所有启动的系统服务</span><br></pre></td></tr></table></figure>
-<h3 id="cpu">CPU</h3>
+<h3 id="CPU"><a class="header-anchor" href="#CPU">¶</a>CPU</h3>
 <p>树莓派查看cpu温度</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> $[$(cat /sys/class/thermal/thermal_zone0/temp)/1000]°</span><br><span class="line"><span class="comment">#or</span></span><br><span class="line">watch -n 0.1 <span class="built_in">echo</span> CPU: $[$(cat /sys/class/thermal/thermal_zone0/temp)/1000]°</span><br></pre></td></tr></table></figure>
-<h2 id="添加用户">添加用户</h2>
+<h2 id="添加用户"><a class="header-anchor" href="#添加用户">¶</a>添加用户</h2>
 <p>Linux adduser命令用于新增使用者帐号或更新预设的使用者资料。</p>
 <p>adduser 与 useradd 指令为同一指令（经由符号连结 symbolic link）。</p>
 <p>adduser： 会自动为创建的用户指定主目录、系统shell版本，会在创建时输入用户密码。</p>
 <p>useradd：需要使用参数选项指定上述基本设置，如果不使用任何参数，则创建的用户无密码、无主目录、没有指定shell版本。</p>
 <p>使用权限：系统管理员。</p>
 <p>adduser是增加使用者。相对的，也有删除使用者的指令，userdel。<strong>语法</strong>:userdel [login ID]</p>
-<h3 id="语法">语法</h3>
+<h3 id="语法"><a class="header-anchor" href="#语法">¶</a>语法</h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adduser [-c comment] [-d home_dir] [-e expire_date] [-f inactive_time] [-g initial_group] [-G group[,...]] [-m [-k skeleton_dir] | -M] [-p passwd] [-s shell] [-u uid [ -o]] [-n] [-r] loginid</span><br></pre></td></tr></table></figure>
 <p>或</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adduser -D [-g default_group] [-b default_home] [-f default_inactive] [-e default_expire_date] [-s default_shell]</span><br></pre></td></tr></table></figure>
@@ -263,7 +261,7 @@
 <li>-e expire_date 设定此帐号的使用期限（格式为 YYYY-MM-DD），预设值为永久有效</li>
 <li>-f inactive_time 范例：</li>
 </ul>
-<h3 id="实例">实例</h3>
+<h3 id="实例"><a class="header-anchor" href="#实例">¶</a>实例</h3>
 <p>添加一个一般用户</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># useradd kk &#x2F;&#x2F;添加用户kk</span><br></pre></td></tr></table></figure>
 <p>为添加的用户指定相应的用户组</p>
