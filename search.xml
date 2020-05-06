@@ -3,58 +3,58 @@
   <entry>
     <title>FFmpeg snippet(施工中)</title>
     <url>/2020/04/24/FFmpeg/FFmpeg-snippet/</url>
-    <content><![CDATA[<h2 id="全局选项">全局选项</h2>
-<h3 id="去掉banner">去掉banner</h3>
+    <content><![CDATA[<h2 id="全局选项"><a class="header-anchor" href="#全局选项">¶</a>全局选项</h2>
+<h3 id="去掉banner"><a class="header-anchor" href="#去掉banner">¶</a>去掉banner</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg  -y -hide_banner -loglevel panic -i ... -nostat ...</span><br></pre></td></tr></table></figure>
-<h2 id="处理图像">处理图像</h2>
+<h2 id="处理图像"><a class="header-anchor" href="#处理图像">¶</a>处理图像</h2>
 <p>常见图像格式：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">png: lossless and can be used from Libpng.</span><br><span class="line">tiff: lossless and lossy. </span><br><span class="line">jpeg: lossy and fast.</span><br><span class="line">jpeg2000: better than jpeg but not widely applied.</span><br></pre></td></tr></table></figure>
-<h3 id="图像到视频">图像到视频</h3>
+<h3 id="图像到视频"><a class="header-anchor" href="#图像到视频">¶</a>图像到视频</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg	-start_number 1551\ 从001551.png开始</span><br><span class="line">	-i .\%6d.png -c:v libx264\ 默认使用H.264格式，如无需压缩，使用 rawvideo 编码。</span><br><span class="line">	-preset veryslow\</span><br><span class="line">	-crf 18\ 默认23 <span class="keyword">for</span> 8 bits image</span><br><span class="line">	-pix_fmt yuv420p\</span><br><span class="line">	-b:v 400k\ 码率控制，默认200k</span><br><span class="line">	OUTPUT</span><br></pre></td></tr></table></figure>
-<h3 id="视频到图像">视频到图像</h3>
+<h3 id="视频到图像"><a class="header-anchor" href="#视频到图像">¶</a>视频到图像</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg	-i INPUT\</span><br><span class="line">	-ss 5\ 从第5秒开始</span><br><span class="line">	-t  10\ 输出时间为10秒</span><br><span class="line">	(-to 10) \ 到第10秒结束</span><br><span class="line">    -r 25\ 指定输出帧率，默认全部输出</span><br><span class="line">    -pix_fmt gray\ 一般只需要灰度图</span><br><span class="line">    %6d.tif</span><br></pre></td></tr></table></figure>
-<h2 id="处理视频">处理视频</h2>
+<h2 id="处理视频"><a class="header-anchor" href="#处理视频">¶</a>处理视频</h2>
 <p><strong>Note H.264 does not support gray pixel format and 16 bits.</strong></p>
-<h3 id="转码">转码</h3>
+<h3 id="转码"><a class="header-anchor" href="#转码">¶</a>转码</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg 	-i INPUT \</span><br><span class="line">	-c:v libx264\</span><br><span class="line">    -preset veryslow\</span><br><span class="line">    -pix_fmt yuv420p\</span><br><span class="line">    -crf 28 \</span><br><span class="line">    OUTPUT</span><br></pre></td></tr></table></figure>
-<h3 id="无损h.264">无损H.264</h3>
+<h3 id="无损H-264"><a class="header-anchor" href="#无损H-264">¶</a>无损H.264</h3>
 <p><strong>set crf=0</strong></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input -c:v libx264 -preset ultrafast -crf 0 -pix_fmt yuv420p output.mkv</span><br><span class="line"></span><br><span class="line">ffmpeg -i input -c:v libx264 -preset veryslow -crf 0 -pix_fmt yuv420p output.mkv</span><br></pre></td></tr></table></figure>
-<h3 id="two-pass">Two-pass</h3>
+<h3 id="Two-pass"><a class="header-anchor" href="#Two-pass">¶</a>Two-pass</h3>
 <p>码率控制在1-10Mpbs即可.</p>
 <p>Linux version</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -i input -c:v libx264 -b:v 1M -pass 1 -an -f mp4 /dev/null &amp;&amp; \</span><br><span class="line">ffmpeg -i input -c:v libx264 -b:v 1M -pass 2  output.mp4</span><br></pre></td></tr></table></figure>
 <p>windows version</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -i input -c:v libx264 -b:v 1M -pass 1 -pix_fmt yuv420p -an -f mp4 NUL &amp;&amp; ^</span><br><span class="line">ffmpeg -i input -c:v libx264 -b:v 1M -pass 2 -pix_fmt yuv420p output.mp4</span><br></pre></td></tr></table></figure>
-<h3 id="可以放进slide中的视频">可以放进Slide中的视频</h3>
+<h3 id="可以放进Slide中的视频"><a class="header-anchor" href="#可以放进Slide中的视频">¶</a>可以放进Slide中的视频</h3>
 <p>在Windows、Mac系统下通过测试</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg 	-i INPUT \</span><br><span class="line">	-c:v libx264\</span><br><span class="line">    -preset veryslow\</span><br><span class="line">    -pix_fmt yuv420p\</span><br><span class="line">    -crf 28 \</span><br><span class="line">    OUTPUT</span><br></pre></td></tr></table></figure>
-<h2 id="批处理">批处理</h2>
+<h2 id="批处理"><a class="header-anchor" href="#批处理">¶</a>批处理</h2>
 <p>将文件名写入filielist.txt, e.g.:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">file &#39;.&#x2F;concat-1.mp4&#39;</span><br><span class="line">file &#39;concat-2.mp4&#39;</span><br><span class="line">#file &#39;concat-3.mp4&#39;</span><br></pre></td></tr></table></figure>
 <p>输出时间顺序与排序一致</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -f concat -i filelist.txt -c copy out.mp4</span><br></pre></td></tr></table></figure>
-<h2 id="滤镜-filter">滤镜 (Filter)</h2>
-<h3 id="添加时间戳">添加时间戳</h3>
+<h2 id="滤镜-Filter"><a class="header-anchor" href="#滤镜-Filter">¶</a>滤镜 (Filter)</h2>
+<h3 id="添加时间戳"><a class="header-anchor" href="#添加时间戳">¶</a>添加时间戳</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg\</span><br><span class="line">	-i INPUT</span><br><span class="line">    -r 25 </span><br><span class="line">    -vf <span class="string">"drawtext=fontfile=arial.ttf:fontsize=28:fontcolor=yellow:box=1:boxcolor=0x000000CC:x=(w-tw)/2:y=h-(2*lh):timecode='00\:00\:00\:00:rate=25'"</span> </span><br><span class="line">    -vcodec libx264 </span><br><span class="line">    -vb 2000k </span><br><span class="line">    -preset ultrafast </span><br><span class="line">    OUTPUT.mp4</span><br></pre></td></tr></table></figure>
 <p>FFmpeg的图像坐标默认（0，0）为左上角，x轴不变，y轴反向。w,h表示视频尺寸，tw,lh表示text尺寸。</p>
-<h3 id="改变分辨率">改变分辨率</h3>
+<h3 id="改变分辨率"><a class="header-anchor" href="#改变分辨率">¶</a>改变分辨率</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i 0001_.mp4 -vf scale=1500:1000 video.mp4</span><br><span class="line">ffmpeg -i input.mpg -vf scale=iw/2:ih/2 output.mp4    //等比缩放1/2</span><br><span class="line">ffmpeg -i input.mpg -vf scale=iw/2:-1 output.mp4      //缺省值自适应</span><br></pre></td></tr></table></figure>
 <p><a href="https://sanchi.forkroad.xyz/post/2018-03-27-ffmpeg-3-%E4%BD%BF%E7%94%A8-FFmpeg%E8%B0%83%E6%95%B4%E6%96%87%E4%BB%B6%E5%B0%BA%E5%AF%B8.html" target="_blank" rel="noopener">可见此处</a></p>
-<h3 id="翻转视频">翻转视频</h3>
+<h3 id="翻转视频"><a class="header-anchor" href="#翻转视频">¶</a>翻转视频</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -vf <span class="string">"hflip,vflip,format=yuv420p"</span> -metadata:s:v rotate=0 \</span><br><span class="line">-codec:v libx264 -codec:a copy output.mkv</span><br></pre></td></tr></table></figure>
 <p>详见<a href="https://superuser.com/questions/578321/how-to-rotate-a-video-180-with-ffmpeg" target="_blank" rel="noopener">此处</a></p>
-<h3 id="调整亮度">调整亮度</h3>
+<h3 id="调整亮度"><a class="header-anchor" href="#调整亮度">¶</a>调整亮度</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg\</span><br><span class="line">	-i 3_two_nuke.avi\</span><br><span class="line">	-vf eq=gamma=2:saturation=1.3\</span><br><span class="line">	-b:v 1M\</span><br><span class="line">	-pix_fmt yuv420p\</span><br><span class="line">	-c:v libx264\</span><br><span class="line">	-crf 10\</span><br><span class="line">	5_out_two_nuke.avi</span><br></pre></td></tr></table></figure>
-<h3 id="padding-the-video">Padding the video</h3>
+<h3 id="Padding-the-video"><a class="header-anchor" href="#Padding-the-video">¶</a>Padding the video</h3>
 <p>将奇数尺寸的视频变为偶数尺寸。H.264 需要偶数尺寸进行编码。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg\</span><br><span class="line">	-i INPUT</span><br><span class="line">    -r 25 </span><br><span class="line">    -vf <span class="string">"pad=ceil(iw/2)*2:ceil(ih/2)*2"</span> </span><br><span class="line">    -c:v libx264 </span><br><span class="line">    -b:v 2000k </span><br><span class="line">    -pix_fmt yuv420p\</span><br><span class="line">    -preset ultrafast\</span><br><span class="line">    output.mp4</span><br></pre></td></tr></table></figure>
-<p>​ Filter 是 FFmpeg 中及其复杂的功能，上述例子只是simple filter的应用，FFmpeg还存在complex filter，例如：</p>
+<p>​	Filter 是 FFmpeg 中及其复杂的功能，上述例子只是simple filter的应用，FFmpeg还存在complex filter，例如：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -i overlay.png -filter_complex <span class="string">"[0]trim=start_frame=10:end_frame=20[v0];\</span></span><br><span class="line"><span class="string">    [0]trim=start_frame=30:end_frame=40[v1];[v0][v1]concat=n=2[v2];[1]hflip[v3];\</span></span><br><span class="line"><span class="string">    [v2][v3]overlay=eof_action=repeat[v4];[v4]drawbox=50:50:120:120:red:t=5[v5]"</span>\</span><br><span class="line">    -map [v5] output.mp4</span><br></pre></td></tr></table></figure>
-<p>​ 这时可以使用 ffmpeg-python 来实现复杂流程。例如调整gamma值：</p>
+<p>​	这时可以使用 ffmpeg-python 来实现复杂流程。例如调整gamma值：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ffmpeg -i nuke_surface_2.avi -vf <span class="string">"pad=ceil(iw/2)*2:ceil(ih/2)*2,eq=gamma=2:saturation=1.3,drawtext=fontfile=arial.ttf:fontsize=28:fontcolor=yellow:box=1:boxcolor=0x000000CC:x=(w-tw)/2:y=h-(2*lh):timecode='00\:00\:00\:00:rate=49.91'"</span>  -vcodec libx264  -pix_fmt yuv420p -b:v <span class="number">1000</span>k -r <span class="number">49.91</span>   -an out.mp4</span><br><span class="line"></span><br><span class="line"><span class="keyword">is</span> equivalent to</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> ffmpeg </span><br><span class="line"></span><br><span class="line">codec_para = &#123;</span><br><span class="line">    <span class="string">"c:v"</span>:<span class="string">"libx264"</span>,</span><br><span class="line">    <span class="string">"pix_fmt"</span>:<span class="string">"yuv420p"</span>,</span><br><span class="line">    <span class="string">"b:v"</span>:<span class="string">"1M"</span>,</span><br><span class="line">    <span class="string">"r"</span>:<span class="string">"49.91"</span>,</span><br><span class="line">    <span class="string">"an"</span>:<span class="literal">None</span></span><br><span class="line">&#125;</span><br><span class="line">font_para=&#123;</span><br><span class="line">    <span class="string">"box"</span>:<span class="number">1</span>,</span><br><span class="line">    <span class="string">"boxcolor"</span>:<span class="string">"0x000000CC"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="string">"fontfile"</span>:<span class="string">"arial.ttf"</span>,</span><br><span class="line">    <span class="string">"fontsize"</span>:<span class="number">28</span>,</span><br><span class="line">    <span class="string">"fontcolor"</span>:<span class="string">"yellow"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="string">"x"</span>:<span class="string">"(w-tw)/2"</span>,</span><br><span class="line">    <span class="string">"y"</span>:<span class="string">"h-(2*lh)"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="string">"timecode"</span>:<span class="string">r"00:00:00:00"</span>,</span><br><span class="line">    <span class="string">"rate"</span>:<span class="number">49.91</span>,</span><br><span class="line">&#125;</span><br><span class="line">filter_para=&#123;&#125;</span><br><span class="line">(</span><br><span class="line">    ffmpeg</span><br><span class="line">    .input(<span class="string">"nuke_surface_2.avi"</span>)</span><br><span class="line">    .filter(<span class="string">"pad"</span>,<span class="string">"ceil(iw/2)*2"</span>,<span class="string">"ceil(ih/2)*2"</span>)</span><br><span class="line">    .filter(<span class="string">"eq"</span>,gamma=<span class="number">2</span>,saturation=<span class="number">1.3</span>)</span><br><span class="line">    .drawtext(**font_para)</span><br><span class="line">    .output(<span class="string">"ffmpeg_out.mp4"</span>,**codec_para)</span><br><span class="line">    .global_args(<span class="string">"-y"</span>,<span class="string">"-hide_banner"</span>)</span><br><span class="line">    .run()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<h2 id="ref">REF</h2>
-<p>​ Anyway, ffmpeg-python is a powerful tool. Refer <a href="https://github.com/kkroening/ffmpeg-python" target="_blank" rel="noopener">GitHub repo</a> for more info.</p>
+<h2 id="REF"><a class="header-anchor" href="#REF">¶</a>REF</h2>
+<p>​	Anyway, ffmpeg-python is a powerful tool. Refer <a href="https://github.com/kkroening/ffmpeg-python" target="_blank" rel="noopener">GitHub repo</a> for more info.</p>
 ]]></content>
       <categories>
         <category>FFmpeg</category>
@@ -67,23 +67,21 @@
     <title>书单(施工中)</title>
     <url>/2020/04/29/booklist/</url>
     <content><![CDATA[<p>[toc]</p>
-<h2 id="小说">小说</h2>
-<h3 id="莱博维兹的赞歌小沃尔特m米勒">莱博维兹的赞歌（小沃尔特·M·米勒）</h3>
+<h2 id="小说"><a class="header-anchor" href="#小说">¶</a>小说</h2>
+<h3 id="莱博维兹的赞歌（小沃尔特·M·米勒）"><a class="header-anchor" href="#莱博维兹的赞歌（小沃尔特·M·米勒）">¶</a>莱博维兹的赞歌（小沃尔特·M·米勒）</h3>
 <p>后启示录</p>
 <p>人类毁灭与新生的轮回史诗。</p>
-<blockquote>
-
-</blockquote>
+<blockquote></blockquote>
 <p><a href="https://www.biikan.com/xiaoshuo/read-13926_5.shtml" target="_blank" rel="noopener">已看完</a></p>
-<h2 id="哲学">哲学</h2>
-<h3 id="尼采">尼采</h3>
-<h4 id="悲剧的诞生">悲剧的诞生</h4>
+<h2 id="哲学"><a class="header-anchor" href="#哲学">¶</a>哲学</h2>
+<h3 id="尼采"><a class="header-anchor" href="#尼采">¶</a>尼采</h3>
+<h4 id="悲剧的诞生"><a class="header-anchor" href="#悲剧的诞生">¶</a>悲剧的诞生</h4>
 <p><a href="https://www.99csw.com/book/2468/74331.htm" target="_blank" rel="noopener">进度</a></p>
-<h3 id="加缪">加缪</h3>
-<h4 id="西西弗神话">西西弗神话</h4>
+<h3 id="加缪"><a class="header-anchor" href="#加缪">¶</a>加缪</h3>
+<h4 id="西西弗神话"><a class="header-anchor" href="#西西弗神话">¶</a>西西弗神话</h4>
 <p><a href="https://www.99csw.com/book/9812/351636.htm" target="_blank" rel="noopener">进度</a></p>
-<h2 id="社会学">社会学</h2>
-<h3 id="乡土中国费孝通">乡土中国（费孝通）</h3>
+<h2 id="社会学"><a class="header-anchor" href="#社会学">¶</a>社会学</h2>
+<h3 id="乡土中国（费孝通）"><a class="header-anchor" href="#乡土中国（费孝通）">¶</a>乡土中国（费孝通）</h3>
 <p><a href="https://www.danseshu.com/books/796" target="_blank" rel="noopener">进度</a></p>
 ]]></content>
       <tags>
@@ -93,22 +91,25 @@
   <entry>
     <title>Service Setup on Server</title>
     <url>/2020/04/25/server/docker_for_deployment/</url>
-    <content><![CDATA[<h2 id="note">Note</h2>
-<p>Pay attention to all the volume used. Also don't forget the SSL certificate and key. Use <code>Let's encrypt</code> to generate a new key when immigrated. (You have to open a 80 port to get the key)</p>
-<h2 id="gitlab">GitLab</h2>
+    <content><![CDATA[<h2 id="Note"><a class="header-anchor" href="#Note">¶</a>Note</h2>
+<p>Pay attention to all the volume used. Also don’t forget the SSL certificate and key. Use <code>Let's encrypt</code> to generate a new key when immigrated. (You have to open a 80 port to get the key)</p>
+<h2 id="GitLab"><a class="header-anchor" href="#GitLab">¶</a>GitLab</h2>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker run --detach \</span><br><span class="line">    --hostname phz8039.phys.ust.hk \</span><br><span class="line">    --publish 127.0.0.1:443:443  --publish 22:22 \</span><br><span class="line">    --name gitlab \</span><br><span class="line">    --restart always \</span><br><span class="line">    --volume /srv/gitlab/config:/etc/gitlab \</span><br><span class="line">    --volume /srv/gitlab/logs:/var/<span class="built_in">log</span>/gitlab \</span><br><span class="line">    --volume /srv/gitlab/data:/var/opt/gitlab \</span><br><span class="line">    gitlab/gitlab-ce:latest</span><br></pre></td></tr></table></figure>
-<h2 id="rocket.chat">Rocket.Chat</h2>
+<h2 id="Rocket-Chat"><a class="header-anchor" href="#Rocket-Chat">¶</a>Rocket.Chat</h2>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">db:</span><br><span class="line">  image: mongo</span><br><span class="line">  volumes:</span><br><span class="line">    - .&#x2F;data&#x2F;runtime&#x2F;db:&#x2F;data&#x2F;db</span><br><span class="line">    - .&#x2F;data&#x2F;dump:&#x2F;dump</span><br><span class="line">  command: mongod --smallfiles</span><br><span class="line"></span><br><span class="line">rocketchat:</span><br><span class="line">  image: rocketchat&#x2F;rocket.chat:latest</span><br><span class="line">  environment:</span><br><span class="line">    - MONGO_URL&#x3D;mongodb:&#x2F;&#x2F;db:27017&#x2F;rocketchat</span><br><span class="line">    - ROOT_URL&#x3D;https:&#x2F;&#x2F;phz188.phys.ust.hk:3000</span><br><span class="line">    - Accounts_UseDNSDomainCheck&#x3D;True</span><br><span class="line">  links:</span><br><span class="line">    - db:db</span><br><span class="line">  ports:</span><br><span class="line">    - 127.0.0.1:3000:3000</span><br><span class="line"></span><br><span class="line"># the hubot function is not enabled yet.</span><br><span class="line">#hubot:</span><br><span class="line">#  image: rocketchat&#x2F;hubot-rocketchat:v0.1.4</span><br><span class="line">#  environment:</span><br><span class="line">#    - ROCKETCHAT_URL&#x3D;https:&#x2F;&#x2F;143.89.19.174:3000</span><br><span class="line">#    - ROCKETCHAT_ROOM&#x3D;GENERAL</span><br><span class="line">#    - ROCKETCHAT_USER&#x3D;hubot</span><br><span class="line">#    - ROCKETCHAT_PASSWORD&#x3D;hubottest</span><br><span class="line">#    - BOT_NAME&#x3D;hubot</span><br><span class="line">#    - EXTERNAL_SCRIPTS&#x3D;hubot-help,hubot-seen,hubot-links,hubot-greetings</span><br><span class="line">#  links:</span><br><span class="line">#    - rocketchat:rocketchat</span><br><span class="line"># this is used to expose the hubot port for notifications on the host on port 3001, e.g. for hubot-jenkins-notifier</span><br><span class="line">#  ports:</span><br><span class="line">#    - 3001:8080</span><br></pre></td></tr></table></figure>
-<h2 id="owncloud">Owncloud</h2>
+<h2 id="Owncloud"><a class="header-anchor" href="#Owncloud">¶</a>Owncloud</h2>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker start redis</span><br><span class="line">docker start mariadb</span><br><span class="line">docker start owncloud</span><br></pre></td></tr></table></figure>
-<h2 id="libreoffice-online">Libreoffice online</h2>
+<h2 id="Libreoffice-online"><a class="header-anchor" href="#Libreoffice-online">¶</a>Libreoffice online</h2>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker start libreoffice</span><br></pre></td></tr></table></figure>
-<h2 id="nginx-default-reserve-proxy">Nginx default reserve proxy</h2>
+<h2 id="Nginx-default-reserve-proxy"><a class="header-anchor" href="#Nginx-default-reserve-proxy">¶</a>Nginx default reserve proxy</h2>
 <figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Owncloud Server</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">143.89.19.174:10443</span> ssl; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">server_name</span> phz188.phys.ust.hk:<span class="number">10443</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># set the largest upload file size.</span></span><br><span class="line">	<span class="attribute">client_max_body_size</span> <span class="number">1024M</span>;</span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/phz188.phys.ust.hk/fullchain.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/phz188.phys.ust.hk/privkey.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">include</span> /etc/letsencrypt/options-ssl-nginx.conf; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">ssl_dhparam</span> /etc/letsencrypt/ssl-dhparams.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/owncloud.access.log;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> https://127.0.0.1:10443/;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">"upgrade"</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forward-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forward-Proto http;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Nginx-Proxy <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># GitLab Server</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">143.89.19.174:443</span> ssl; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">server_name</span> phz188.phys.ust.hk:<span class="number">443</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/phz188.phys.ust.hk/fullchain.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/phz188.phys.ust.hk/privkey.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">include</span> /etc/letsencrypt/options-ssl-nginx.conf; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">ssl_dhparam</span> /etc/letsencrypt/ssl-dhparams.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/owncloud.access.log;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> https://127.0.0.1:443/;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">"upgrade"</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forward-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forward-Proto http;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Nginx-Proxy <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Rocket.Chat Server</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">143.89.19.174:3000</span> ssl;</span><br><span class="line">    <span class="attribute">server_name</span> phz188.phys.ust.hk:<span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/phz188.phys.ust.hk/fullchain.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/phz188.phys.ust.hk/privkey.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">include</span> /etc/letsencrypt/options-ssl-nginx.conf; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">ssl_dhparam</span> /etc/letsencrypt/ssl-dhparams.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/rocketchat.access.log;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:3000/;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">"upgrade"</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forward-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forward-Proto http;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Nginx-Proxy <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># libreoffice online server</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>     <span class="number">143.89.19.174:10444</span> ssl;</span><br><span class="line">    <span class="attribute">server_name</span>  phz188.phys.ust.hk:<span class="number">10444</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/phz188.phys.ust.hk/fullchain.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/phz188.phys.ust.hk/privkey.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">include</span> /etc/letsencrypt/options-ssl-nginx.conf; <span class="comment"># managed by Certbot</span></span><br><span class="line">    <span class="attribute">ssl_dhparam</span> /etc/letsencrypt/ssl-dhparams.pem; <span class="comment"># managed by Certbot</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/libreonline.access.log;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># static files</span></span><br><span class="line">    <span class="attribute">location</span><span class="regexp"> ^~</span> /loleaflet &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> https://localhost:9980;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># WOPI discovery URL</span></span><br><span class="line">    <span class="attribute">location</span><span class="regexp"> ^~</span> /hosting/discovery &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> https://localhost:9980;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># main websocket</span></span><br><span class="line">    <span class="attribute">location</span> <span class="regexp">~ ^/lool/(.*)/ws$</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> https://localhost:9980;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">"Upgrade"</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">        <span class="attribute">proxy_read_timeout</span> <span class="number">36000s</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># download, presentation and image upload</span></span><br><span class="line">    <span class="attribute">location</span> <span class="regexp">~ ^/lool</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> https://localhost:9980;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Admin Console websocket</span></span><br><span class="line">    <span class="attribute">location</span><span class="regexp"> ^~</span> /lool/adminws &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> https://localhost:9980;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">"Upgrade"</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line">        <span class="attribute">proxy_read_timeout</span> <span class="number">36000s</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#http port 80</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">if</span> (<span class="variable">$host</span> = phz188.phys.ust.hk) &#123;</span><br><span class="line">        <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$host</span><span class="variable">$request_uri</span>;</span><br><span class="line">    &#125; <span class="comment"># managed by Certbot</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="attribute">listen</span> <span class="number">143.89.19.174:80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> phz188.phys.ust.hk;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">404</span>; <span class="comment"># managed by Certbot</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="docker-basic">docker basic</h2>
-<p><strong>stop all containers:</strong> <code>docker stop $(docker ps -q)</code></p>
-<p><strong>remove all containers</strong> <code>docker rm $(docker ps -a -q)</code></p>
-<p><strong>remove all docker images</strong> <code>docker rmi $(docker images -q)</code></p>
+<h2 id="docker-basic"><a class="header-anchor" href="#docker-basic">¶</a>docker basic</h2>
+<p><strong>stop all containers:</strong><br>
+<code>docker stop $(docker ps -q)</code></p>
+<p><strong>remove all containers</strong><br>
+<code>docker rm $(docker ps -a -q)</code></p>
+<p><strong>remove all docker images</strong><br>
+<code>docker rmi $(docker images -q)</code></p>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -124,7 +125,7 @@
     <url>/2020/04/25/server/libreoffice_deployment/</url>
     <content><![CDATA[<p>run:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -t -d --name&#x3D;&quot;libreoffice&quot; -p 127.0.0.1:9980:9980 -e &quot;domain&#x3D;phz8xxx\\.phys\\.ust\\.hk&quot; \</span><br><span class="line">        -e &quot;username&#x3D;admin&quot; -e &quot;password&#x3D;password&quot; --restart always --cap-add MKNOD collabora&#x2F;code</span><br></pre></td></tr></table></figure>
-<h2 id="nginx">Nginx</h2>
+<h2 id="Nginx"><a class="header-anchor" href="#Nginx">¶</a>Nginx</h2>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen      10444 ssl;</span><br><span class="line">    server_name  collabora.example.com;</span><br><span class="line"></span><br><span class="line">    ssl_certificate &#x2F;path&#x2F;to&#x2F;ssl_certificate;</span><br><span class="line">    ssl_certificate_key &#x2F;path&#x2F;to&#x2F;ssl_certificate_key;</span><br><span class="line"></span><br><span class="line">    # static files</span><br><span class="line">    location ^~ &#x2F;loleaflet &#123;</span><br><span class="line">        proxy_pass https:&#x2F;&#x2F;localhost:9980;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # WOPI discovery URL</span><br><span class="line">    location ^~ &#x2F;hosting&#x2F;discovery &#123;</span><br><span class="line">        proxy_pass https:&#x2F;&#x2F;localhost:9980;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # main websocket</span><br><span class="line">    location ~ ^&#x2F;lool&#x2F;(.*)&#x2F;ws$ &#123;</span><br><span class="line">        proxy_pass https:&#x2F;&#x2F;localhost:9980;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;Upgrade&quot;;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_read_timeout 36000s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # download, presentation and image upload</span><br><span class="line">    location ~ ^&#x2F;lool &#123;</span><br><span class="line">        proxy_pass https:&#x2F;&#x2F;localhost:9980;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Admin Console websocket</span><br><span class="line">    location ^~ &#x2F;lool&#x2F;adminws &#123;</span><br><span class="line">        proxy_pass https:&#x2F;&#x2F;localhost:9980;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection &quot;Upgrade&quot;;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_read_timeout 36000s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
@@ -139,7 +140,7 @@
   <entry>
     <title>Maintenance of servers</title>
     <url>/2020/04/25/server/Maintenance_of_servers/</url>
-    <content><![CDATA[<h2 id="phz8039">PHZ8039</h2>
+    <content><![CDATA[<h2 id="PHZ8039"><a class="header-anchor" href="#PHZ8039">¶</a>PHZ8039</h2>
 <p>Where the main services hosts. Including:</p>
 <ul>
 <li>Owncloud</li>
@@ -147,62 +148,65 @@
 <li>GitLab</li>
 <li>etc</li>
 </ul>
-<h3 id="section">2018/05/03</h3>
+<h3 id="2018-05-03"><a class="header-anchor" href="#2018-05-03">¶</a>2018/05/03</h3>
 <p>Solving problem: unable upload file to <code>Owncloud</code></p>
 <p>Reason: <code>Owncloud</code> purely uses nginx as client, and nginx has a limitation on the upload file size, add the following setting to the default file(just under the sever{} )</p>
 <p><code>client_max_body_size 1024M;</code></p>
 <p>and set the limit to 1GB.</p>
 <p>By now, other software did not appear similar problem. For rocketchat, it seems that you can access the setting via the interface inside of it. The situation seems also apply to the GitLab, which contains a nginx inside of it.</p>
-<h3 id="section-1">2018/05/17</h3>
-<p>Solving problem: volume position for <code>docker</code></p>
-<p>Refer this: https://itbilu.com/linux/docker/4kiHC33_G.html</p>
+<h3 id="2018-05-17"><a class="header-anchor" href="#2018-05-17">¶</a>2018/05/17</h3>
+<p>Solving problem:  volume position for <code>docker</code></p>
+<p>Refer this: <a href="https://itbilu.com/linux/docker/4kiHC33_G.html" target="_blank" rel="noopener">https://itbilu.com/linux/docker/4kiHC33_G.html</a></p>
 <p>We can migrate the date now.</p>
-<h2 id="phz320">PHZ320</h2>
+<h2 id="PHZ320"><a class="header-anchor" href="#PHZ320">¶</a>PHZ320</h2>
 <p>Where the IDL hosts.</p>
-<h2 id="phz363">PHZ363</h2>
+<h2 id="PHZ363"><a class="header-anchor" href="#PHZ363">¶</a>PHZ363</h2>
 <p>Where the GitLab runner hosts.</p>
 <blockquote>
-<p>Once we found the runner didn't work, it told &quot;cannot resolve the host phz8039.phys.ust.hk&quot;.</p>
-<p>At first we thought this was a problem of runner, so we re-install the runner and re-register the runner. But it didn't work. Then we test the availability of phz8039 repo on phz363, it seems that all connection from phz363 to phz8039 repo were allowed. Finally we found it seems this was caused by the connection problem inside the docker container.</p>
-<p>Docker has serval ways for containers to <a href="https://blog.csdn.net/zeroctu/article/details/53187750" target="_blank" rel="noopener">connect the network</a>, it uses &quot;bridge&quot; mode by default. Since we never change the configuration of the runner and docker, we suspect that this should be a bug of docker. After we <a href="https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/306" target="_blank" rel="noopener">change the network mode of docker</a>, runner works fine now.</p>
+<p>Once we found the runner didn’t work, it told “cannot resolve the host <a href="http://phz8039.phys.ust.hk" target="_blank" rel="noopener">phz8039.phys.ust.hk</a>”.</p>
+<p>At first we thought this was a problem of runner, so we re-install the runner and re-register the runner. But it didn’t work. Then we test the availability of phz8039 repo on phz363, it seems that all connection from phz363 to phz8039 repo were allowed. Finally we found it seems this was caused by the connection problem inside the docker container.</p>
+<p>Docker has serval ways for containers to <a href="https://blog.csdn.net/zeroctu/article/details/53187750" target="_blank" rel="noopener">connect the network</a>, it uses “bridge” mode by default. Since we never change the configuration of the runner and docker, we suspect that this should be a bug of docker. After we <a href="https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/306" target="_blank" rel="noopener">change the network mode of docker</a>, runner works fine now.</p>
 </blockquote>
-<h2 id="phz648">PHZ648</h2>
-<h3 id="repair-cmake">repair cmake</h3>
+<h2 id="PHZ648"><a class="header-anchor" href="#PHZ648">¶</a>PHZ648</h2>
+<h3 id="repair-cmake"><a class="header-anchor" href="#repair-cmake">¶</a>repair cmake</h3>
 <p>changing default cmake version to 3.14 and locate in /usr/bin</p>
 <p><code>./bootstrap --prefix=/usr &amp;&amp; make &amp;&amp; sudo make install</code></p>
 <p>4 binary file is generated: ccmake cmake ctest cpack</p>
 <p>CMAKE_ROOT is default set to this path</p>
-<p>the yum installed cmake is not removed since a lot dependency depends on it. Maybe there's a way to remove cmake single file?</p>
-<h3 id="open-80-and-648-port">Open 80 and 648 port</h3>
+<p>the yum installed cmake is not removed since a lot dependency depends on it.<br>
+Maybe there’s a way to remove cmake single file?</p>
+<h3 id="Open-80-and-648-port"><a class="header-anchor" href="#Open-80-and-648-port">¶</a>Open 80 and 648 port</h3>
 <p>Centos using firewalld service to filter the ports</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//firewall-cmd --zone=public --add-port=8000/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=648/tcp --permanent</span><br><span class="line"></span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
-<p>Every time change the rule, reload is needed. Process super slow, probably some problem</p>
+<p>Every time change the rule, reload is needed.<br>
+Process super slow, probably some problem</p>
 <p>port 80 is leaf deliberately for <code>certbot</code> check</p>
-<h3 id="install-anaconda-in-usrlocalanaconda3-so-that-everyone-can-access-it.">Install anaconda in <code>/usr/local/anaconda3</code> so that everyone can access it.</h3>
+<h3 id="Install-anaconda-in-usr-local-anaconda3-so-that-everyone-can-access-it"><a class="header-anchor" href="#Install-anaconda-in-usr-local-anaconda3-so-that-everyone-can-access-it">¶</a>Install anaconda in <code>/usr/local/anaconda3</code> so that everyone can access it.</h3>
 <p><code>/etc/jupyterhub</code> is the default folder to configure the hub</p>
-<p><code>Jupyterhub</code> is running on <code>localhost: 127.0.0.1:8081</code> and project to the port 80 or 648</p>
-<h3 id="nginx-installed">Nginx Installed</h3>
+<p><code>Jupyterhub</code> is running on  <code>localhost: 127.0.0.1:8081</code><br>
+and project to the port 80 or 648</p>
+<h3 id="Nginx-Installed"><a class="header-anchor" href="#Nginx-Installed">¶</a>Nginx Installed</h3>
 <p>the setting is following:</p>
 <figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">server_name</span> phz648.phys.ust.hk ssl;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">143.89.18.19:648</span> ;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">client_max_body_size</span> <span class="number">1024M</span>;</span><br><span class="line">    <span class="attribute">ssl</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/phz648.phys.ust.hk/fullchain.pem;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/phz648.phys.ust.hk/privkey.pem;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_log</span> /var/log/nginx/jupyterhub.log;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:8000;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">"upgrade"</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$http_host</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forward-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forward-Proto http;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Nginx-Proxy <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="certbot">Certbot</h3>
+<h3 id="Certbot"><a class="header-anchor" href="#Certbot">¶</a>Certbot</h3>
 <p>Initial start</p>
-<ol type="1">
+<ol>
 <li>open 80 and allow access</li>
 <li>certbot --nginx certonly</li>
 </ol>
-<p>generate cert at /etc/letsencrypy/live/.../</p>
-<h4 id="renew">renew</h4>
+<p>generate cert at /etc/letsencrypy/live/…/</p>
+<h4 id="renew"><a class="header-anchor" href="#renew">¶</a>renew</h4>
 <p>certbot renew --dry-run</p>
 <p><code>lsof -i tcp:80</code></p>
-<h2 id="renew-ssl-certification">Renew ssl certification</h2>
+<h2 id="Renew-ssl-certification"><a class="header-anchor" href="#Renew-ssl-certification">¶</a>Renew ssl certification</h2>
 <p>Live cert: current cert you use for</p>
 <ul>
 <li>server name should be the same as you set in the <code>letsencrypt</code></li>
 <li>If no nginx set, change the certification you use the to the live one.</li>
 </ul>
-<p>Basically, you should use <code>certbot renew</code> (for 320) or <code>certbot renew --dry-run</code>(for 363)</p>
+<p>Basically, you should use <code>certbot renew</code> (for 320) or  <code>certbot renew --dry-run</code>(for 363)</p>
 <p>For 8039:</p>
-<p>You need to stop <code>gitlab</code> first using <code>gitlab-ctl stop</code>, then type in <code>certbot --nginx  certonly</code>. hopefully it will update certification automatically.</p>
+<p>You need to stop <code>gitlab</code>  first using <code>gitlab-ctl stop</code>, then type in <code>certbot --nginx  certonly</code>. hopefully it will update certification automatically.</p>
 <p>For 320:</p>
 <p>Restart the <code>jupyterhub</code> to renew the ssl cert used by <code>jupyterhub</code></p>
 <p>2019/1/29:</p>
@@ -220,39 +224,39 @@
   <entry>
     <title>Linux Common</title>
     <url>/2020/04/25/linuxCommon/LinuxCommon/</url>
-    <content><![CDATA[<h2 id="常用指令">常用指令</h2>
-<h3 id="后台运行">后台运行</h3>
+    <content><![CDATA[<h2 id="常用指令"><a class="header-anchor" href="#常用指令">¶</a>常用指令</h2>
+<h3 id="后台运行"><a class="header-anchor" href="#后台运行">¶</a>后台运行</h3>
 <ul>
 <li><code>nohup</code></li>
 </ul>
 <p>使用&amp;命令后, 作业被提交到后台运行, 当前控制台没有被占用, 但是一但把当前控制台关掉(退出帐户时), 作业就会停止运行. <code>nohup</code>命令可以在你退出帐户之后继续运行相应的进程. <code>nohup</code>就是不挂起的意思( no hang up). 该命令的一般形式为:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nohup command &gt; myout.file 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
 <p>在使用<code>nohup</code>命令后台运行命令之后，需要使用exit正常退出当前账户，这样才能保证命令一直在后台运行。</p>
-<h3 id="系统"><strong>系统</strong></h3>
+<h3 id="系统"><a class="header-anchor" href="#系统">¶</a><strong>系统</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># uname -a               # 查看内核&#x2F;操作系统&#x2F;CPU信息</span><br><span class="line"># head -n 1 &#x2F;etc&#x2F;issue   # 查看操作系统版本</span><br><span class="line"># cat &#x2F;proc&#x2F;cpuinfo      # 查看CPU信息</span><br><span class="line"># hostname               # 查看计算机名</span><br><span class="line"># lspci -tv              # 列出所有PCI设备</span><br><span class="line"># lsusb -tv              # 列出所有USB设备</span><br><span class="line"># lsmod                  # 列出加载的内核模块</span><br><span class="line"># env                    # 查看环境变量</span><br></pre></td></tr></table></figure>
-<h3 id="资源"><strong>资源</strong></h3>
+<h3 id="资源"><a class="header-anchor" href="#资源">¶</a><strong>资源</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># free -m                # 查看内存使用量和交换区使用量</span><br><span class="line"># df -h                  # 查看各分区使用情况</span><br><span class="line"># du -sh &lt;目录名&gt;        # 查看指定目录的大小</span><br><span class="line"># grep MemTotal &#x2F;proc&#x2F;meminfo   # 查看内存总量</span><br><span class="line"># grep MemFree &#x2F;proc&#x2F;meminfo    # 查看空闲内存量</span><br><span class="line"># uptime                 # 查看系统运行时间、用户数、负载</span><br><span class="line"># cat &#x2F;proc&#x2F;loadavg      # 查看系统负载</span><br></pre></td></tr></table></figure>
-<h3 id="磁盘和分区"><strong>磁盘和分区</strong></h3>
+<h3 id="磁盘和分区"><a class="header-anchor" href="#磁盘和分区">¶</a><strong>磁盘和分区</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># mount | column -t      # 查看挂接的分区状态</span><br><span class="line"># fdisk -l               # 查看所有分区</span><br><span class="line"># swapon -s              # 查看所有交换分区</span><br><span class="line"># hdparm -i &#x2F;dev&#x2F;hda     # 查看磁盘参数(仅适用于IDE设备)</span><br><span class="line"># dmesg | grep IDE       # 查看启动时IDE设备检测状况</span><br></pre></td></tr></table></figure>
-<h3 id="网络"><strong>网络</strong></h3>
+<h3 id="网络"><a class="header-anchor" href="#网络">¶</a><strong>网络</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ifconfig               # 查看所有网络接口的属性</span><br><span class="line"># iptables -L            # 查看防火墙设置</span><br><span class="line"># route -n               # 查看路由表</span><br><span class="line"># netstat -lntp          # 查看所有监听端口</span><br><span class="line"># netstat -antp          # 查看所有已经建立的连接</span><br><span class="line"># netstat -s             # 查看网络统计信息</span><br></pre></td></tr></table></figure>
-<h3 id="进程"><strong>进程</strong></h3>
+<h3 id="进程"><a class="header-anchor" href="#进程">¶</a><strong>进程</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ps -ef                 # 查看所有进程</span><br><span class="line"># top                    # 实时显示进程状态</span><br></pre></td></tr></table></figure>
-<h3 id="用户"><strong>用户</strong></h3>
+<h3 id="用户"><a class="header-anchor" href="#用户">¶</a><strong>用户</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># w                      # 查看活动用户</span><br><span class="line"># id &lt;用户名&gt;            # 查看指定用户信息</span><br><span class="line"># last                   # 查看用户登录日志</span><br><span class="line"># cut -d: -f1 &#x2F;etc&#x2F;passwd   # 查看系统所有用户</span><br><span class="line"># cut -d: -f1 &#x2F;etc&#x2F;group    # 查看系统所有组</span><br><span class="line"># crontab -l             # 查看当前用户的计划任务</span><br></pre></td></tr></table></figure>
-<h3 id="服务"><strong>服务</strong></h3>
+<h3 id="服务"><a class="header-anchor" href="#服务">¶</a><strong>服务</strong></h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># chkconfig --list       # 列出所有系统服务</span><br><span class="line"># chkconfig --list | grep on    # 列出所有启动的系统服务</span><br></pre></td></tr></table></figure>
-<h3 id="cpu">CPU</h3>
+<h3 id="CPU"><a class="header-anchor" href="#CPU">¶</a>CPU</h3>
 <p>树莓派查看cpu温度</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> $[$(cat /sys/class/thermal/thermal_zone0/temp)/1000]°</span><br><span class="line"><span class="comment">#or</span></span><br><span class="line">watch -n 0.1 <span class="built_in">echo</span> CPU: $[$(cat /sys/class/thermal/thermal_zone0/temp)/1000]°</span><br></pre></td></tr></table></figure>
-<h2 id="添加用户">添加用户</h2>
+<h2 id="添加用户"><a class="header-anchor" href="#添加用户">¶</a>添加用户</h2>
 <p>Linux adduser命令用于新增使用者帐号或更新预设的使用者资料。</p>
 <p>adduser 与 useradd 指令为同一指令（经由符号连结 symbolic link）。</p>
 <p>adduser： 会自动为创建的用户指定主目录、系统shell版本，会在创建时输入用户密码。</p>
 <p>useradd：需要使用参数选项指定上述基本设置，如果不使用任何参数，则创建的用户无密码、无主目录、没有指定shell版本。</p>
 <p>使用权限：系统管理员。</p>
 <p>adduser是增加使用者。相对的，也有删除使用者的指令，userdel。<strong>语法</strong>:userdel [login ID]</p>
-<h3 id="语法">语法</h3>
+<h3 id="语法"><a class="header-anchor" href="#语法">¶</a>语法</h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adduser [-c comment] [-d home_dir] [-e expire_date] [-f inactive_time] [-g initial_group] [-G group[,...]] [-m [-k skeleton_dir] | -M] [-p passwd] [-s shell] [-u uid [ -o]] [-n] [-r] loginid</span><br></pre></td></tr></table></figure>
 <p>或</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">adduser -D [-g default_group] [-b default_home] [-f default_inactive] [-e default_expire_date] [-s default_shell]</span><br></pre></td></tr></table></figure>
@@ -263,7 +267,7 @@
 <li>-e expire_date 设定此帐号的使用期限（格式为 YYYY-MM-DD），预设值为永久有效</li>
 <li>-f inactive_time 范例：</li>
 </ul>
-<h3 id="实例">实例</h3>
+<h3 id="实例"><a class="header-anchor" href="#实例">¶</a>实例</h3>
 <p>添加一个一般用户</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># useradd kk &#x2F;&#x2F;添加用户kk</span><br></pre></td></tr></table></figure>
 <p>为添加的用户指定相应的用户组</p>
@@ -284,17 +288,17 @@
   <entry>
     <title>Installation Guide</title>
     <url>/2020/04/25/buildGuide/InstallationGuide/</url>
-    <content><![CDATA[<h2 id="install-idl-on-modern-linux-system">Install IDL on modern Linux system</h2>
-<h3 id="system-info">System info</h3>
+    <content><![CDATA[<h2 id="Install-IDL-on-modern-Linux-system"><a class="header-anchor" href="#Install-IDL-on-modern-Linux-system">¶</a>Install IDL on modern Linux system</h2>
+<h3 id="System-info"><a class="header-anchor" href="#System-info">¶</a>System info</h3>
 <p>Centos 7.0 installed on Aug-17-2018</p>
 <p>kernel information:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -a</span><br><span class="line">Linux PHZ320 3.10.0-862.11.6.el7.x86_64 #1 SMP Tue Aug 14 21:49:04 UTC 2018 x86_64 x86_64 x86_64 GNU&#x2F;Linux</span><br></pre></td></tr></table></figure>
-<h3 id="idl-version">IDL version</h3>
+<h3 id="IDL-version"><a class="header-anchor" href="#IDL-version">¶</a>IDL version</h3>
 <p>IDL 6.4</p>
 <p>license info. i.e. license.dat</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">############ license file comments, do not delete ############### </span><br><span class="line"># License Number(s):706340</span><br><span class="line">SERVER phz320.phys.ust.hk 90B11C821C81 1700</span><br><span class="line">DAEMON idl_lmgrd</span><br><span class="line">INCREMENT idl idl_lmgrd 8.200 1-jan-0000 20 5D61A5FA7E6F2096 \</span><br><span class="line">    VENDOR_STRING&#x3D;706340HKUST ck&#x3D;143 SIGN&#x3D;&quot;1FF1 7311 0D0F 627F \</span><br><span class="line">    74EE A528 B118 A84C 9544 D3F6 D71D D957 32DD B7BA 05D2 0F63 \</span><br><span class="line">    E112 6C18 3B37 46FD 25F9 F623 E0C0 F63E CDD4 1C58 9012 7FAB \</span><br><span class="line">    5F23 E2F9&quot;</span><br><span class="line">INCREMENT idl_bridge_assist idl_lmgrd 8.200 1-jan-0000 2 \</span><br><span class="line">    F6914B1090E810D6 VENDOR_STRING&#x3D;706340HKUST ck&#x3D;56 SIGN&#x3D;&quot;0DFB \</span><br><span class="line">    26EC 113B 7606 912A 2CAB F9BB 0716 E060 C078 81B1 D76D 772A \</span><br><span class="line">    80A4 2693 0D2E 5F86 6B72 C202 AC23 C62B 5005 4D9C 0D89 56F1 \</span><br><span class="line">    3D0C E5B5 D6D1 A87E 4432&quot;</span><br><span class="line">INCREMENT idl_video_write idl_lmgrd 8.200 1-jan-0000 2 \</span><br><span class="line">    BBBF0CED22C75373 VENDOR_STRING&#x3D;706340HKUST ck&#x3D;83 SIGN&#x3D;&quot;0535 \</span><br><span class="line">    EA8D 6113 8339 D90B A11B E46C 1BAC FEE2 4B3D 0F87 B9AF F588 \</span><br><span class="line">    A4F9 C74B 13E2 67A8 4A9A 84E5 1D13 85A6 F0E5 E8FA F50D 462D \</span><br><span class="line">    3F96 E3DB 9FDB 2C04 C0E6&quot;</span><br><span class="line">INCREMENT idl_wavelet idl_lmgrd 8.200 1-jan-0000 2 CA70AE4EE178F544 \</span><br><span class="line">    VENDOR_STRING&#x3D;706340HKUST ck&#x3D;133 SIGN&#x3D;&quot;0E65 3CE5 D6C6 AAAF \</span><br><span class="line">    5122 3EA6 C1E9 88D6 35C6 9C1A DC67 10E1 3DC3 54C3 84B8 0ABF \</span><br><span class="line">    499F 070F 7BBF E09A 3F87 ED9B 085A CCC0 0D8D FE8E F631 FC62 \</span><br><span class="line">    E7BE C4C9&quot;</span><br><span class="line">FEATURESET idl_lmgrd A3E6A64A67DFE9F4</span><br><span class="line"></span><br><span class="line">##################### end of license file #######################</span><br></pre></td></tr></table></figure>
-<p>This license can only be used on the phz320 server. Default folder of the license file is in the <code>/usr/local/itt/license</code> folder, which is the folder IDL installed by default.</p>
-<h3 id="installation">Installation</h3>
+<p>This license can only be used on the phz320 server. Default folder of the license file is in the <code>/usr/local/itt/license</code>  folder, which is the folder IDL installed by default.</p>
+<h3 id="Installation"><a class="header-anchor" href="#Installation">¶</a>Installation</h3>
 <p>You need:</p>
 <ul>
 <li>X windows</li>
@@ -303,20 +307,36 @@
 </ul>
 <p>which are old lib. When finishing install X windows, type <code>startx</code> to open GNOME.</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install xwindows    ?not sure</span><br><span class="line">yum groupinstall &quot;GNOME Desktop&quot;</span><br><span class="line">yum install libXp.so.5 </span><br><span class="line">yum install libstdc++.so.6   ??not sure</span><br></pre></td></tr></table></figure>
-<h4 id="step-by-step-installation">Step by step installation:</h4>
-<ol type="1">
-<li><p>Mount the cd-rom according to the guidebook.</p></li>
-<li><p>Using root privilege to install <code>xinstall.sh</code></p></li>
-<li><p>Choosing the compartment according to the license file.</p></li>
-<li><p>Install and wait.</p></li>
-<li><p>Copy the license into license wizard.</p></li>
-<li><p>Install flexm?? in the cd-rom.</p></li>
-<li><p>Change the ether card name to <code>eth0</code> according to this article :http://new.nginxs.net/read.php/post-201602251858/</p></li>
-<li><p>Run <code>lmgrd</code> in the <code>idl64/bin</code> and change the folder of the license if necessary.</p></li>
+<h4 id="Step-by-step-installation"><a class="header-anchor" href="#Step-by-step-installation">¶</a>Step by step installation:</h4>
+<ol>
+<li>
+<p>Mount the cd-rom according to the guidebook.</p>
+</li>
+<li>
+<p>Using root privilege to install <code>xinstall.sh</code></p>
+</li>
+<li>
+<p>Choosing the compartment according to the license file.</p>
+</li>
+<li>
+<p>Install and wait.</p>
+</li>
+<li>
+<p>Copy the license into license wizard.</p>
+</li>
+<li>
+<p>Install flexm?? in the cd-rom.</p>
+</li>
+<li>
+<p>Change the ether card name to <code>eth0</code>  according to this article :<a href="http://new.nginxs.net/read.php/post-201602251858/" target="_blank" rel="noopener">http://new.nginxs.net/read.php/post-201602251858/</a></p>
+</li>
+<li>
+<p>Run <code>lmgrd</code> in the <code>idl64/bin</code> and change the folder of the license if necessary.</p>
+</li>
 </ol>
-<p>http://e2e.ti.com/support/development_tools/code_composer_studio/f/81/p/268805/941664</p>
-<p>http://blog.51cto.com/bjwxjy/1710309</p>
-<p>https://blog.csdn.net/Jmilk/article/details/51629299</p>
+<p><a href="http://e2e.ti.com/support/development_tools/code_composer_studio/f/81/p/268805/941664" target="_blank" rel="noopener">http://e2e.ti.com/support/development_tools/code_composer_studio/f/81/p/268805/941664</a></p>
+<p><a href="http://blog.51cto.com/bjwxjy/1710309" target="_blank" rel="noopener">http://blog.51cto.com/bjwxjy/1710309</a></p>
+<p><a href="https://blog.csdn.net/Jmilk/article/details/51629299" target="_blank" rel="noopener">https://blog.csdn.net/Jmilk/article/details/51629299</a></p>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -329,10 +349,10 @@
   <entry>
     <title>ffmpegBackup</title>
     <url>/2020/04/24/FFmpeg/ffmpegBackup/</url>
-    <content><![CDATA[<h2 id="a-nice-tutorial">A nice tutorial</h2>
-<div class="pdfobject-container" data-target="/pdf/ffmpeg-libav-tutorial.pdf" data-height="500px"></div>
-<h2 id="a-cheat-sheet">A cheat sheet</h2>
-<div class="pdfobject-container" data-target="/pdf/FFmpeg-Cheat-Sheet-for-video.pdf" data-height="500px"></div>
+    <content><![CDATA[<h2 id="A-nice-tutorial"><a class="header-anchor" href="#A-nice-tutorial">¶</a>A nice tutorial</h2>
+<div class="pdfobject-container" data-target="/pdf/ffmpeg-libav-tutorial.pdf" data-height="500px"></div> 
+<h2 id="A-cheat-sheet"><a class="header-anchor" href="#A-cheat-sheet">¶</a>A cheat sheet</h2>
+<div class="pdfobject-container" data-target="/pdf/FFmpeg-Cheat-Sheet-for-video.pdf" data-height="500px"></div> 
 ]]></content>
       <categories>
         <category>FFmpeg</category>
@@ -345,11 +365,11 @@
   <entry>
     <title>杂项</title>
     <url>/2020/04/24/%E6%9D%82%E9%A1%B9/</url>
-    <content><![CDATA[<h2 id="右键添加git-bash-here">右键添加git bash here</h2>
+    <content><![CDATA[<h2 id="右键添加git-bash-here"><a class="header-anchor" href="#右键添加git-bash-here">¶</a>右键添加git bash here</h2>
 <p>保存为.reg格式的文件添加至注册表</p>
 <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Windows Registry Editor Version <span class="number">5</span>.<span class="number">00</span></span><br><span class="line">; Open files</span><br><span class="line">; Default Git-Bash Location C:\Program Files\Git\git-bash.exe</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell\Open Git Bash]</span><br><span class="line">@="Open Git Bash"</span><br><span class="line">"Icon"="C:\\Program Files\\Git\\git-bash.exe"</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell\Open Git Bash\command]</span><br><span class="line">@="\"C:\\Program Files\\Git\\git-bash.exe\" \"--<span class="built_in">cd</span>=%<span class="number">1</span>\""</span><br><span class="line"></span><br><span class="line">; This will make it appear when you right click ON a folder</span><br><span class="line">; The "Icon" line can be removed <span class="keyword">if</span> you don't want the icon to appear</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\bash]</span><br><span class="line">@="Open Git Bash"</span><br><span class="line">"Icon"="C:\\Program Files\\Git\\git-bash.exe"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\bash\command]</span><br><span class="line">@="\"C:\\Program Files\\Git\\git-bash.exe\" \"--<span class="built_in">cd</span>=%<span class="number">1</span>\""</span><br><span class="line"></span><br><span class="line">; This will make it appear when you right click INSIDE a folder</span><br><span class="line">; The "Icon" line can be removed <span class="keyword">if</span> you don't want the icon to appear</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\Background\shell\bash]</span><br><span class="line">@="Open Git Bash"</span><br><span class="line">"Icon"="C:\\Program Files\\Git\\git-bash.exe"</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\Background\shell\bash\command]</span><br><span class="line">@="\"C:\\Program Files\\Git\\git-bash.exe\" \"--<span class="built_in">cd</span>=%v.\""</span><br></pre></td></tr></table></figure>
-<h2 id="实验">实验</h2>
-<h3 id="制备椭球">制备椭球</h3>
+<h2 id="实验"><a class="header-anchor" href="#实验">¶</a>实验</h2>
+<h3 id="制备椭球"><a class="header-anchor" href="#制备椭球">¶</a>制备椭球</h3>
 <blockquote>
 <p>取一小瓶</p>
 <p>86g 去离子水</p>
@@ -360,7 +380,7 @@
 <p>加入stun，在加热炉上设定如下条件：</p>
 <p>60C 300hz左右</p>
 <p>等待PVA完全溶解。此时应为透明澄清的液体。</p>
-<p>加入300<img src="file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png" alt="img" />小球，再次加热使其分散均匀。</p>
+<p>加入300![img](file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png)小球，再次加热使其分散均匀。</p>
 <p>倒在培养皿上，加盖，自然风干。</p>
 <p>会形成塑料状的凝聚物。</p>
 <p>剪成均匀的小条，e.g.4x6cm</p>
@@ -374,49 +394,50 @@
 <blockquote>
 <p>制备椭球</p>
 <p>1.5g polyvimal alcohol，加水至瓶身圆柱形顶即可</p>
-<p>加入stun，温度为50，加上磁场，震荡至均匀，液体中无微小颗粒，再加入300<img src="file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png" alt="img" />的ps或者pmma，而且需要调配浓度。粒子一定要non crosslink 的</p>
+<p>加入stun，温度为50，加上磁场，震荡至均匀，液体中无微小颗粒，再加入300![img](file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png)的ps或者pmma，而且需要调配浓度。粒子一定要non crosslink 的</p>
 <p>再次震荡至均匀，震荡之前不要在垂直方向上剧烈摇晃，轻微翻转瓶身即可。</p>
 <p>震荡后倒入器皿，将小气泡挑至器皿边缘。等待蒸干。</p>
 <p>在此过程中，直接使用温度梯度加速蒸发多半是不可行的，因为温度梯度会使液体表面起皱，这样会影响样品的质量。但是，如果在器皿的边缘上加上一些别的升温装置，直接在器皿内部对液体进行加热，不知道是否有好的效果。</p>
 <p>最后烘干的温度不超过115度。</p>
 <p>同时需要解决椭球粘板的问题。</p>
 </blockquote>
-<h3 id="油液交界面水液交接面">油液交界面；水液交接面</h3>
+<h3 id="油液交界面；水液交接面"><a class="header-anchor" href="#油液交界面；水液交接面">¶</a>油液交界面；水液交接面</h3>
 <blockquote>
 <p>封底：使用小的盖玻片，使用ab胶的白胶（树脂），这样便于清洗。</p>
 <p>能够直接使用透明胶封底吗？</p>
 <p>在底部注入DI water，与最底层的阶梯平齐，然后在上面加上油或者使用气界面，在水油界面上加入particle，这样粒子会被confine在两个界面之间，达到良好的二维效果。</p>
 <p>问题：如何使用显微镜观察？</p>
 </blockquote>
-<h2 id="checksum-on-windows">Checksum on windows</h2>
+<h2 id="Checksum-on-windows"><a class="header-anchor" href="#Checksum-on-windows">¶</a>Checksum on windows</h2>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">certutil -hashfile filename MD5</span><br><span class="line">certutil -hashfile filename SHA1</span><br><span class="line">certutil -hashfile filename SHA256</span><br></pre></td></tr></table></figure>
-<h2 id="delete-hoomd-tedious-citation">Delete Hoomd tedious citation</h2>
+<h2 id="Delete-Hoomd-tedious-citation"><a class="header-anchor" href="#Delete-Hoomd-tedious-citation">¶</a>Delete Hoomd tedious citation</h2>
 <p>Find the cite file in</p>
 <p><code>.../anaconda3/pkgs/hoomd-2.2.1-py36hff74422_0/lib/python3.6/site-packages/hoomd</code></p>
 <p>and replace raw 402 and below citation information with:</p>
-<pre><code>    hoomd_base = article(cite_key = &#39; &#39;,
-                    author = [&#39; &#39;,&#39; &#39;,&#39; &#39;],
-                    title = &#39; &#39;,
-                    journal = &#39; &#39;,
+<pre><code>    hoomd_base = article(cite_key = ' ',
+                    author = [' ',' ',' '],
+                    title = ' ',
+                    journal = ' ',
                     volume = 0,
                     number = 0,
-                    pages = &#39; &#39;,
+                    pages = ' ',
                     year = 0,
-                    month = &#39; &#39;,
-                    doi = &#39; &#39;,
-                    feature = &#39; &#39;)
+                    month = ' ',
+                    doi = ' ',
+                    feature = ' ')
 
-    hoomd_mpi = article(cite_key = &#39; &#39;,
-                    author = [&#39; &#39;,&#39; &#39;,&#39; &#39;],
-                    title = &#39; &#39;,
-                    journal = &#39; &#39;,
+    hoomd_mpi = article(cite_key = ' ',
+                    author = [' ',' ',' '],
+                    title = ' ',
+                    journal = ' ',
                     volume = 0,
                     number = 0,
-                    pages = &#39; &#39;,
+                    pages = ' ',
                     year = 0,
-                    month = &#39; &#39;,
-                    doi = &#39; &#39;,
-                    feature = &#39; &#39;)</code></pre>
+                    month = ' ',
+                    doi = ' ',
+                    feature = ' ')
+</code></pre>
 <p>and everything return to peace.</p>
 ]]></content>
       <categories>
@@ -429,14 +450,15 @@
   <entry>
     <title>Build Aseprite on Win10</title>
     <url>/2020/04/24/buildGuide/build%20Aseprite/</url>
-    <content><![CDATA[<h2 id="denpendecy">Denpendecy</h2>
+    <content><![CDATA[<h2 id="Denpendecy"><a class="header-anchor" href="#Denpendecy">¶</a>Denpendecy</h2>
 <pre><code>1. Win10 vs 2017 with C++ and SDK(community edition)
 2. CMAKE 3.4 以上 `cmake`(3.14 pass)
 3. Ninja build system (for `Skia` build)
-4. `Skia` lib</code></pre>
-<h2 id="build-skia-on-win10">Build <code>Skia</code> on Win10</h2>
+4. `Skia` lib
+</code></pre>
+<h2 id="Build-Skia-on-Win10"><a class="header-anchor" href="#Build-Skia-on-Win10">¶</a>Build <code>Skia</code> on Win10</h2>
 <p>you need download <a href="http://releases.llvm.org/download.html" target="_blank" rel="noopener">clang</a> and <a href="https://github.com/ninja-build/ninja" target="_blank" rel="noopener">ninja</a>, if you can <code>cmake</code> and <code>vs2017</code>, you can download and build.</p>
-<p>Just put <code>clang</code> somewhere you like.</p>
+<p>Just put <code>clang</code>  somewhere you like.</p>
 <p>git python is required</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/ninja-build/ninja.git &amp;&amp; <span class="built_in">cd</span> ninja</span><br><span class="line">git checkout release</span><br><span class="line">./configure.py --bootstrap</span><br></pre></td></tr></table></figure>
 <p>This will give you a binary file named <code>ninja.exe</code></p>
@@ -452,7 +474,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">set</span> PATH=C:\Program Files\LLVM\bin;%PATH%</span><br><span class="line">gn gen out/Release --args=<span class="string">"is_official_build=true skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false target_cpu="</span><span class="string">"x64"</span><span class="string">" cc="</span><span class="string">"clang"</span><span class="string">" cxx="</span><span class="string">"clang++"</span><span class="string">" clang_win="</span><span class="string">"C:\Program Files\LLVM"</span><span class="string">""</span></span><br><span class="line">ninja -C out/Release skia</span><br></pre></td></tr></table></figure>
 <p><strong>Note the PATH of <code>clang</code> is the root path, not the binary one.</strong></p>
 <p>This will give you <code>Skia</code> in the <code>out/release</code> folder.</p>
-<h2 id="build-aseprite">Build Aseprite</h2>
+<h2 id="Build-Aseprite"><a class="header-anchor" href="#Build-Aseprite">¶</a>Build Aseprite</h2>
 <p>Since build <code>libpng</code> need <code>awk</code>. You can follow the official instruction or just use <code>cygwin</code>'s <code>gawk</code>.(<code>cygwin</code> pass)</p>
 <p><strong>This step probably will result future failure. So you can download at release part.</strong></p>
 <p>First git:</p>
@@ -461,7 +483,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> Aseprite</span><br><span class="line">mkdir build</span><br></pre></td></tr></table></figure>
 <p>Open <code>cmake-GUI</code>, choose source as <code>Aseprite</code>. Set build folder as build. Choose <code>vs2017</code> and <code>x64</code>. Then add entry with your own path:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">CMAKE_BUILD_TYPE=RelWithDebInfo <span class="comment">#this is default</span></span><br><span class="line">LAF_OS_BACKEND=skia </span><br><span class="line">SKIA_DIR=C:\Game\skia </span><br><span class="line">SKIA_OUT_DIR=C:\Game\skia\out\Release</span><br></pre></td></tr></table></figure>
-<p>If everything's fine. Configure and open project.</p>
+<p>If everything’s fine. Configure and open project.</p>
 <p>Open <code>vs2017</code> with administer privilege. Generate <code>Buildall</code> and <code>INSTALL</code>.</p>
 <p>Copy <code>data</code> folder under Aseprite root folder to <code>bin</code> where binary is installed. All you need is just binary and data folder.</p>
 ]]></content>
@@ -477,49 +499,49 @@
   <entry>
     <title>RaspberryPi</title>
     <url>/2020/04/24/RaspberryPi/</url>
-    <content><![CDATA[<h2 id="硬件">硬件</h2>
+    <content><![CDATA[<h2 id="硬件"><a class="header-anchor" href="#硬件">¶</a>硬件</h2>
 <p>Raspberry Pi 4 Model B</p>
-<h2 id="gpio">GPIO</h2>
+<h2 id="GPIO"><a class="header-anchor" href="#GPIO">¶</a>GPIO</h2>
 <p>Raspberry Pi 的GPIO口能够使用PWM(脉冲宽度调制), 所有GPIO接口都支持软件方式输出PWM信号，GPIO12、GPIO13、GPIO18、GPIO19支持硬件方式输出信号。输出电压在0-3.3V之间. 同样, GPIO承载电压不能超过3.3V.</p>
 <p>GPIO编号分为 Physical Pin(BOARD), BCM pin(BCM), Wiring Pi pin.</p>
 <p>特殊接口示意:</p>
-<p><a href="https://pinout.xyz/resources/raspberry-pi-pinout.png" target="_blank" rel="noopener"><img src="https://pinout.xyz/resources/raspberry-pi-pinout.png" alt="Graphical Raspberry Pi GPIO Pinout" /></a></p>
+<p><a href="https://pinout.xyz/resources/raspberry-pi-pinout.png" target="_blank" rel="noopener"><img src="https://pinout.xyz/resources/raspberry-pi-pinout.png" alt="Graphical Raspberry Pi GPIO Pinout"></a></p>
 <p>三种接口对应的编号:</p>
-<p><img src="https://roboticsbackend.com/wp-content/uploads/2019/05/raspberry-pi-3-pinout.jpg" alt="Raspberry Pi 3 Pinout" width="50%" height="50%" /></p>
-<h3 id="adc">ADC</h3>
+<img src="https://roboticsbackend.com/wp-content/uploads/2019/05/raspberry-pi-3-pinout.jpg" alt="Raspberry Pi 3 Pinout" width="50%" height="50%" />
+<h3 id="ADC"><a class="header-anchor" href="#ADC">¶</a>ADC</h3>
 <p>GPIO缺少模数转换的功能, 即无法直接测量真实电压. 因此需要额外的模数转换芯片来测量电压.</p>
-<p>通常有各种adc芯片实现这一功能, 如MCP3008. 芯片的bit数代表了能测量电压的精度. <a href="https://item.taobao.com/item.htm?spm=a1z0d.7625083.1998302264.5.5c5f4e69U9Km6O&amp;id=606090399289" target="_blank" rel="noopener">淘宝</a> 上这一款精度为16bit, 即最小精度为<span class="math inline">\(V/65536\)</span>, 对objectHeater已经够用.</p>
+<p>通常有各种adc芯片实现这一功能, 如MCP3008. 芯片的bit数代表了能测量电压的精度. <a href="https://item.taobao.com/item.htm?spm=a1z0d.7625083.1998302264.5.5c5f4e69U9Km6O&amp;id=606090399289" target="_blank" rel="noopener">淘宝</a> 上这一款精度为16bit, 即最小精度为$V/65536$, 对objectHeater已经够用.</p>
 <p>此芯片型号为<strong>ADS1115</strong>, 可参考 <a href="http://www.ti.com.cn/product/cn/ADS1115" target="_blank" rel="noopener">TexasInstrument</a> 的文档.</p>
 <div class="pdfobject-container" data-target="http://www.ti.com.cn/cn/lit/ds/symlink/ads1115.pdf?ts=1587821000546" data-height="500px"></div>
 <p>SPS=sample per second</p>
 <p><strong>测量电压有范围要求，不能超过3.3+0.3V, 在输入负压时对电路有保护，但是<a href="https://e2echina.ti.com/question_answer/analog/data_converters/f/58/t/44846" target="_blank" rel="noopener">测量不准</a></strong></p>
-<h3 id="adc上的接口">ADC上的接口</h3>
-<p>数字信号通过 <span class="math inline">\(I^2C\)</span> 串口与pin相连, 如未连线则需按说明与对应功能的pin对接.</p>
+<h3 id="ADC上的接口"><a class="header-anchor" href="#ADC上的接口">¶</a>ADC上的接口</h3>
+<p>数字信号通过 $I^2C$ 串口与pin相连, 如未连线则需按说明与对应功能的pin对接.</p>
 <p>模拟信号口有 VCC, GND, OUT:</p>
 <ul>
 <li>VCC: voltage at the common collector, 一般是给传感器输入电压.</li>
 <li>GND: 参考电压, 或是直接接地</li>
 <li>OUT: 模拟信号输入的channel.</li>
 </ul>
-<p>使用ADC前需打开Raspberry Pi的<span class="math inline">\(I^2C\)</span> 串口:</p>
+<p>使用ADC前需打开Raspberry Pi的$I^2C$ 串口:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo raspi-config</span><br><span class="line"><span class="comment"># interface option -&gt; I2C -&gt; enable -&gt; reboot</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#install driver</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y python-smbus i2c-tools</span><br><span class="line"></span><br><span class="line"><span class="comment">#check if I2C is enable</span></span><br><span class="line">lsmod | grep i2c_</span><br><span class="line"></span><br><span class="line"><span class="comment">#detect the physical addr (for 4B)</span></span><br><span class="line">i2cdetect -y 1</span><br></pre></td></tr></table></figure>
 <p>然后在此 <a href="https://github.com/adafruit/Adafruit_CircuitPython_ADS1x15" target="_blank" rel="noopener">repo</a> 安装驱动:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install adafruit-circuitpython-ads1x15</span><br></pre></td></tr></table></figure>
 <p>测试代码:</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> board</span><br><span class="line"><span class="keyword">import</span> busio</span><br><span class="line"><span class="keyword">import</span> adafruit_ads1x15.ads1115 <span class="keyword">as</span> ADS</span><br><span class="line"><span class="keyword">from</span> adafruit_ads1x15.analog_in <span class="keyword">import</span> AnalogIn</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create the I2C bus</span></span><br><span class="line">i2c = busio.I2C(board.SCL, board.SDA)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create the ADC object using the I2C bus</span></span><br><span class="line">ads = ADS.ADS1115(i2c)</span><br><span class="line"><span class="comment"># you can specify an I2C adress instead of the default 0x48</span></span><br><span class="line"><span class="comment"># ads = ADS.ADS1115(i2c, address=0x49)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create single-ended input on channel 0</span></span><br><span class="line">chan = AnalogIn(ads, ADS.P0)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create differential input between channel 0 and 1</span></span><br><span class="line"><span class="comment"># chan = AnalogIn(ads, ADS.P0, ADS.P1)</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">"&#123;:&gt;5&#125;\t&#123;:&gt;5&#125;"</span>.format(<span class="string">"raw"</span>, <span class="string">"v"</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    print(<span class="string">"&#123;:&gt;5&#125;\t&#123;:&gt;5.3f&#125;"</span>.format(chan.value, chan.voltage))</span><br><span class="line">    time.sleep(<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
 <p>使用时更改channel即可.</p>
-<h3 id="通过pga调整测量范围">通过PGA调整测量范围</h3>
+<h3 id="通过PGA调整测量范围"><a class="header-anchor" href="#通过PGA调整测量范围">¶</a>通过PGA调整测量范围</h3>
 <p>PGA(Programmable Gain)</p>
 <p><a href="https://learn.adafruit.com/assets/70758" target="_blank" rel="noopener"><img src="https://cdn-learn.adafruit.com/assets/assets/000/070/758/medium800/sensors_ads1015_pga_range.jpg?1549409927" alt="sensors_ads1015_pga_range.jpg" width="67%" height="67%" /></a></p>
 <p>默认选项为1, 与使用的范围一致,不需要调整. 例子如下:</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>ads.gain</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>chan.value, chan.voltage</span><br><span class="line">(<span class="number">84</span>, <span class="number">0.168082</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ads.gain = <span class="number">16</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ads.gain</span><br><span class="line"><span class="number">16</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>chan.value, chan.voltage</span><br><span class="line">(<span class="number">1335</span>, <span class="number">0.167081</span>)</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="raspberry-操作">Raspberry 操作</h2>
+<h2 id="Raspberry-操作"><a class="header-anchor" href="#Raspberry-操作">¶</a>Raspberry 操作</h2>
 <p>硬解软解的区别在于控制时间精度。详见<a href="https://raspberrypi.stackexchange.com/questions/100641/whats-the-difference-between-soft-pwm-and-pwm" target="_blank" rel="noopener">pigpio作者的回答</a>. 在使用硬解时，只能同时使用两个channel:</p>
 <blockquote>
-<p>12 PWM channel 0 All models but A and B</p>
-<p>13 PWM channel 1 All models but A and B</p>
-<p>18 PWM channel 0 All models</p>
-<p>19 PWM channel 1 All models but A and B</p>
+<p>12  PWM channel 0  All models but A and B</p>
+<p>13  PWM channel 1  All models but A and B</p>
+<p>18  PWM channel 0  All models</p>
+<p>19  PWM channel 1  All models but A and B</p>
 </blockquote>
 <p><strong>即12,18不共存, 13，19不共存.</strong> 见<a href="https://raspberrypi.stackexchange.com/questions/64256/what-is-the-pin-number-for-pwm-outputs-on-rpi3-model-b" target="_blank" rel="noopener">此处</a></p>
 <p>软件GPIO口400Hz较为稳定. 以下为软解GPIO测试代码</p>
@@ -533,35 +555,34 @@
 <p><a href="http://abyz.me.uk/rpi/pigpio/python.html#hardware_PWM" target="_blank" rel="noopener">官方说明</a></p>
 <p>测量硬解的code：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="comment"># generate data for plot</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pigpio</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> board</span><br><span class="line"><span class="keyword">import</span> busio</span><br><span class="line"><span class="keyword">import</span> adafruit_ads1x15.ads1115 <span class="keyword">as</span> ADS</span><br><span class="line"><span class="keyword">from</span> adafruit_ads1x15.analog_in <span class="keyword">import</span> AnalogIn</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        i2c = busio.I2C(board.SCL, board.SDA)</span><br><span class="line">        ads = ADS.ADS1115(i2c)</span><br><span class="line">        chan = AnalogIn(ads, ADS.P3)</span><br><span class="line">        pi = pigpio.pi()</span><br><span class="line">        pi.hardware_PWM(<span class="number">13</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">for</span> frequency <span class="keyword">in</span> [<span class="number">10000</span>, <span class="number">20000</span>, <span class="number">30000</span>, <span class="number">40000</span>, <span class="number">50000</span>,</span><br><span class="line">                          <span class="number">60000</span>, <span class="number">70000</span>, <span class="number">80000</span>, <span class="number">90000</span>, <span class="number">100000</span>]:</span><br><span class="line">            pi.hardware_PWM(<span class="number">13</span>, frequency, <span class="number">10000</span>)</span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">"HardwareAvgDataF"</span>+str(frequency)+<span class="string">".txt"</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(<span class="string">"# pwm     avgADC    varADC \n"</span>)</span><br><span class="line">                <span class="keyword">for</span> temp <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">101</span>):</span><br><span class="line">                    pi.hardware_PWM(<span class="number">13</span>, frequency,temp*<span class="number">10000</span>)</span><br><span class="line">                    startTime = time.time()</span><br><span class="line">                    tmp = []</span><br><span class="line">                    <span class="keyword">while</span> time.time()-startTime &lt; <span class="number">10</span>:</span><br><span class="line">                        tmp.append(chan.voltage)</span><br><span class="line">                        time.sleep(<span class="number">0.1</span>)</span><br><span class="line">                    tmp = np.array(tmp)</span><br><span class="line">                    f.write(<span class="string">"&#123;:&gt;5.3f&#125;\t&#123;:&gt;5.3f&#125;\t&#123;:&gt;5.3f&#125;\n"</span>.format(</span><br><span class="line">                        temp/<span class="number">100</span>*<span class="number">3.3</span>, np.mean(tmp), np.var(tmp)))</span><br><span class="line">                    print(<span class="string">"finish "</span>+str(temp)+<span class="string">"%"</span>)</span><br><span class="line">    <span class="keyword">except</span> (KeyboardInterrupt, SystemExit):</span><br><span class="line">        print(<span class="string">"Keyboard Interrupt"</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        pi.hardware_PWM(<span class="number">13</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        pi.stop()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h3 id="结果">结果</h3>
-<h4 id="软解-or-硬解">软解 or 硬解?</h4>
-<p><img src="https://s1.ax1x.com/2020/04/27/JWF9wF.png" alt="JWF9wF.png" border="0" width="80%;" /></p>
+<h3 id="结果"><a class="header-anchor" href="#结果">¶</a>结果</h3>
+<h4 id="软解-or-硬解"><a class="header-anchor" href="#软解-or-硬解">¶</a>软解 or 硬解?</h4>
+<img src="https://s1.ax1x.com/2020/04/27/JWF9wF.png" alt="JWF9wF.png" border="0" width="80%;" />
 <p>使用hardware能准确的得到电压值, 且误差极小. <strong>较为精确的频率为9000Hz</strong>.</p>
-<h4 id="温度控制">温度控制</h4>
+<h4 id="温度控制"><a class="header-anchor" href="#温度控制">¶</a>温度控制</h4>
 <p>大幅度升温的测量结果如下:</p>
-<p><img src="https://s1.ax1x.com/2020/04/29/Jo0c90.png" alt="Jo0c90.png" border="0" /></p>
+<img src="https://s1.ax1x.com/2020/04/29/Jo0c90.png" alt="Jo0c90.png" border="0" />
 <p>升温速度大致为0.33C/min,降温速度大致为0.16C/min. 代码中使用的数值为0.2和0.13, 能得到较好的效果.</p>
-<p><img src="https://s1.ax1x.com/2020/04/29/JoB0xK.png" alt="JoB0xK.png" border="0" style="zoom:150%;" /></p>
-<h2 id="ref">Ref</h2>
+<img src="https://s1.ax1x.com/2020/04/29/JoB0xK.png" alt="JoB0xK.png" border="0" style="zoom:150%;" />
+<h2 id="Ref"><a class="header-anchor" href="#Ref">¶</a>Ref</h2>
 <p><a href="https://pinout.xyz/#" target="_blank" rel="noopener">GPIO口官方指南</a></p>
 <p><a href="https://www.ccarea.cn/archives/215" target="_blank" rel="noopener">初识GPIO</a></p>
 <p><a href="https://gpiozero.readthedocs.io/en/stable/index.html" target="_blank" rel="noopener">GPIOZero</a></p>
 <p><a href="https://sourceforge.net/p/raspberry-gpio-python/wiki/BasicUsage/" target="_blank" rel="noopener">RPi.GPIO</a></p>
 <p><a href="http://abyz.me.uk/rpi/pigpio/python.html#hardware_PWM" target="_blank" rel="noopener">pigpio</a></p>
-<h2 id="code-appendix">Code Appendix</h2>
-<h3 id="温度控制的主类heater.py">温度控制的主类(Heater.py):</h3>
+<h2 id="Code-Appendix"><a class="header-anchor" href="#Code-Appendix">¶</a>Code Appendix</h2>
+<h3 id="温度控制的主类-Heater-py"><a class="header-anchor" href="#温度控制的主类-Heater-py">¶</a>温度控制的主类(<a href="http://Heater.py" target="_blank" rel="noopener">Heater.py</a>):</h3>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="keyword">import</span> pigpio</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> board</span><br><span class="line"><span class="keyword">import</span> busio</span><br><span class="line"><span class="keyword">import</span> adafruit_ads1x15.ads1115 <span class="keyword">as</span> ADS</span><br><span class="line"><span class="keyword">from</span> adafruit_ads1x15.analog_in <span class="keyword">import</span> AnalogIn</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Heater</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Hardware PWM is used</span></span><br><span class="line"><span class="string">    using GPIO18 to control output</span></span><br><span class="line"><span class="string">    using ADC channel 1 as input</span></span><br><span class="line"><span class="string">    using GPIO13 and ADC channel 3 as reference</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># setup initial temp and frequency for pwm</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, initTemp=<span class="number">25.0</span>, frequency=<span class="number">9000</span>)</span>:</span></span><br><span class="line">        super(Heater, self).__init__()</span><br><span class="line">        self.initTemp = initTemp</span><br><span class="line">        self.frequency = frequency</span><br><span class="line">        self.MaxTemp = <span class="number">33.0</span></span><br><span class="line">        self.pi = pigpio.pi()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 9000hz give a relative nice curve</span></span><br><span class="line">        self.pi.hardware_PWM(<span class="number">13</span>, self.frequency, <span class="number">0</span>)</span><br><span class="line">        self.pi.hardware_PWM(<span class="number">18</span>, self.frequency, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Create the I2C bus</span></span><br><span class="line">        i2c = busio.I2C(board.SCL, board.SDA)</span><br><span class="line">        <span class="comment"># Create the ADC object using the I2C bus</span></span><br><span class="line">        ads = ADS.ADS1115(i2c)</span><br><span class="line">        <span class="comment"># Create single-ended input on channel 1</span></span><br><span class="line">        self.chanRef = AnalogIn(ads, ADS.P1)</span><br><span class="line">        self.chanCali = AnalogIn(ads, ADS.P3)</span><br><span class="line"></span><br><span class="line">        self.readObejectiveTemp()</span><br><span class="line">        self.setTemp(initTemp)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># define exit behavior</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># seems something here is wrong</span></span><br><span class="line">        <span class="comment"># self.pi.hardware_PWM(13, 0, 0)</span></span><br><span class="line">        <span class="comment"># self.pi.hardware_PWM(18, 0, 0)</span></span><br><span class="line">        self.pi.stop()</span><br><span class="line">        print(<span class="string">"Heater exit success"</span>)</span><br><span class="line">        print(<span class="string">"!!! Unplug the socket !!!"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">readObejectiveTemp</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.obejectiveTemp = self.chanRef.voltage*<span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">readCalibrationTemp</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.caliTemp = self.chanCali.voltage*<span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># set the temp on Heater within tolerance</span></span><br><span class="line">    <span class="comment"># I think 0.1 is a good choice</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setTemp</span><span class="params">(self, targetTemp, tolerance=<span class="number">0.1</span>)</span>:</span></span><br><span class="line">        self.temp = targetTemp</span><br><span class="line">        self.pi.hardware_PWM(<span class="number">18</span>, self.frequency, int(</span><br><span class="line">            targetTemp/self.MaxTemp*<span class="number">1000000</span>))</span><br><span class="line">        self.pi.hardware_PWM(<span class="number">13</span>, self.frequency, int(</span><br><span class="line">            targetTemp/self.MaxTemp*<span class="number">1000000</span>))</span><br><span class="line">        <span class="comment"># remaining part is not implement</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">outputBanner</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span>(<span class="string">"&#123;&#125; &#123;&#125; &#123;&#125;\n"</span>.format(<span class="string">'Setpoint'</span>, <span class="string">'Output'</span>, <span class="string">'Objective'</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">outputTemp</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.readObejectiveTemp()</span><br><span class="line">        self.readCalibrationTemp()</span><br><span class="line">        <span class="keyword">return</span>(<span class="string">"&#123;:&gt;5.2f&#125;  &#123;:&gt;5.2f&#125;  &#123;:&gt;5.2f&#125; \n"</span>.format(</span><br><span class="line">            self.temp, self.caliTemp, self.obejectiveTemp))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TempCycle</span><span class="params">(Heater)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    initTemp: start temp for heater</span></span><br><span class="line"><span class="string">    finalTemp: end temp for heater</span></span><br><span class="line"><span class="string">    cycleTime: cycle how many times. 1 cycle ~ 30min</span></span><br><span class="line"><span class="string">    increase_rate: max rate measured is 0.3C/min,set to 0.2C/min by default</span></span><br><span class="line"><span class="string">    decrease_rate: max rate measured is 1/6 C/min,set to 0.13 by default</span></span><br><span class="line"><span class="string">    tempStep: step between temps</span></span><br><span class="line"><span class="string">    outputStep: time between two lines, a loop is around 60s</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, initTemp, finalTemp,</span></span></span><br><span class="line"><span class="function"><span class="params">                 cycleNumber=<span class="number">20</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 increase_rate=<span class="number">0.2</span>, decrease_rate=<span class="number">0.13</span>, tempStep=<span class="number">0.2</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 outputStep=<span class="number">10</span>)</span>:</span></span><br><span class="line">        super(TempCycle, self).__init__(initTemp, frequency=<span class="number">9000</span>)</span><br><span class="line">        self.initTemp = initTemp</span><br><span class="line">        self.finalTemp = finalTemp</span><br><span class="line">        self.increase_rate = increase_rate</span><br><span class="line">        self.decrease_rate = decrease_rate</span><br><span class="line">        self.tempStep = tempStep</span><br><span class="line">        self.cycleNumber = cycleNumber</span><br><span class="line">        self.outputStep = outputStep</span><br><span class="line">        <span class="keyword">if</span> self.initTemp &gt; self.finalTemp:</span><br><span class="line">            self.increase = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.increase = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># if increase, rate = increase_rate</span></span><br><span class="line">    <span class="comment"># else rate = decrease_rate</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_rate_</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.decrease_rate + int(self.increase) *\</span><br><span class="line">            (self.increase_rate-self.decrease_rate)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">(self)</span>:</span></span><br><span class="line">        filename = time.strftime(</span><br><span class="line">            <span class="string">"%m-%d-at-%H:%M-year%YCyclelog.txt"</span>, time.localtime())</span><br><span class="line">        <span class="keyword">with</span> open(filename, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            self.setTemp(self.initTemp)</span><br><span class="line"></span><br><span class="line">            f.write(self.outputBanner())</span><br><span class="line">            f.write(<span class="string">"timestep=&#123;&#125;s\n"</span>.format(self.outputStep))</span><br><span class="line">            <span class="keyword">while</span> self.cycleNumber:</span><br><span class="line"></span><br><span class="line">                <span class="comment"># from start to end</span></span><br><span class="line">                <span class="comment"># finaltemp is include in the next loop</span></span><br><span class="line">                <span class="keyword">for</span> setpoint <span class="keyword">in</span> np.arange(self.initTemp, self.finalTemp, self.tempStep):</span><br><span class="line">                    startTime = time.time()</span><br><span class="line">                    self.setTemp(setpoint)</span><br><span class="line">                    rate = self._rate_()</span><br><span class="line">                    <span class="keyword">while</span> time.time()-startTime &lt; self.tempStep/rate*<span class="number">60</span>:</span><br><span class="line">                        f.write(self.outputTemp())</span><br><span class="line">                        time.sleep(self.outputStep)</span><br><span class="line">                    self.increase = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">                <span class="comment"># from end to start</span></span><br><span class="line">                <span class="comment"># inittemp is include in the next loop</span></span><br><span class="line">                <span class="keyword">for</span> setpoint <span class="keyword">in</span> np.arange(self.finalTemp, self.initTemp, -self.tempStep):</span><br><span class="line">                    startTime = time.time()</span><br><span class="line">                    self.setTemp(setpoint)</span><br><span class="line">                    rate = self._rate_()</span><br><span class="line">                    <span class="keyword">while</span> time.time()-startTime &lt; self.tempStep/rate*<span class="number">60</span>:</span><br><span class="line">                        f.write(self.outputTemp())</span><br><span class="line">                        time.sleep(self.outputStep)</span><br><span class="line">                    self.increase = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">                self.cycleNumber-=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test = Heater(<span class="number">25.0</span>)</span><br><span class="line">    <span class="keyword">del</span> test</span><br><span class="line">    test = TempCycle(<span class="number">25</span>, <span class="number">26</span>)</span><br><span class="line">    <span class="keyword">del</span> test</span><br></pre></td></tr></table></figure>
-<h3 id="温度循环">温度循环</h3>
+<h3 id="温度循环"><a class="header-anchor" href="#温度循环">¶</a>温度循环</h3>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="keyword">from</span> Heater <span class="keyword">import</span> TempCycle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    initTemp = <span class="number">27</span></span><br><span class="line">    finalTemp = <span class="number">29.5</span></span><br><span class="line">    <span class="comment"># 1 h per cycle</span></span><br><span class="line">    h = TempCycle(initTemp,finalTemp,cycleNumber=<span class="number">30</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        h.start()</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">del</span> h</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h3 id="日志可视化">日志可视化</h3>
+<h3 id="日志可视化"><a class="header-anchor" href="#日志可视化">¶</a>日志可视化</h3>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># plot voltage data</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=[<span class="number">14</span>, <span class="number">7</span>])</span><br><span class="line"></span><br><span class="line">filename = <span class="string">"04-28-at-18_57-year2020Cyclelog"</span></span><br><span class="line"></span><br><span class="line">data = np.loadtxt(filename+<span class="string">".txt"</span>, skiprows=<span class="number">2</span>)</span><br><span class="line"><span class="comment"># print(data)</span></span><br><span class="line">timestep = <span class="number">10</span></span><br><span class="line">Setpoint = data[:, <span class="number">0</span>]</span><br><span class="line">Output = data[:, <span class="number">1</span>]</span><br><span class="line">Objective = data[:, <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.plot(Setpoint, <span class="string">'--d'</span>, label=<span class="string">"Setpoint"</span>)</span><br><span class="line">plt.plot(Output, <span class="string">'-*'</span>, label=<span class="string">"Output"</span>)</span><br><span class="line">plt.plot(Objective, <span class="string">'-s'</span>, label=<span class="string">"Objective"</span>)</span><br><span class="line">rows = len(Setpoint)</span><br><span class="line">mins = range(<span class="number">0</span>, rows, int(<span class="number">60</span>/timestep))</span><br><span class="line"></span><br><span class="line">ax = plt.gca()</span><br><span class="line"><span class="comment"># 10mins as a tick</span></span><br><span class="line">ax.set_xticks(range(<span class="number">0</span>, len(Setpoint), <span class="number">60</span>))</span><br><span class="line">ax.set_xticks(range(<span class="number">0</span>, len(Setpoint)), minor=<span class="literal">True</span>)</span><br><span class="line">ax.set_xticklabels([<span class="number">10</span>*x <span class="keyword">for</span> x <span class="keyword">in</span> range(len(range(<span class="number">0</span>, len(Setpoint), <span class="number">6</span>)))])</span><br><span class="line"></span><br><span class="line">plt.xlabel(<span class="string">"Time(Min)"</span>, fontsize=<span class="number">18</span>)</span><br><span class="line">plt.ylabel(<span class="string">"Temperature"</span>, fontsize=<span class="number">18</span>)</span><br><span class="line"><span class="comment"># plt.yscale('symlog')</span></span><br><span class="line"><span class="comment"># plt.xscale('log')</span></span><br><span class="line">plt.legend()</span><br><span class="line">plt.savefig(filename+<span class="string">".png"</span>, dpi=<span class="number">200</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<h3 id="变温过程中测量">变温过程中测量</h3>
+<h3 id="变温过程中测量"><a class="header-anchor" href="#变温过程中测量">¶</a>变温过程中测量</h3>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> board</span><br><span class="line"><span class="keyword">import</span> busio</span><br><span class="line"><span class="keyword">import</span> adafruit_ads1x15.ads1115 <span class="keyword">as</span> ADS</span><br><span class="line"><span class="keyword">from</span> adafruit_ads1x15.analog_in <span class="keyword">import</span> AnalogIn</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create the I2C bus</span></span><br><span class="line">i2c = busio.I2C(board.SCL, board.SDA)</span><br><span class="line"><span class="comment"># Create the ADC object using the I2C bus</span></span><br><span class="line">ads = ADS.ADS1115(i2c)</span><br><span class="line"><span class="comment"># Create single-ended input on channel 1</span></span><br><span class="line">chanRef = AnalogIn(ads, ADS.P1)</span><br><span class="line">chanCali = AnalogIn(ads, ADS.P3)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outputBanner</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"&#123;&#125; &#123;&#125;"</span>.format(<span class="string">'Output'</span>, <span class="string">'Objective'</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outputTemp</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"&#123;:&gt;5.2f&#125;  &#123;:&gt;5.2f&#125;"</span>.format(chanCali.voltage*<span class="number">10</span>, chanRef.voltage*<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    outputBanner()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        outputTemp()</span><br><span class="line">        time.sleep(<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="软解测量结果">软解测量结果</h3>
-<p><img src="https://s1.ax1x.com/2020/04/29/JowdoR.png" alt="JowdoR.png" border="0" width="100%;"/></p>
-<h3 id="硬解测量结果">硬解测量结果</h3>
-<p><img src="https://s1.ax1x.com/2020/04/29/Jowjkn.png" alt="Jowjkn.png" border="0" width="100%;"/></p>
-]]></content>
+<h3 id="软解测量结果"><a class="header-anchor" href="#软解测量结果">¶</a>软解测量结果</h3>
+<img src="https://s1.ax1x.com/2020/04/29/JowdoR.png" alt="JowdoR.png" border="0" width="100%;"/>
+<h3 id="硬解测量结果"><a class="header-anchor" href="#硬解测量结果">¶</a>硬解测量结果</h3>
+<img src="https://s1.ax1x.com/2020/04/29/Jowjkn.png" alt="Jowjkn.png" border="0" width="100%;"/>]]></content>
       <categories>
         <category>code</category>
         <category>experiment</category>
@@ -575,18 +596,18 @@
   <entry>
     <title>MathJaxRef(施工中)</title>
     <url>/2020/04/24/MathJaxTest/</url>
-    <content><![CDATA[<p><span class="math display">\[\begin{equation} \label{eq1}
-e=mc^2
-\end{equation}\]</span></p>
-<p>The famous matter-energy equation <span class="math inline">\(\eqref{eq1}\)</span> proposed by Einstein...</p>
-<p><span class="math display">\[\begin{equation} \label{eq2}
-\begin{aligned}
-a &amp;= b + c \\
-  &amp;= d + e + f + g \\
-  &amp;= h + i
-\end{aligned}
-\end{equation}\]</span></p>
-<p>Equation <span class="math inline">\(\eqref{eq2}\)</span> is a multi-line equation.</p>
+    <content><![CDATA[<p>$$\begin{equation} \label{eq1}<br>
+e=mc^2<br>
+\end{equation}$$</p>
+<p>The famous matter-energy equation $\eqref{eq1}$ proposed by Einstein…</p>
+<p>$$\begin{equation} \label{eq2}<br>
+\begin{aligned}<br>
+a &amp;= b + c \<br>
+&amp;= d + e + f + g \<br>
+&amp;= h + i<br>
+\end{aligned}<br>
+\end{equation}$$</p>
+<p>Equation $\eqref{eq2}$ is a multi-line equation.</p>
 ]]></content>
       <categories>
         <category>Markdown</category>
@@ -600,94 +621,94 @@ a &amp;= b + c \\
   <entry>
     <title>Hack the HEXO</title>
     <url>/2020/04/24/Hack%20the%20HEXO/</url>
-    <content><![CDATA[<h2 id="部署">部署</h2>
+    <content><![CDATA[<h2 id="部署"><a class="header-anchor" href="#部署">¶</a>部署</h2>
 <p>安装<code>Node.js</code> 10.0 以上版本,将<code>Git</code> 和<code>Node.js</code> 添加至系统路径.</p>
 <p>然后在存放的文件夹下:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">npm install hexo</span><br><span class="line">hexo init .</span><br></pre></td></tr></table></figure>
 <p>生产静态文件的一般流程: 清空当前数据, 重新生成, 部署:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line"><span class="comment">#g for generate</span></span><br><span class="line">hexo g</span><br><span class="line"><span class="comment">#s for server</span></span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 <p>最后会在localhost上生成服务器端口.</p>
-<h2 id="主题">主题</h2>
+<h2 id="主题"><a class="header-anchor" href="#主题">¶</a>主题</h2>
 <p>使用 <a href="https://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">Next</a> 作为主题.</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> your-hexo-site</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
 <p>根目录下的 <code>_config.yml</code> 和 <code>theme</code> 文件夹下的 <code>_config.yml</code> 被称为<strong>站点配置文件</strong>和<strong>主题配置文件</strong>.</p>
-<h3 id="添加本地搜索">添加本地搜索</h3>
+<h3 id="添加本地搜索"><a class="header-anchor" href="#添加本地搜索">¶</a>添加本地搜索</h3>
 <p>在<strong>主题配置文件</strong>中查找&quot;search&quot;并更改:</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 <p>并安装<a href="https://github.com/theme-next/hexo-generator-searchdb" target="_blank" rel="noopener">搜索插件</a>.</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb</span><br></pre></td></tr></table></figure>
-<h3 id="布局">布局</h3>
-<h4 id="选择-scheme">选择 Scheme</h4>
+<h3 id="布局"><a class="header-anchor" href="#布局">¶</a>布局</h3>
+<h4 id="选择-Scheme"><a class="header-anchor" href="#选择-Scheme">¶</a>选择 Scheme</h4>
 <p>参考<a href="https://hexo.io/zh-cn/docs/configuration" target="_blank" rel="noopener">官方文档</a>更改标题, etc. 对于Next的布局，参考<a href="https://theme-next.iissnan.com/getting-started.html#select-scheme" target="_blank" rel="noopener">官方文档</a>:</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment"># scheme: Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span></span><br></pre></td></tr></table></figure>
 <p>共4种, 选什么看心情.</p>
-<h4 id="添加菜单">添加菜单</h4>
+<h4 id="添加菜单"><a class="header-anchor" href="#添加菜单">¶</a>添加菜单</h4>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-home</span></span><br><span class="line">  <span class="comment">#about: /about/ || fa fa-user</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/tags/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-tags</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-th</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/archives/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-archive</span></span><br><span class="line">  <span class="comment">#schedule: /schedule/ || fa fa-calendar</span></span><br><span class="line">  <span class="comment">#sitemap: /sitemap.xml || fa fa-sitemap</span></span><br><span class="line">  <span class="comment">#commonweal: /404/ || fa fa-heartbeat</span></span><br></pre></td></tr></table></figure>
 <p>然后再根目录中新建tags和categories的page. <a href="https://theme-next.iissnan.com/getting-started.html#menu-settings" target="_blank" rel="noopener">官方文档</a></p>
 <p>分别写入如下内容：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">tags</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2017</span><span class="number">-05</span><span class="number">-27</span> <span class="number">13</span><span class="string">:47:40</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">"tags"</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">categories</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2017</span><span class="number">-05</span><span class="number">-27</span> <span class="number">13</span><span class="string">:47:40</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">"categories"</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
-<h3 id="更换markdown引擎">更换Markdown引擎</h3>
+<h3 id="更换Markdown引擎"><a class="header-anchor" href="#更换Markdown引擎">¶</a>更换Markdown引擎</h3>
 <p>为了使 <code>Typora</code> 风格的 <code>Markdown</code> 与之适配, 需要一系列的插件. 首先更换 <code>HEXO</code> 的渲染引擎:</p>
 <p><code>Marked</code>-&gt; <code>Markdown-it</code>, 两步完成, 首先关掉服务端口:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm un hexo-renderer-marked --save</span><br><span class="line">npm i hexo-renderer-markdown-it --save</span><br></pre></td></tr></table></figure>
-<p><code>Markdown-it</code>有三种格式: <code>zero</code> , <code>GFM</code> 以及 <code>CommonMark</code>.</p>
+<p><code>Markdown-it </code>有三种格式: <code>zero</code> , <code>GFM</code> 以及 <code>CommonMark</code>.</p>
 <p><code>CommonMark</code> 过于严格, 选择默认的 <code>GFM</code> 即可. 在<strong>站点配置文件</strong>中修改:</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Markdown-it config</span></span><br><span class="line"><span class="comment">## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki/</span></span><br><span class="line"><span class="attr">markdown:</span> <span class="string">'default'</span></span><br></pre></td></tr></table></figure>
-<h4 id="markdown-it-插件">Markdown-it 插件</h4>
+<h4 id="Markdown-it-插件"><a class="header-anchor" href="#Markdown-it-插件">¶</a>Markdown-it 插件</h4>
 <p><code>HEXO</code> 的插件<a href="https://hexo.io/plugins/" target="_blank" rel="noopener">下载地址</a>.</p>
-<h5 id="footnote">FootNote</h5>
+<h5 id="FootNote"><a class="header-anchor" href="#FootNote">¶</a>FootNote</h5>
 <p>有两种选择?</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-footnotes</span> <span class="string">--save</span></span><br></pre></td></tr></table></figure>
 <p>这个 <a href="https://github.com/LouisBarranqueiro/hexo-footnotes" target="_blank" rel="noopener">repo</a> 已经停止更新了. 但是仍然有效.</p>
-<p>另一种办法是直接在 <code>Markdown-it</code> 中加载插件. 修改<strong>站点配置文件</strong>:</p>
+<p>另一种办法是直接在 <code>Markdown-it </code> 中加载插件. 修改<strong>站点配置文件</strong>:</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Markdown-it config</span></span><br><span class="line"><span class="comment">## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki</span></span><br><span class="line"><span class="attr">markdown:</span></span><br><span class="line">  <span class="attr">render:</span></span><br><span class="line">    <span class="attr">html:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">xhtmlOut:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">breaks:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">linkify:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">typographer:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">quotes:</span> <span class="string">'“”‘’'</span></span><br><span class="line">  <span class="attr">plugins:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">markdown-it-abbr</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">markdown-it-footnote</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">markdown-it-ins</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">markdown-it-sub</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">markdown-it-sup</span></span><br><span class="line">  <span class="attr">anchors:</span></span><br><span class="line">    <span class="attr">level:</span> <span class="number">2</span></span><br><span class="line">    <span class="attr">collisionSuffix:</span> <span class="string">'v'</span></span><br><span class="line">    <span class="attr">permalink:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">permalinkClass:</span> <span class="string">header-anchor</span></span><br><span class="line">    <span class="attr">permalinkSide:</span> <span class="string">'left'</span></span><br><span class="line">    <span class="attr">permalinkSymbol:</span> <span class="string">¶</span></span><br></pre></td></tr></table></figure>
 <p>此处直接去掉之前的 <code>markdown: 'default'</code> , 然后使用以上配置.</p>
-<h5 id="数学公式">数学公式</h5>
+<h5 id="数学公式"><a class="header-anchor" href="#数学公式">¶</a>数学公式</h5>
 <p>修改<strong>主题配置文件</strong></p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">mathjax:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>安装插件, 默认PATH能找到`pandoc:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-pandoc --save</span><br></pre></td></tr></table></figure>
 <p>typora对公式的渲染有问题, 直接用mathjax即可. 在front-matter中加入 <code>mathjax: true</code> 开启公式排版.</p>
-<h3 id="文章摘录">文章摘录</h3>
+<h3 id="文章摘录"><a class="header-anchor" href="#文章摘录">¶</a>文章摘录</h3>
 <p><a href="http://theme-next.iissnan.com/faqs.html#%E9%A6%96%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%96%87%E7%AB%A0%E6%91%98%E5%BD%95" target="_blank" rel="noopener">官方文档</a>中的自动形成摘要貌似失效. 2种方式可以尝试:</p>
 <ul>
 <li>在文章中使用 <code>&lt;!--more--&gt;</code> 手动进行截断，Hexo 提供的方式</li>
 <li>在文章的 <a href="https://hexo.io/zh-cn/docs/front-matter" target="_blank" rel="noopener">front-matter</a> 中添加 <code>description</code>，并提供文章摘录</li>
 </ul>
-<h3 id="进度条">进度条</h3>
+<h3 id="进度条"><a class="header-anchor" href="#进度条">¶</a>进度条</h3>
 <p>修改<strong>主题配置文件</strong></p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Reading progress bar</span></span><br><span class="line"><span class="attr">reading_progress:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Available values: top | bottom</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">top</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">"#37c6c0"</span></span><br><span class="line">  <span class="attr">height:</span> <span class="string">3px</span></span><br></pre></td></tr></table></figure>
-<h3 id="文章置顶">文章置顶</h3>
+<h3 id="文章置顶"><a class="header-anchor" href="#文章置顶">¶</a>文章置顶</h3>
 <p>安装插件：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm install hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
 <p>修改post模板：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">top:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h3 id="添加pdf支持">添加PDF支持</h3>
+<h3 id="添加PDF支持"><a class="header-anchor" href="#添加PDF支持">¶</a>添加PDF支持</h3>
 <p>参考<a href="https://github.com/theme-next/theme-next-pdf" target="_blank" rel="noopener">官方支持</a>.</p>
 <p>在md中嵌入pdf，注意使用绝对路径，起点相对于source文件夹:</p>
 <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">&#123;% pdf  /pdf/FFmpeg-Cheat-Sheet-for-video.pdf %&#125; </span><br><span class="line">&#123;% pdf http://www.ti.com.cn/cn/lit/ds/symlink/ads1115.pdf %&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="写作">写作</h2>
+<h2 id="写作"><a class="header-anchor" href="#写作">¶</a>写作</h2>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
 <p>新建一篇文章。如果没有设置 <code>layout</code> 的话，默认使用 <a href="https://hexo.io/zh-cn/docs/configuration" target="_blank" rel="noopener">_config.yml</a> 中的 <code>default_layout</code> 参数代替。如果标题包含空格的话，请使用引号括起来。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ hexo new &quot;post title with whitespace&quot;</span><br></pre></td></tr></table></figure>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>参数</th>
 <th>描述</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>-p</code>, <code>--path</code></td>
 <td>自定义新文章的路径</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>-r</code>, <code>--replace</code></td>
 <td>如果存在同名文章，将其替换</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>-s</code>, <code>--slug</code></td>
 <td>文章的 Slug，作为新文章的文件名和发布后的 URL</td>
 </tr>
@@ -699,10 +720,10 @@ a &amp;= b + c \\
 <p>注意！title 是必须指定的！如果你这么做并不能达到你的目的：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new page --path about&#x2F;me</span><br></pre></td></tr></table></figure>
 <p>此时 Hexo 会创建 <code>source/_posts/about/me.md</code>，同时 <code>me.md</code> 的 Front Matter 中的 title 为 <code>&quot;page&quot;</code>.这是因为在上述命令中，hexo-cli 将 <code>page</code> 视为指定文章的标题、并采用默认的 <code>layout</code>.</p>
-<h3 id="front-matter">Front-matter</h3>
+<h3 id="Front-matter"><a class="header-anchor" href="#Front-matter">¶</a>Front-matter</h3>
 <p>对默认模板进行修改：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">mathjax: false</span><br><span class="line">description:</span><br><span class="line">categories:</span><br><span class="line">tags:</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h3 id="标签和分类">标签和分类</h3>
+<h3 id="标签和分类"><a class="header-anchor" href="#标签和分类">¶</a>标签和分类</h3>
 <p>只有文章支持分类和标签，您可以在 Front-matter 中设置。在其他系统中，分类和标签听起来很接近，但是在 Hexo 中两者有着明显的差别：分类具有顺序性和层次性，也就是说 <code>Foo, Bar</code> 不等于 <code>Bar, Foo</code>；而标签没有顺序和层次。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">- Diary</span><br><span class="line">tags:</span><br><span class="line">- PS3</span><br><span class="line">- Games</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -712,18 +733,18 @@ a &amp;= b + c \\
 </blockquote>
 <p>并列标签和分类的例子:</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">categories:</span> </span><br><span class="line">	<span class="bullet">-</span> <span class="string">[Markdown]</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">[HEXO]</span></span><br><span class="line"><span class="attr">tags:</span> <span class="string">[tutorial,</span> <span class="string">reference]</span></span><br></pre></td></tr></table></figure>
-<h3 id="图片大小">图片大小</h3>
+<h3 id="图片大小"><a class="header-anchor" href="#图片大小">¶</a>图片大小</h3>
 <p>直接用html控制. 使用这种方式在HEXO和Typora中都能正常显示.</p>
 <blockquote>
-<p>&lt;img src=&quot;xxx&quot; alt=&quot;xxx&quot; width=&quot;50%&quot; height=&quot;50%&quot; /&gt;</p>
+<p>&lt;img src=“xxx” alt=“xxx” width=“50%” height=“50%” /&gt;</p>
 </blockquote>
-<h3 id="上传至图床">上传至图床</h3>
+<h3 id="上传至图床"><a class="header-anchor" href="#上传至图床">¶</a>上传至图床</h3>
 <p>Typora支持 <code>PicGO</code> 自动上传. 少量图片可以上传至:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;imgchr.com&#x2F;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>https://imgchr.com/i/JWF9wF</p>
+<p><a href="https://imgchr.com/i/JWF9wF" target="_blank" rel="noopener">https://imgchr.com/i/JWF9wF</a></p>
 </blockquote>
-<h2 id="ref">Ref</h2>
+<h2 id="Ref"><a class="header-anchor" href="#Ref">¶</a>Ref</h2>
 <p><a href="https://titangene.github.io/article/hexo-markdown-it.html" target="_blank" rel="noopener">Markdown-it 插件</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/123286944" target="_blank" rel="noopener">无基础搭建流程</a></p>
 <p><a href="https://cuiqingcai.com/7625.html" target="_blank" rel="noopener">搭建流程</a></p>
@@ -740,7 +761,7 @@ a &amp;= b + c \\
   <entry>
     <title>Owncloud deployment</title>
     <url>/2020/04/15/server/Owncloud_deployment/</url>
-    <content><![CDATA[<h2 id="install-with-docker">Install with docker</h2>
+    <content><![CDATA[<h2 id="Install-with-docker"><a class="header-anchor" href="#Install-with-docker">¶</a>Install with docker</h2>
 <p>Environment set. Download necessary library</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker volume create owncloud_redis</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name redis \</span><br><span class="line">  -e REDIS_DATABASES=1 \</span><br><span class="line">  --volume owncloud_redis:/var/lib/redis \</span><br><span class="line">  webhippie/redis:latest</span><br><span class="line"></span><br><span class="line">docker volume create owncloud_mysql</span><br><span class="line">docker volume create owncloud_backup</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name mariadb \</span><br><span class="line">  -e MARIADB_ROOT_PASSWORD=owncloud \</span><br><span class="line">  -e MARIADB_USERNAME=owncloud \</span><br><span class="line">  -e MARIADB_PASSWORD=owncloud \</span><br><span class="line">  -e MARIADB_DATABASE=owncloud \</span><br><span class="line">  --volume owncloud_mysql:/var/lib/mysql \</span><br><span class="line">  --volume owncloud_backup:/var/lib/backup \</span><br><span class="line">  webhippie/mariadb:latest</span><br></pre></td></tr></table></figure>
 <p>run the owncloud</p>
@@ -760,46 +781,37 @@ a &amp;= b + c \\
   <entry>
     <title>FFmpeg Note</title>
     <url>/2020/04/15/FFmpeg/FFmpeg%20Note/</url>
-    <content><![CDATA[<h1 id="ffmpeg-note">FFmpeg Note</h1>
+    <content><![CDATA[<h1>FFmpeg Note</h1>
 <p>Most of the contents come from Internet,e.g. blog<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>, FFmpeg official website<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> and GitHub.</p>
-<h2 id="basic-knowledge">Basic Knowledge</h2>
+<h2 id="Basic-Knowledge"><a class="header-anchor" href="#Basic-Knowledge">¶</a>Basic Knowledge</h2>
 <p>流媒体播放的基本步骤如图所示：</p>
-<figure>
-<img src="https://img-blog.csdn.net/20140201120523046?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img" /><figcaption>img</figcaption>
-</figure>
-<p>​ 其中视频压缩，解码部分对我们比较重要。与此图相关的基础知识可参见此blog<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>.</p>
-<h3 id="some-other-reference">Some other reference</h3>
+<p><img src="https://img-blog.csdn.net/20140201120523046?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<p>​	其中视频压缩，解码部分对我们比较重要。与此图相关的基础知识可参见此blog<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>.</p>
+<h3 id="Some-other-reference"><a class="header-anchor" href="#Some-other-reference">¶</a>Some other reference</h3>
 <p><a href="https://blog.csdn.net/coloriy/article/details/50623874" target="_blank" rel="noopener">FFmpeg 中的一些参数意义</a></p>
-<h3 id="terms4">Terms<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup></h3>
-<h4 id="mux-demux">mux &amp; demux</h4>
-<p>​ Short for multiplexing and demultiplexing.</p>
-<p>​ 把不同的流按照某种容器的规则放入容器，这种行为叫做复用（mux）。</p>
-<p>​ 把不同的流从某种容器中解析出来，这种行为叫做解复用(demux)。</p>
-<p>​ e.g. FFmpeg使用的库为 <code>Lavf58.20.100</code>. 负责合成不同格式的视频。</p>
-<h3 id="codec">codec</h3>
-<p>​ codec is short for <strong>COde &amp; DECode</strong> ,即编码与解码。</p>
-<p>​ 有关 codec 实现的比较，<strong>参见 <a href="https://en.wikipedia.org/wiki/Comparison_of_video_codecs" target="_blank" rel="noopener">wiki</a> 。</strong>其中列出了常见的codec lib 以及支持的格式。</p>
-<h4 id="mpeg-4">MPEG-4</h4>
-<p>​ 由 MPEG 提出的一套标准，内容囊括视频音频的编码、传输等。各个组织对其有不同实现。其中第十部分“高级视频编码”（Advanced Video Coding，AVC）与ITU-T H.264 标准一致并定义了视频编解码器，故共称 “H.264/MPEG-4 AVC” 。</p>
-<p>​ 详见wiki：<a href="https://zh.wikipedia.org/wiki/MPEG-4" target="_blank" rel="noopener">MPEG-4</a>、<a href="https://zh.wikipedia.org/wiki/H.264/MPEG-4_AVC" target="_blank" rel="noopener">H.264/MPEG-4 AVC</a>。</p>
-<h4 id="powerpoint-支持">PowerPoint 支持</h4>
-<p>​ <strong>In a nutshell, 装上解码器然后使用H265 编码。</strong></p>
-<p>​ <strong>或者使用h264。</strong></p>
-<p>​ <strong>但是只能使用 yuv420p 格式。</strong></p>
-<p>​ Win10原生支持h264 yuv420p，但是不支持yuv444。</p>
-<p>​ 简单来说，微软原生支持的解码格式与系统自带的 Windows Media Player 一致，因为二者共用系统自带的编解码器。</p>
-<p>​ 通过 Windows Media Player 的帮助选项可以查看支持的编解码选项。 从PPT2010 开始，微软声称提供 H.264 编解码支持， 但事实上原生系统对 libx264 并不支持，仅支持MPEG-4 part2 与微软开发的标准。对 H.264 的支持需要下载解码器，对于用户而言，这显然极不方便。</p>
-<p>​ 从win 7 开始 WMP 即是 12.0版本。通过 <a href="https://support.microsoft.com/zh-cn/help/15070/windows-media-player-codecs-frequently-asked-questions" target="_blank" rel="noopener">官方文档</a> 查看电脑上支持的编解码器。以下是win10 原生系统对视频的编解码支持：</p>
+<h3 id="Terms-sup-id-fnref-4-a-href-fn-4-rel-footnote-4-a-sup"><a class="header-anchor" href="#Terms-sup-id-fnref-4-a-href-fn-4-rel-footnote-4-a-sup">¶</a>Terms<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup></h3>
+<h4 id="mux-demux"><a class="header-anchor" href="#mux-demux">¶</a>mux &amp; demux</h4>
+<p>​	Short for  multiplexing and demultiplexing.</p>
+<p>​	把不同的流按照某种容器的规则放入容器，这种行为叫做复用（mux）。</p>
+<p>​	把不同的流从某种容器中解析出来，这种行为叫做解复用(demux)。</p>
+<p>​	e.g. FFmpeg使用的库为 <code>Lavf58.20.100</code>. 负责合成不同格式的视频。</p>
+<h3 id="codec"><a class="header-anchor" href="#codec">¶</a>codec</h3>
+<p>​	codec is short for <strong>COde &amp; DECode</strong> ,即编码与解码。</p>
+<p>​	有关 codec 实现的比较，**参见 <a href="https://en.wikipedia.org/wiki/Comparison_of_video_codecs" target="_blank" rel="noopener">wiki</a> 。**其中列出了常见的codec lib 以及支持的格式。</p>
+<h4 id="MPEG-4"><a class="header-anchor" href="#MPEG-4">¶</a>MPEG-4</h4>
+<p>​	由 MPEG 提出的一套标准，内容囊括视频音频的编码、传输等。各个组织对其有不同实现。其中第十部分“高级视频编码”（Advanced Video Coding，AVC）与ITU-T H.264 标准一致并定义了视频编解码器，故共称 “H.264/MPEG-4 AVC” 。</p>
+<p>​	详见wiki：<a href="https://zh.wikipedia.org/wiki/MPEG-4" target="_blank" rel="noopener">MPEG-4</a>、<a href="https://zh.wikipedia.org/wiki/H.264/MPEG-4_AVC" target="_blank" rel="noopener">H.264/MPEG-4 AVC</a>。</p>
+<h4 id="PowerPoint-支持"><a class="header-anchor" href="#PowerPoint-支持">¶</a>PowerPoint 支持</h4>
+<p>​	<strong>In a nutshell, 装上解码器然后使用H265 编码。</strong></p>
+<p>​	<strong>或者使用h264。</strong></p>
+<p>​	<strong>但是只能使用 yuv420p 格式。</strong></p>
+<p>​	Win10原生支持h264 yuv420p，但是不支持yuv444。</p>
+<p>​	简单来说，微软原生支持的解码格式与系统自带的 Windows Media Player 一致，因为二者共用系统自带的编解码器。</p>
+<p>​	通过 Windows Media Player 的帮助选项可以查看支持的编解码选项。 从PPT2010 开始，微软声称提供 H.264 编解码支持， 但事实上原生系统对 libx264 并不支持，仅支持MPEG-4 part2 与微软开发的标准。对 H.264 的支持需要下载解码器，对于用户而言，这显然极不方便。</p>
+<p>​	从win 7 开始 WMP 即是 12.0版本。通过 <a href="https://support.microsoft.com/zh-cn/help/15070/windows-media-player-codecs-frequently-asked-questions" target="_blank" rel="noopener">官方文档</a> 查看电脑上支持的编解码器。以下是win10 原生系统对视频的编解码支持：</p>
 <table>
-<colgroup>
-<col style="width: 3%" />
-<col style="width: 20%" />
-<col style="width: 54%" />
-<col style="width: 10%" />
-<col style="width: 10%" />
-</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>类型</th>
 <th>名称</th>
 <th>格式</th>
@@ -808,84 +820,84 @@ a &amp;= b + c \\
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>ICM</td>
 <td>Cinepak Codec by Radius</td>
 <td>cvid <strong>(cinepak)</strong></td>
 <td>iccvid.dll</td>
 <td>1.10.0.12</td>
 </tr>
-<tr class="even">
+<tr>
 <td>ICM</td>
 <td>Intel IYUV 编码解码器</td>
 <td>IYUV</td>
 <td>iyuv_32.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ICM</td>
 <td>Microsoft RLE</td>
 <td>MRLE <strong>(old thing)</strong></td>
 <td>msrle32.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>ICM</td>
 <td>Microsoft Video 1</td>
 <td>MSVC <strong>(old thing)</strong></td>
 <td>msvidc32.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ICM</td>
 <td>Microsoft YUV</td>
 <td>UYVY <strong>(old thing)</strong></td>
 <td>msyuv.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>ICM</td>
 <td>Toshiba YUV Codec</td>
 <td>Y411 <strong>(old thing)</strong></td>
 <td>tsbyuv.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ICM</td>
 <td>Microsoft YUV</td>
 <td>UYVY <strong>(old thing)</strong></td>
 <td>msyuv.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>DMO</td>
 <td>Mpeg4s Decoder DMO</td>
 <td>mp4s, MP4S, m4s2, M4S2, MP4V, mp4v, XVID, xvid, DIVX, DX50 <strong>(MPEG-4 part2)</strong></td>
 <td>mp4sdecd.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>DMO</td>
 <td>WMV Screen decoder DMO</td>
 <td>MSS1, MSS2 <strong>(For screen cast)</strong></td>
 <td>wmvsdecd.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>DMO</td>
 <td>WMVideo Decoder DMO</td>
 <td>WMV1, WMV2, WMV3, WMVA, WVC1, WMVP, WVP2, VC1S</td>
 <td>wmvdecod.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>DMO</td>
 <td>Mpeg43 Decoder DMO</td>
 <td>mp43, MP43 <strong>(MPEG4 v3)</strong> <a href="https://docs.microsoft.com/en-us/windows/win32/medfound/windowsmediampeg4decoder" target="_blank" rel="noopener">ref</a></td>
 <td>mp43decd.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>DMO</td>
 <td>Mpeg4 Decoder DMO</td>
 <td>MPG4, mpg4, mp42, MP42 <strong>(MPEG4 v1/v2)</strong> <a href="https://www.moviecodec.com/solutions/mpg4-mp42-mp43-microsoft-mpeg-4-versions-1-2-and-3-5098/" target="_blank" rel="noopener">ref</a></td>
@@ -894,22 +906,22 @@ a &amp;= b + c \\
 </tr>
 </tbody>
 </table>
-<p>​ 对于微软自行开发的 codec ，可参见 wiki (<a href="https://zh.wikipedia.org/wiki/Windows_Media_Video" target="_blank" rel="noopener">zh</a>/<a href="https://en.wikipedia.org/wiki/Windows_Media_Video" target="_blank" rel="noopener">en</a>)。DMO(DirectX Media Objects)，ICM(需要查证)。微软现在使用的格式是 <a href="https://docs.microsoft.com/zh-cn/windows/win32/medfound/about-mfts" target="_blank" rel="noopener">MFT</a> 。</p>
-<p>​ 其中，WMV 和 ASF 格式一样也是微软的一种流媒体格式。和ASF格式相比，WMV是前者的升级版本，WMV格式的体积非常小，因此很适合在网上播放和传输。在文件质量相同的情况下，WMV格式的视频文件比ASF拥有更小的体积。从WMV7开始，微软的视频方面开始脱离MPEG组织，并且与MPEG-4不兼容，成为了独立的一个编解码系统。</p>
+<p>​	对于微软自行开发的 codec ，可参见 wiki (<a href="https://zh.wikipedia.org/wiki/Windows_Media_Video" target="_blank" rel="noopener">zh</a>/<a href="https://en.wikipedia.org/wiki/Windows_Media_Video" target="_blank" rel="noopener">en</a>)。DMO(DirectX Media Objects)，ICM(需要查证)。微软现在使用的格式是 <a href="https://docs.microsoft.com/zh-cn/windows/win32/medfound/about-mfts" target="_blank" rel="noopener">MFT</a> 。</p>
+<p>​	其中，WMV 和 ASF 格式一样也是微软的一种流媒体格式。和ASF格式相比，WMV是前者的升级版本，WMV格式的体积非常小，因此很适合在网上播放和传输。在文件质量相同的情况下，WMV格式的视频文件比ASF拥有更小的体积。从WMV7开始，微软的视频方面开始脱离MPEG组织，并且与MPEG-4不兼容，成为了独立的一个编解码系统。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -hide_banner -codecs -&gt; ffmpeg-codec.txt</span><br><span class="line"></span><br><span class="line">cat ffmpeg-codec.txt |grep wmv</span><br><span class="line"> DEV.L. wmv1                 Windows Media Video 7</span><br><span class="line"> DEV.L. wmv2                 Windows Media Video 8</span><br><span class="line"> D.V.L. wmv3                 Windows Media Video 9</span><br><span class="line"> D.V.L. wmv3image            Windows Media Video 9 Image</span><br><span class="line"></span><br><span class="line">cat ffmpeg-codec.txt |grep vc1</span><br><span class="line"> D.VIL. mvc1                 Silicon Graphics Motion Video Compressor 1</span><br><span class="line"> D.V.L. vc1                  SMPTE VC-1 (decoders: vc1 vc1_qsv vc1_cuvid )</span><br><span class="line"> D.V.L. vc1image             Windows Media Video 9 Image v2</span><br><span class="line"> </span><br><span class="line">ffmpeg -codecs -hide_banner |grep mpeg4</span><br><span class="line"> DEV.L. mpeg4                MPEG-4 part 2 (decoders: mpeg4 mpeg4_cuvid ) (encoders: mpeg4 libxvid )</span><br><span class="line"> D.V.L. msmpeg4v1            MPEG-4 part 2 Microsoft variant version 1</span><br><span class="line"> DEV.L. msmpeg4v2            MPEG-4 part 2 Microsoft variant version 2</span><br><span class="line"> DEV.L. msmpeg4v3            MPEG-4 part 2 Microsoft variant version 3 (decoders: msmpeg4 ) (encoders: msmpeg4 )</span><br></pre></td></tr></table></figure>
 <p>wmv1-3 以及 vc1 FFmpeg 均能提供。但是只有解码，因此剩下的选项只能是 MPEG-4 part2 或者MPEG-4 v3，wmv1-2，以及一些十分古老的格式。FFmpeg 在未来提供 vc1 支持的可能性很小，因为 vc1 完全可以被 H.264 取代。</p>
-<p>​ PPT 对容器的支持比较全面，详见 <a href="https://support.office.com/zh-cn/article/powerpoint-%e6%94%af%e6%8c%81%e7%9a%84%e8%a7%86%e9%a2%91%e5%92%8c%e9%9f%b3%e9%a2%91%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f-d8b12450-26db-4c7b-a5c1-593d3418fb59?omkt=zh-CN&amp;ui=zh-CN&amp;rs=zh-CN&amp;ad=CN" target="_blank" rel="noopener">A list of PPT supported formats</a> 。一般来说，MP4, WMV, AVI 格式均可。</p>
-<h4 id="codec-for-windows">Codec for windows</h4>
-<p>​ 由于版权原因，微软未提供许多codec。在win10中，微软在应用商店里提供了VP8/9以及其他的解码器，以及藏得很深的HEVC解码器。</p>
-<p>​ 有两种办法解决这个问题。</p>
-<h5 id="k-lite-codec-package">K-Lite codec package</h5>
-<p>​ windows上著名的codec插件，在官网下载basic版即可，安装时与WMP关联。之后可以看到系统中多出了codec库：</p>
-<p>​ <a href="https://codecguide.com/download_k-lite_codec_pack_basic.htm" target="_blank" rel="noopener">下载地址</a></p>
+<p>​	PPT 对容器的支持比较全面，详见 <a href="https://support.office.com/zh-cn/article/powerpoint-%e6%94%af%e6%8c%81%e7%9a%84%e8%a7%86%e9%a2%91%e5%92%8c%e9%9f%b3%e9%a2%91%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f-d8b12450-26db-4c7b-a5c1-593d3418fb59?omkt=zh-CN&amp;ui=zh-CN&amp;rs=zh-CN&amp;ad=CN" target="_blank" rel="noopener">A list of PPT supported formats</a> 。一般来说，MP4, WMV, AVI 格式均可。</p>
+<h4 id="Codec-for-windows"><a class="header-anchor" href="#Codec-for-windows">¶</a>Codec for windows</h4>
+<p>​	由于版权原因，微软未提供许多codec。在win10中，微软在应用商店里提供了VP8/9以及其他的解码器，以及藏得很深的HEVC解码器。</p>
+<p>​	有两种办法解决这个问题。</p>
+<h5 id="K-Lite-codec-package"><a class="header-anchor" href="#K-Lite-codec-package">¶</a>K-Lite codec package</h5>
+<p>​	windows上著名的codec插件，在官网下载basic版即可，安装时与WMP关联。之后可以看到系统中多出了codec库：</p>
+<p>​	<a href="https://codecguide.com/download_k-lite_codec_pack_basic.htm" target="_blank" rel="noopener">下载地址</a></p>
 <blockquote>
-<h3 id="mpegdvd-筛选器">MPEG/DVD 筛选器</h3>
+<h3 id="MPEG-DVD-筛选器"><a class="header-anchor" href="#MPEG-DVD-筛选器">¶</a>MPEG/DVD 筛选器</h3>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>类型</th>
 <th>名称</th>
 <th>二进制</th>
@@ -917,25 +929,25 @@ a &amp;= b + c \\
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>video</td>
 <td>LAV Video Decoder</td>
-<td>LAVVideo.ax</td>
+<td><a href="http://LAVVideo.ax" target="_blank" rel="noopener">LAVVideo.ax</a></td>
 <td>0.74.1.24</td>
 </tr>
-<tr class="even">
+<tr>
 <td>video</td>
 <td>Microsoft DTV-DVD Video Decoder</td>
 <td>msmpeg2vdec.dll</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>audio</td>
 <td>LAV Audio Decoder</td>
-<td>LAVAudio.ax</td>
+<td><a href="http://LAVAudio.ax" target="_blank" rel="noopener">LAVAudio.ax</a></td>
 <td>0.74.1.24</td>
 </tr>
-<tr class="even">
+<tr>
 <td>audio</td>
 <td>Microsoft DTV-DVD Audio Decoder</td>
 <td>msmpeg2adec.dll</td>
@@ -944,56 +956,54 @@ a &amp;= b + c \\
 </tbody>
 </table>
 </blockquote>
-<p>​ LAVFilters 的官方 <a href="https://github.com/Nevcairiel/LAVFilters/releases" target="_blank" rel="noopener">GitHub</a> 。这是基于FFmpeg 的解码器，但是很奇怪的是 LAVFilters <strong>并不支持H.264 High 4:4:4 profile</strong>（其余profile均可）。也就是说只要码率不是太小，现在都能放进PPT里了。</p>
-<h5 id="hevc-视频拓展">HEVC 视频拓展</h5>
+<p>​	LAVFilters 的官方 <a href="https://github.com/Nevcairiel/LAVFilters/releases" target="_blank" rel="noopener">GitHub</a> 。这是基于FFmpeg 的解码器，但是很奇怪的是 LAVFilters <strong>并不支持H.264 High 4:4:4 profile</strong>（其余profile均可）。也就是说只要码率不是太小，现在都能放进PPT里了。</p>
+<h5 id="HEVC-视频拓展"><a class="header-anchor" href="#HEVC-视频拓展">¶</a>HEVC 视频拓展</h5>
 <p>下载链接藏在 <a href="https://www.microsoft.com/zh-cn/p/hevc-video-extensions-from-device-manufacturer/9n4wgh0z6vhq?activetab=pivot:overviewtab" target="_blank" rel="noopener">这里</a> 。直接在商店中查找只能得到付费版本。</p>
 <p><a href="https://www.windows10.pro/heif-image-extensions-hevc-video-extensions/" target="_blank" rel="noopener">备用地址</a></p>
-<h5 id="note">Note</h5>
+<h5 id="Note"><a class="header-anchor" href="#Note">¶</a>Note</h5>
 <p><strong>Microsoft supports VP8/9 in win10, although VP9 codec is buggy.</strong></p>
-<p><strong>Apple's keynote supports HEVC and H.264 but not VP9.</strong></p>
-<h4 id="mpeg-4-标准实现">MPEG-4 标准实现</h4>
-<p>​ FFmpeg 所支持的codec可以在 <a href="https://www.ffmpeg.org/ffmpeg-codecs.html" target="_blank" rel="noopener">这</a> 找到。常见的视频编码库有：</p>
-<ol type="1">
+<p><strong>Apple’s keynote supports HEVC and H.264 but not VP9.</strong></p>
+<h4 id="MPEG-4-标准实现"><a class="header-anchor" href="#MPEG-4-标准实现">¶</a>MPEG-4  标准实现</h4>
+<p>​	FFmpeg 所支持的codec可以在 <a href="https://www.ffmpeg.org/ffmpeg-codecs.html" target="_blank" rel="noopener">这</a> 找到。常见的视频编码库有：</p>
+<ol>
 <li>libx264 现行最优秀的编码器，<a href="https://blog.csdn.net/leixiaohua1020/article/details/12373947" target="_blank" rel="noopener">bencmark here</a> . 也是FFmpeg 的默认选择。参数调整参看 <a href="https://trac.ffmpeg.org/wiki/Encode/H.264" target="_blank" rel="noopener">官方文档</a> 或其 <a href="https://blog.csdn.net/leixiaohua1020/article/details/12720135" target="_blank" rel="noopener">中文翻译</a> 。也可参考 <a href="https://slhck.info/video/2017/02/24/crf-guide.html" target="_blank" rel="noopener">ref</a> 。</li>
 <li>libxvid FFmpeg MPEG4 ASP 格式默认编码库。其参数调整参看<a href="https://trac.ffmpeg.org/wiki/Encode/MPEG-4" target="_blank" rel="noopener">官方文档</a>。</li>
 </ol>
-<h3 id="pixel-format5">Pixel format<sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup></h3>
-<h4 id="yuv420p">yuv420p</h4>
-<p>​ 原是用于电视信号的像素格式，现也常用于PC。Y表示灰度值，UV表示颜色分量。</p>
-<figure>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/YUV_UV_plane.png/305px-YUV_UV_plane.png" alt="img" /><figcaption>img</figcaption>
-</figure>
-<p>​ 420代表信号的采样方式，常见的还有444，422。420表示每四个灰度像素点共用一组UV分量。<sup id="fnref:7"><a href="#fn:7" rel="footnote">7</a></sup></p>
-<h4 id="pal8">pal8</h4>
-<p>​ raw video所使用的格式。单通道8bits，与灰度图无异。FFmpeg并不支持输出这种格式，可选用 <code>gray</code> 格式代替。<sup id="fnref:6"><a href="#fn:6" rel="footnote">6</a></sup></p>
-<h2 id="ffmpeg-basic">FFmpeg basic</h2>
-<p>​ 在使用 FFmpeg 之前，了解必要的音视频知识是必要的。如果对某些选项有疑问，请回到FFmpeg官网查证。</p>
+<h3 id="Pixel-format-sup-id-fnref-5-a-href-fn-5-rel-footnote-5-a-sup"><a class="header-anchor" href="#Pixel-format-sup-id-fnref-5-a-href-fn-5-rel-footnote-5-a-sup">¶</a>Pixel format<sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup></h3>
+<h4 id="yuv420p"><a class="header-anchor" href="#yuv420p">¶</a>yuv420p</h4>
+<p>​	原是用于电视信号的像素格式，现也常用于PC。Y表示灰度值，UV表示颜色分量。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/YUV_UV_plane.png/305px-YUV_UV_plane.png" alt="img"></p>
+<p>​	420代表信号的采样方式，常见的还有444，422。420表示每四个灰度像素点共用一组UV分量。<sup id="fnref:7"><a href="#fn:7" rel="footnote">7</a></sup></p>
+<h4 id="pal8"><a class="header-anchor" href="#pal8">¶</a>pal8</h4>
+<p>​	raw video所使用的格式。单通道8bits，与灰度图无异。FFmpeg并不支持输出这种格式，可选用 <code>gray</code> 格式代替。<sup id="fnref:6"><a href="#fn:6" rel="footnote">6</a></sup></p>
+<h2 id="FFmpeg-basic"><a class="header-anchor" href="#FFmpeg-basic">¶</a>FFmpeg basic</h2>
+<p>​	在使用 FFmpeg 之前，了解必要的音视频知识是必要的。如果对某些选项有疑问，请回到FFmpeg官网查证。</p>
 <p><a href="https://xdsnet.gitbooks.io/other-doc-cn-ffmpeg/" target="_blank" rel="noopener">中文翻译文档</a> 4年前的版本，基本够用</p>
 <p><a href="https://ffmpeg.org/ffmpeg.html" target="_blank" rel="noopener">官方文档（nightly）</a></p>
-<p>​ FFmpeg 的二进制文件有3个（static version），分别是</p>
+<p>​	FFmpeg 的二进制文件有3个（static version），分别是</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg 负责大部分转码功能</span><br><span class="line">ffplay 播放程序</span><br><span class="line">ffprobe 用于查看视频信息</span><br></pre></td></tr></table></figure>
-<p>​ FFmpeg 的一般命令格式为：</p>
+<p>​	FFmpeg 的一般命令格式为：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ffmpeg [global_options] &#123;[input_file_options] -i input_url&#125; ... &#123;[output_file_options] output_url&#125; ...</span><br></pre></td></tr></table></figure>
-<p>​ 命令组的位置不能变动，但是同一命令组里的选项可以相互调换。</p>
-<h4 id="some-facts">Some facts</h4>
-<p>FFmpeg uses 0-based indices. (first 0, second 1).</p>
-<h3 id="generic-options">Generic options</h3>
+<p>​	命令组的位置不能变动，但是同一命令组里的选项可以相互调换。</p>
+<h4 id="Some-facts"><a class="header-anchor" href="#Some-facts">¶</a>Some facts</h4>
+<p>FFmpeg uses 0-based indices.  (first 0, second 1).</p>
+<h3 id="Generic-options"><a class="header-anchor" href="#Generic-options">¶</a>Generic options</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-version 显示版本信息</span><br><span class="line">-formats 显示所有有效的格式（包括设备）</span><br><span class="line">-codecs 显示所有已支持的编码（libavcodec中的）格式</span><br><span class="line">-pix_fmts 显示有效的像素格式</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logging</span><br><span class="line">-loglevel [repeat+]loglevel 或者 -v [repeat+]loglevel：设置日志层次。如果附加有repeat+则表示从第一条非压缩行到达到最后消息n次之间的行将被忽略。<span class="string">"repeat"</span>也可以一直使用，如果没有现有日志层级设置，则采用默认日志层级。如果有多个日志层级参数被获取，使用<span class="string">"repeat"</span>不改变当前日志层级。日志层级是一个字符串或数值，有以下可能值：</span><br><span class="line"></span><br><span class="line">    quiet,-8，什么都不输出，是无声的</span><br><span class="line">    panic,0，仅显示造成进程失败的致命错误</span><br><span class="line">    fatal,8 仅仅显示致命错误，这些错误使得处理不能继续</span><br><span class="line">    error,16 显示所有的错误，包括可以回收的错误（进程还可以继续的）</span><br><span class="line">    warning,24 显示所有警告和错误，任何错误或者意外事件相关信息均被显示</span><br><span class="line">    info,32 显示过程中的信息，还包括警告和错误，则是默认值</span><br><span class="line">    verbose,40 类似info，但更冗长</span><br><span class="line">    debug,48 显示所有，包括调试信息</span><br><span class="line"></span><br><span class="line">    trace,56</span><br><span class="line"></span><br><span class="line">    默认的日志输出是stderr设备，如果在控制台支持颜色，则错误和警告标记的颜色将被显示处理，默认日志的颜色设置可以由环境变量的AV_LOG_FORCE_NOCOLOR或者NO_COLOR或者环境变量AV_LOG_RORCE_COLOR覆盖。环境变量NO_COLOR不推荐使用，因为其已经不被新版本支持。</span><br><span class="line">    </span><br><span class="line">-hide_banner 禁止打印输出banner。所有FFmpeg工具使用中常规都会在前面显示一些版权通知、编译选项和库版本等，这个选项可以禁止这部分的显示。</span><br><span class="line"></span><br><span class="line">-stats （global）：输出编码过程／统计，这是系统默认值，如果你想禁止，则需要采用－nostats。</span><br><span class="line"></span><br><span class="line">https://xdsnet.gitbooks.io/other-doc-cn-ffmpeg/ffmpeg-doc-cn-05.html</span><br></pre></td></tr></table></figure>
-<h3 id="main-options">Main options</h3>
+<h3 id="Main-options"><a class="header-anchor" href="#Main-options">¶</a>Main options</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-f fmt (input/output) :指定输入或者输出文件格式。常规可省略而使用依据扩展名的自动指定，但一些选项需要强制明确设定</span><br><span class="line">-i filename （input）：指定输入文件</span><br><span class="line">-y （global）：默认自动覆盖输出文件，而不再询问确认。</span><br><span class="line">-n (global):不覆盖输出文件，如果输出文件已经存在则立即退出</span><br><span class="line"></span><br><span class="line">视频剪辑</span><br><span class="line"></span><br><span class="line">-t duration (input/output):限制输入/输出的时间。如果是在-i前面，就是限定从输入中读取多少时间的数据；如果是用于限定输出文件，则表示写入多少时间数据后就停止。duration可以是以秒为单位的数值或者 hh:mm:ss[.xxx]格式的时间值。 注意-to和-t是互斥的，-t有更高优先级。</span><br><span class="line">-to position (output):只写入position时间后就停止，position可以是以秒为单位的数值或者 hh:mm:ss[.xxx]格式的时间值。 注意-to和-t是互斥的，-t有更高优先级。</span><br><span class="line">-ss position (input/output):</span><br><span class="line"></span><br><span class="line">    当在-i前，表示定位输入文件到position指定的位置。注意可能一些格式是不支持精确定位的，所以ffmpeg可能是定位到最接近position（在之前）的可定位点。当有转码发生且-accurate_seek被设置为启用（默认），则实际定位点到position间的数据被解码出来但丢弃掉。如果是复制模式或者-noaccurate_seek被使用，则这之间的数据会被保留。</span><br><span class="line"></span><br><span class="line">    当用于输出文件时，会解码丢弃position对应时间码前的输入文件数据。</span><br><span class="line">    position可以是以秒为单位的数值或者 hh:mm:ss[.xxx]格式的时间值</span><br><span class="line"></span><br><span class="line">-itsoffset offset (input):设置输入文件的时间偏移。offset必须采用时间持续的方式指定，即可以有-号的时间值（以秒为单位的数值或者 hh:mm:ss[.xxx]格式的时间值）。偏移会附加到输入文件的时间码上，意味着所指定的流会以时间码+偏移量作为最终输出时间码。</span><br></pre></td></tr></table></figure>
-<h3 id="video-options">Video options</h3>
+<h3 id="Video-options"><a class="header-anchor" href="#Video-options">¶</a>Video options</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-vframes number (output)：设置输出文件的帧数，是-frames:v的别名。</span><br><span class="line"></span><br><span class="line">-r[:stream_specifier] fps (input/output,per-stream)：设置帧率（一种Hz值，缩写或者分数值）。</span><br><span class="line"> 在作为输入选项时，会忽略文件中存储的时间戳和时间戳而产生的假设恒定帧率fps，即强制按设定帧率处理视频产生（快进/减缓效果）。这不像-framerate选项是用来让一些输入文件格式如image2或者v412(兼容旧版本的FFmpeg)等，要注意这一点区别，而不要造成混淆。</span><br><span class="line"></span><br><span class="line">作为输出选项时，会复制或者丢弃输入中个别的帧以满足设定达到fps要求的帧率。</span><br><span class="line"></span><br><span class="line">-s[:stream_specifier] size (input/output,per-stream)：设置帧的尺寸。</span><br><span class="line"> 当作为输入选项时，是私有选项video_size的缩写，一些文件没有把帧尺寸进行存储，或者设备对帧尺寸是可以设置的，例如一些采集卡或者raw视频数据。</span><br><span class="line"></span><br><span class="line">当作为输出选项是，则相当于scale滤镜作用在滤镜链图的最后。请使用scale滤镜插入到开始或者其他地方。</span><br><span class="line"></span><br><span class="line">数据的格式是wxh，即宽度值X高度值，例如320x240，（默认同源尺寸）</span><br><span class="line">-vn (output)：禁止输出视频</span><br><span class="line">-an (output)：禁止输出音频</span><br><span class="line">-vcodec codec (output)：设置视频编码器，这是-codec:v的一个别名。</span><br><span class="line"></span><br><span class="line">-pass[:stream_specifier] n (output,per-stream):选择当前编码数(1或者2)，它通常用于2次视频编码的场景。第一次编码通常把分析统计数据记录到1个日志文件中（参考-passlogfile选项），然后在第二次编码时读取分析以精确要求码率。在第一次编码时通常可以禁止音频，并且把输出文件设置为null，在windows和类unix分别是:</span><br><span class="line"></span><br><span class="line">    ffmpeg -i foo.mov -c:v libxvid -pass 1 -an -f rawvideo -y NUL </span><br><span class="line">    ffmpeg -i foo.mov -c:v libxvid -pass 1 -an -f rawvideo -y /dev/null</span><br><span class="line"></span><br><span class="line">-vf filtergraph (output)：创建一个filtergraph的滤镜链并作用在流上。它实为-filter:v的别名，详细参考-filter选项。</span><br><span class="line">-pix_fmt[:stream_specifier] format (input/output,per-stream)：设置像素格式。</span><br></pre></td></tr></table></figure>
-<h2 id="common-commands">Common commands</h2>
+<h2 id="Common-commands"><a class="header-anchor" href="#Common-commands">¶</a>Common commands</h2>
 <p>全局选项</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg</span><br><span class="line">	-y\</span><br><span class="line">	-hide_banner\</span><br><span class="line">	-loglevel panic\</span><br><span class="line">	-i ...\</span><br><span class="line">	-nostat\</span><br><span class="line">	...</span><br></pre></td></tr></table></figure>
-<h3 id="images">Images</h3>
+<h3 id="Images"><a class="header-anchor" href="#Images">¶</a>Images</h3>
 <p>Common format for images are:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">png: lossless and can be used from Libpng.</span><br><span class="line">tiff: lossless and lossy. </span><br><span class="line">jpeg: lossy and fast.</span><br><span class="line">jpeg2000: better than jpeg but not widely applied.</span><br></pre></td></tr></table></figure>
 <p>Convert images into video</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg\</span><br><span class="line">	-start_number 1551\ 从001551.png开始</span><br><span class="line">	-i .\%6d.png\</span><br><span class="line">	-c:v libx264\ 默认使用H.264格式，如无需压缩，使用 rawvideo 编码。</span><br><span class="line">	-preset veryslow\</span><br><span class="line">	-crf 18\ 默认23 <span class="keyword">for</span> 8 bits image</span><br><span class="line">	-pix_fmt yuv420p\</span><br><span class="line">	-b:v 400k\ 码率控制，默认200k</span><br><span class="line">	OUTPUT</span><br></pre></td></tr></table></figure>
 <p>Convert video into image</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg\</span><br><span class="line">	-i INPUT\</span><br><span class="line">	-ss 5\ 从第5秒开始</span><br><span class="line">	-t  10\ 输出时间为10秒</span><br><span class="line">	(-to 10) \ 到第10秒结束</span><br><span class="line">    -r 25\ 指定输出帧率，默认全部输出</span><br><span class="line">    -pix_fmt gray\ 一般只需要灰度图</span><br><span class="line">    %6d.tif</span><br></pre></td></tr></table></figure>
-<h3 id="video">Video</h3>
+<h3 id="Video"><a class="header-anchor" href="#Video">¶</a>Video</h3>
 <p><strong>Note H.264 does not support gray pixel format and 16 bits.</strong></p>
 <p>转码</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg \</span><br><span class="line">	-i INPUT \</span><br><span class="line">	-c:v libx264\</span><br><span class="line">    -preset veryslow\</span><br><span class="line">    -pix_fmt yuv420p\</span><br><span class="line">    -crf 28 \</span><br><span class="line">    OUTPUT</span><br></pre></td></tr></table></figure>
@@ -1002,101 +1012,91 @@ a &amp;= b + c \\
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input -c:v libx264 -preset ultrafast -crf 0 -pix_fmt yuv420p output.mkv</span><br><span class="line"></span><br><span class="line">ffmpeg -i input -c:v libx264 -preset veryslow -crf 0 -pix_fmt yuv420p output.mkv</span><br></pre></td></tr></table></figure>
 <p>Profile level</p>
 <p><code>baseline</code>, <code>main</code>, <code>high</code>, <code>high10</code>, <code>high422</code>, <code>high444</code></p>
-<p>​ As long as the bit rate is not too low, FFmpeg won't use high444, such that you can use H.264 in PPT with codecs.</p>
+<p>​	As long as the bit rate is not too low, FFmpeg won’t use high444, such that you can use H.264 in PPT with codecs.</p>
 <p>Two-pass</p>
 <p>To generate a file with targeted size. E.g. Compress video into a 10MB video. If the video have length 10s, the average bit rate is :</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">10MiB x 8192[converts MiB to kBit]) / 10 seconds = 8192 kBit/s total bitrate</span><br><span class="line">subtracte the audio bit rate <span class="keyword">if</span> needed.</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>8Mbps is obviously too large for a 10 second video. Common guideline for bitrate is list as follow(from YouTube):</p>
-<h4 id="recommended-video-bitrates-for-sdr-uploads">Recommended video bitrates for SDR uploads</h4>
+<h4 id="Recommended-video-bitrates-for-SDR-uploads"><a class="header-anchor" href="#Recommended-video-bitrates-for-SDR-uploads">¶</a>Recommended video bitrates for SDR uploads</h4>
 <p>To view new 4K uploads in 4K, use a browser or device that supports VP9.</p>
 <table>
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 47%" />
-<col style="width: 44%" />
-</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>Type</th>
-<th>Video Bitrate, Standard Frame Rate (24, 25, 30)</th>
-<th>Video Bitrate, High Frame Rate (48, 50, 60)</th>
+<th>Video Bitrate, Standard Frame Rate           (24, 25, 30)</th>
+<th>Video Bitrate, High Frame Rate           (48, 50, 60)</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>2160p (4k)</td>
 <td>35-45 Mbps</td>
 <td>53-68 Mbps</td>
 </tr>
-<tr class="even">
+<tr>
 <td>1440p (2k)</td>
 <td>16 Mbps</td>
 <td>24 Mbps</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>1080p</strong></td>
 <td><strong>8 Mbps</strong></td>
 <td>12 Mbps</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>720p</strong></td>
 <td><strong>5 Mbps</strong></td>
 <td>7.5 Mbps</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>480p</strong></td>
 <td><strong>2.5 Mbps</strong></td>
 <td>4 Mbps</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>360p</strong></td>
 <td><strong>1 Mbp</strong>s</td>
 <td>1.5 Mbps</td>
 </tr>
 </tbody>
 </table>
-<h4 id="recommended-video-bitrates-for-hdr-uploads">Recommended video bitrates for HDR uploads</h4>
+<h4 id="Recommended-video-bitrates-for-HDR-uploads"><a class="header-anchor" href="#Recommended-video-bitrates-for-HDR-uploads">¶</a>Recommended video bitrates for HDR uploads</h4>
 <table>
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 47%" />
-<col style="width: 44%" />
-</colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>Type</th>
-<th>Video Bitrate, Standard Frame Rate (24, 25, 30)</th>
-<th>Video Bitrate, High Frame Rate (48, 50, 60)</th>
+<th>Video Bitrate, Standard Frame Rate           (24, 25, 30)</th>
+<th>Video Bitrate, High Frame Rate           (48, 50, 60)</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>2160p (4k)</td>
 <td>44-56 Mbps</td>
 <td>66-85 Mbps</td>
 </tr>
-<tr class="even">
+<tr>
 <td>1440p (2k)</td>
 <td>20 Mbps</td>
 <td>30 Mbps</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>1080p</strong></td>
 <td><strong>10 Mbps</strong></td>
 <td>15 Mbps</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>720p</strong></td>
 <td><strong>6.5 Mbps</strong></td>
 <td>9.5 Mbps</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>480p</td>
 <td>Not supported</td>
 <td>Not supported</td>
 </tr>
-<tr class="even">
+<tr>
 <td>360p</td>
 <td>Not supported</td>
 <td>Not supported</td>
@@ -1105,34 +1105,34 @@ a &amp;= b + c \\
 </table>
 </blockquote>
 <p>So this video can be reduced to 1.25MiB(360p 1Mbps) and still visible.</p>
-<p>​ The HDR part is just for reference.</p>
+<p>​	The HDR part is just for reference.</p>
 <p>Linux version</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -i input -c:v libx264 -b:v 1000k -pass 1 -an -f mp4 /dev/null &amp;&amp; \</span><br><span class="line">ffmpeg -i input -c:v libx264 -b:v 1000k -pass 2  output.mp4</span><br></pre></td></tr></table></figure>
 <p>windows version</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -i input -c:v libx264 -b:v 1000k -pass 1 -pix_fmt yuv420p -an -f mp4 NUL &amp;&amp; ^</span><br><span class="line">ffmpeg -i input -c:v libx264 -b:v 1000k -pass 2 -pix_fmt yuv420p output.mp4</span><br></pre></td></tr></table></figure>
-<h3 id="ppt-compatible-video">PPT compatible video</h3>
+<h3 id="PPT-compatible-video"><a class="header-anchor" href="#PPT-compatible-video">¶</a>PPT compatible video</h3>
 <p>The compatible codecs are:</p>
-<p>​ <code>mpeg4, mpeg1video, msmpeg4, wmv1, wmv2</code></p>
-<p>​ These codecs are only supported in PPT. If you use mpeg1video, PPT will automatically convert the video into h.264 format, which is quite mysterious, but the quality is bad.</p>
-<p>​ If you install other codecs, you can use H.265 now for both PPT and keynote.</p>
-<p>​ If you convert <strong>some picture into video with h264 encoder</strong>, it works for PPT and keynote mysteriously.</p>
+<p>​	<code>mpeg4, mpeg1video, msmpeg4, wmv1, wmv2</code></p>
+<p>​	These codecs are only supported in PPT. If you use mpeg1video, PPT will automatically convert the video into h.264 format, which is quite mysterious, but the quality is bad.</p>
+<p>​	If you install other codecs, you can use H.265 now for both PPT and keynote.</p>
+<p>​	If you convert <strong>some picture into video with h264 encoder</strong>, it works for PPT and keynote mysteriously.</p>
 <p>It turns out that if you directly convert pictures into h264 video, FFmpeg will not subsample the picture, such that the profile level is low(e.g. baseline or main) and PPT can use that.</p>
 <blockquote>
-<p>By default when using <code>libx264</code>, and depending on your input, <code>ffmpeg</code> will attempt to avoid color subsampling. Technically this is preferred, but unfortunately almost all video players, excluding FFmpeg based players, and many online video services only support the YUV color space with 4:2:0 chroma subsampling. Using the options <code>-pix_fmt yuv420p</code> or <code>-vf format=yuv420p</code> will maximize compatibility.</p>
-<p>https://trac.ffmpeg.org/wiki/Slideshow</p>
+<p>By default when using <code>libx264</code>, and depending on your input, <code>ffmpeg</code> will attempt to avoid color subsampling. Technically this is preferred, but unfortunately almost all video players, excluding FFmpeg based  players, and many online video services only support the YUV color space with 4:2:0 chroma subsampling. Using the options <code>-pix_fmt yuv420p</code> or <code>-vf format=yuv420p</code> will maximize compatibility.</p>
+<p><a href="https://trac.ffmpeg.org/wiki/Slideshow" target="_blank" rel="noopener">https://trac.ffmpeg.org/wiki/Slideshow</a></p>
 </blockquote>
-<h4 id="mpeg-4-1">MPEG-4</h4>
+<h4 id="MPEG-4-v2"><a class="header-anchor" href="#MPEG-4-v2">¶</a>MPEG-4</h4>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg\ </span><br><span class="line">	-i input\</span><br><span class="line">    -c:v mpeg4\ FFmpeg native所提供，libxvid 需要外部提供。</span><br><span class="line">    -q:v 3\ qscale number，no default value</span><br><span class="line">    -pix_fmt yuv420p\ gray?</span><br><span class="line">    output</span><br></pre></td></tr></table></figure>
 <p>The suitable bit rate for MPEG-4 is list as follow:</p>
 <p>Two-pass</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -y -i input.avi -c:v mpeg4 -vtag xvid -b:v 2000k -pass 1 -pix_fmt yuv420p -an -f avi /dev/null &amp;&amp; \</span><br><span class="line">ffmpeg -i input.avi -c:v mpeg4 -vtag xvid -b:v 2000k -pass 2 -pix_fmt yuv420p output.avi</span><br></pre></td></tr></table></figure>
-<p>​ The bit rate <strong>cannot be too small</strong> since MPEG-4 is not that sufficient.</p>
-<h4 id="h.265">H.265</h4>
-<p>Very similar to H.264, you can use same option with only changing 264 to 265. It seems Libx265 hasn't implement a high speed lib yet, the 265 lib compresses much slower that 264 lib. Although you can accelerate it via hardware(GPU). Hope they will improve it later.</p>
+<p>​	The bit rate <strong>cannot be too small</strong> since MPEG-4 is not that sufficient.</p>
+<h4 id="H-265"><a class="header-anchor" href="#H-265">¶</a>H.265</h4>
+<p>Very similar to H.264, you can use same option with only changing 264 to 265. It seems Libx265 hasn’t implement a high speed lib yet, the 265 lib compresses much slower that 264 lib. Although you can accelerate it via hardware(GPU). Hope they will improve it later.</p>
 <p>General command</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg </span><br><span class="line">	-i INPUT\</span><br><span class="line">	-tag:v hvc1\ <span class="built_in">enable</span> <span class="keyword">for</span> keynote. 其实两种格式无关紧要，但是ios设备一定要这个tag。</span><br><span class="line">	-c:v libx265\</span><br><span class="line">	-pix_fmt yuv420p\ h265 采用不同的profile会给出不同的像素格式。目前（19.10.28）Win10 和 ios都只能支持yuv420p,而且h264/5 天生不支持纯灰度格式，如需灰度图可在输出时转换。</span><br><span class="line">	OUTPUT</span><br></pre></td></tr></table></figure>
 <p>H265的profile与H264大不相同，具体参见其 <a href="https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Profiles" target="_blank" rel="noopener">wiki: h265 profile</a> 。一般来讲让FFmpeg自动选择即可。</p>
-<h3 id="filter">Filter</h3>
+<h3 id="Filter"><a class="header-anchor" href="#Filter">¶</a>Filter</h3>
 <p>添加时间戳</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg\</span><br><span class="line">	-i INPUT</span><br><span class="line">    -r 25 </span><br><span class="line">    -vf <span class="string">"drawtext=fontfile=arial.ttf:fontsize=28:fontcolor=yellow:box=1:boxcolor=0x000000CC:x=(w-tw)/2:y=h-(2*lh):timecode='00\:00\:00\:00:rate=25'"</span> </span><br><span class="line">    -vcodec libx264 </span><br><span class="line">    -vb 2000k </span><br><span class="line">    -preset ultrafast </span><br><span class="line">    OUTPUT.mp4</span><br></pre></td></tr></table></figure>
 <p>FFmpeg的图像坐标默认（0，0）为左上角，x轴不变，y轴反向。w,h表示视频尺寸，tw,lh表示text尺寸。</p>
@@ -1143,30 +1143,28 @@ a &amp;= b + c \\
 <p>Padding the video</p>
 <p>将奇数尺寸的视频变为偶数尺寸。H.264 需要偶数尺寸进行编码。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg\</span><br><span class="line">	-i INPUT</span><br><span class="line">    -r 25 </span><br><span class="line">    -vf <span class="string">"pad=ceil(iw/2)*2:ceil(ih/2)*2"</span> </span><br><span class="line">    -c:v libx264 </span><br><span class="line">    -b:v 2000k </span><br><span class="line">    -pix_fmt yuv420p\</span><br><span class="line">    -preset ultrafast\</span><br><span class="line">    output.mp4</span><br></pre></td></tr></table></figure>
-<p>​ Filter 是 FFmpeg 中及其复杂的功能，上述例子只是simple filter的应用，FFmpeg还存在complex filter，例如：</p>
+<p>​	Filter 是 FFmpeg 中及其复杂的功能，上述例子只是simple filter的应用，FFmpeg还存在complex filter，例如：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -i overlay.png -filter_complex <span class="string">"[0]trim=start_frame=10:end_frame=20[v0];\</span></span><br><span class="line"><span class="string">    [0]trim=start_frame=30:end_frame=40[v1];[v0][v1]concat=n=2[v2];[1]hflip[v3];\</span></span><br><span class="line"><span class="string">    [v2][v3]overlay=eof_action=repeat[v4];[v4]drawbox=50:50:120:120:red:t=5[v5]"</span>\</span><br><span class="line">    -map [v5] output.mp4</span><br></pre></td></tr></table></figure>
-<p>​ 这时可以使用 ffmpeg-python 来实现复杂流程。例如调整gamma值：</p>
+<p>​	这时可以使用 ffmpeg-python 来实现复杂流程。例如调整gamma值：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ffmpeg -i nuke_surface_2.avi -vf <span class="string">"pad=ceil(iw/2)*2:ceil(ih/2)*2,eq=gamma=2:saturation=1.3,drawtext=fontfile=arial.ttf:fontsize=28:fontcolor=yellow:box=1:boxcolor=0x000000CC:x=(w-tw)/2:y=h-(2*lh):timecode='00\:00\:00\:00:rate=49.91'"</span>  -vcodec libx264  -pix_fmt yuv420p -b:v <span class="number">1000</span>k -r <span class="number">49.91</span>   -an out.mp4</span><br><span class="line"></span><br><span class="line"><span class="keyword">is</span> equivalent to</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> ffmpeg </span><br><span class="line"></span><br><span class="line">codec_para = &#123;</span><br><span class="line">    <span class="string">"c:v"</span>:<span class="string">"libx264"</span>,</span><br><span class="line">    <span class="string">"pix_fmt"</span>:<span class="string">"yuv420p"</span>,</span><br><span class="line">    <span class="string">"b:v"</span>:<span class="string">"1M"</span>,</span><br><span class="line">    <span class="string">"r"</span>:<span class="string">"49.91"</span>,</span><br><span class="line">    <span class="string">"an"</span>:<span class="literal">None</span></span><br><span class="line">&#125;</span><br><span class="line">font_para=&#123;</span><br><span class="line">    <span class="string">"box"</span>:<span class="number">1</span>,</span><br><span class="line">    <span class="string">"boxcolor"</span>:<span class="string">"0x000000CC"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="string">"fontfile"</span>:<span class="string">"arial.ttf"</span>,</span><br><span class="line">    <span class="string">"fontsize"</span>:<span class="number">28</span>,</span><br><span class="line">    <span class="string">"fontcolor"</span>:<span class="string">"yellow"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="string">"x"</span>:<span class="string">"(w-tw)/2"</span>,</span><br><span class="line">    <span class="string">"y"</span>:<span class="string">"h-(2*lh)"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="string">"timecode"</span>:<span class="string">r"00:00:00:00"</span>,</span><br><span class="line">    <span class="string">"rate"</span>:<span class="number">49.91</span>,</span><br><span class="line">&#125;</span><br><span class="line">filter_para=&#123;&#125;</span><br><span class="line">(</span><br><span class="line">    ffmpeg</span><br><span class="line">    .input(<span class="string">"nuke_surface_2.avi"</span>)</span><br><span class="line">    .filter(<span class="string">"pad"</span>,<span class="string">"ceil(iw/2)*2"</span>,<span class="string">"ceil(ih/2)*2"</span>)</span><br><span class="line">    .filter(<span class="string">"eq"</span>,gamma=<span class="number">2</span>,saturation=<span class="number">1.3</span>)</span><br><span class="line">    .drawtext(**font_para)</span><br><span class="line">    .output(<span class="string">"ffmpeg_out.mp4"</span>,**codec_para)</span><br><span class="line">    .global_args(<span class="string">"-y"</span>,<span class="string">"-hide_banner"</span>)</span><br><span class="line">    .run()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>​ Anyway, ffmpeg-python is a powerful tool. Refer <a href="https://github.com/kkroening/ffmpeg-python" target="_blank" rel="noopener">GitHub repo</a> for more info.</p>
-<h3 id="refence-in-this-chapter">Refence in this chapter</h3>
+<p>​	Anyway, ffmpeg-python is a powerful tool. Refer <a href="https://github.com/kkroening/ffmpeg-python" target="_blank" rel="noopener">GitHub repo</a> for more info.</p>
+<h3 id="Refence-in-this-chapter"><a class="header-anchor" href="#Refence-in-this-chapter">¶</a>Refence in this chapter</h3>
 <p><a href="https://wiki.fiveyellowmice.com/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8_FFmpeg_%E8%BF%9B%E8%A1%8C%E8%A7%86%E9%A2%91%E8%BD%AC%E7%A0%81:%E7%9B%AE%E5%BD%95" target="_blank" rel="noopener">A straightforward tutorial</a></p>
 <p><a href="https://avpres.net/FFmpeg/" target="_blank" rel="noopener">FFmpeg Cookbook for Archivists</a></p>
 <p><a href="https://support.google.com/youtube/answer/1722171?hl=en" target="_blank" rel="noopener">YouTube Help</a></p>
 <p><a href="https://stackoverflow.com/questions/20847674/ffmpeg-libx264-height-not-divisible-by-2" target="_blank" rel="noopener">FFMPEG (libx264) “height not divisible by 2”</a></p>
 <p><a href="https://trac.ffmpeg.org/wiki/Encode/H.264" target="_blank" rel="noopener">H.264 Video Encoding Guide (Official)</a> and <a href="https://blog.csdn.net/leixiaohua1020/article/details/12720135" target="_blank" rel="noopener">Chinese version</a></p>
 <p><a href="https://trac.ffmpeg.org/wiki/Encode/MPEG-4" target="_blank" rel="noopener">MPEG-4 Encoding Guide (Official)</a></p>
-<h2 id="outlook">Outlook</h2>
+<h2 id="Outlook"><a class="header-anchor" href="#Outlook">¶</a>Outlook</h2>
 <p>除开 H.264 标准之外，也有许多厂商提出了自己的标准。</p>
-<figure>
-<img src="https://bitmovin.com/wp-content/themes/Bitmovin-V-0.1/images/codec-timeline-short.png" alt="On-Premise Cloud encoding service from Bitmovin" /><figcaption>On-Premise Cloud encoding service from Bitmovin</figcaption>
-</figure>
-<p>​ 例如 google 的VP9 以及AOM 的 AV1 。FFmpeg 提供相应的编码器。</p>
-<h2 id="ref">Ref</h2>
-<h2 id="appendix">Appendix</h2>
-<h3 id="windows-media-player-音频编码解码器">Windows media player 音频编码解码器</h3>
+<p><img src="https://bitmovin.com/wp-content/themes/Bitmovin-V-0.1/images/codec-timeline-short.png" alt="On-Premise Cloud encoding service from Bitmovin"></p>
+<p>​	例如 google 的VP9 以及AOM 的 AV1 。FFmpeg 提供相应的编码器。</p>
+<h2 id="Ref"><a class="header-anchor" href="#Ref">¶</a>Ref</h2>
+<h2 id="Appendix"><a class="header-anchor" href="#Appendix">¶</a>Appendix</h2>
+<h3 id="Windows-media-player-音频编码解码器"><a class="header-anchor" href="#Windows-media-player-音频编码解码器">¶</a>Windows media player 音频编码解码器</h3>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>类型</th>
 <th>名称</th>
 <th>格式</th>
@@ -1175,70 +1173,70 @@ a &amp;= b + c \\
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>ACM</td>
 <td>Microsoft IMA ADPCM CODEC</td>
 <td>0011</td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr>
 <td>ACM</td>
 <td>Microsoft ADPCM CODEC</td>
 <td>0002</td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ACM</td>
 <td>Microsoft CCITT G.711 A-Law and u-Law CODEC</td>
 <td>0007</td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr>
 <td>ACM</td>
 <td>Microsoft GSM 6.10 Audio CODEC</td>
 <td>0031</td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ACM</td>
 <td>Fraunhofer IIS MPEG Layer-3 Codec (decode only)</td>
 <td>0055</td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr>
 <td>ACM</td>
 <td>Microsoft PCM Converter</td>
 <td>0001</td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>DMO</td>
 <td>WMAudio Decoder DMO</td>
 <td>0160, 0161, 0162, 0163</td>
 <td>WMADMOD.DLL</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>DMO</td>
 <td>WMAPro over S/PDIF DMO</td>
 <td>0162</td>
 <td>WMADMOD.DLL</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>DMO</td>
 <td>WMSpeech Decoder DMO</td>
 <td>000A, 000B</td>
 <td>WMSPDMOD.DLL</td>
 <td>10.0.18980.1</td>
 </tr>
-<tr class="even">
+<tr>
 <td>DMO</td>
 <td>MP3 Decoder DMO</td>
 <td>0055</td>
@@ -1248,43 +1246,9 @@ a &amp;= b + c \\
 </tbody>
 </table>
 <p>A very close question:</p>
-<h3 id="using-a-lossless-video-codec-for-archiving-monochrome-scientific-video-data"><a href="https://superuser.com/questions/1247683/using-a-lossless-video-codec-for-archiving-monochrome-scientific-video-data" target="_blank" rel="noopener">Using a lossless video codec for archiving (monochrome) scientific video data</a></h3>
+<h3 id="Using-a-lossless-video-codec-for-archiving-monochrome-scientific-video-data"><a class="header-anchor" href="#Using-a-lossless-video-codec-for-archiving-monochrome-scientific-video-data">¶</a><a href="https://superuser.com/questions/1247683/using-a-lossless-video-codec-for-archiving-monochrome-scientific-video-data" target="_blank" rel="noopener">Using a lossless video codec for archiving (monochrome) scientific video data</a></h3>
 <p>FFmpeg suggest that <code>FFV 1</code> is a suitable format for video storage. Refer to <a href="https://trac.ffmpeg.org/wiki/Encode/FFV1" target="_blank" rel="noopener">website</a>.</p>
-<div id="footnotes">
-<hr>
-<div id="footnotelist">
-<ol style="list-style:none; padding-left: 0;">
-<li id="fn:1">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;"><a href="https://blog.csdn.net/leixiaohua1020/article/details/15811977" target="_blank" rel="noopener">Blog from CSDN</a> this is the most recommended learning material</span><a href="#fnref:1" rev="footnote"> ↩</a>
-</li>
-<li id="fn:2">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">https://ffmpeg.org/</span><a href="#fnref:2" rev="footnote"> ↩</a>
-</li>
-<li id="fn:3">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">3.</span><span style="display: inline-block; vertical-align: top;">https://blog.csdn.net/leixiaohua1020/article/details/18893769</span><a href="#fnref:3" rev="footnote"> ↩</a>
-</li>
-<li id="fn:4">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">4.</span><span style="display: inline-block; vertical-align: top;">https://github.com/feixiao/ffmpeg/blob/master/src/01_ffmpeg.md</span><a href="#fnref:4" rev="footnote"> ↩</a>
-</li>
-<li id="fn:5">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">5.</span><span style="display: inline-block; vertical-align: top;"><a href="https://github.com/FFmpeg/FFmpeg/blob/master/libavutil/pixdesc.c" target="_blank" rel="noopener">Source code of pixel format standard</a></span><a href="#fnref:5" rev="footnote"> ↩</a>
-</li>
-<li id="fn:6">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">6.</span><span style="display: inline-block; vertical-align: top;"><code>ffmpeg -pix_fmts</code></span><a href="#fnref:6" rev="footnote"> ↩</a>
-</li>
-<li id="fn:7">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">7.</span><span style="display: inline-block; vertical-align: top;">https://www.cnblogs.com/azraelly/archive/2013/01/01/2841269.html</span><a href="#fnref:7" rev="footnote"> ↩</a>
-</li>
-<li id="fn:8">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">8.</span><span style="display: inline-block; vertical-align: top;"><a href="https://www.ffmpeg.org/ffmpeg.html" target="_blank" rel="noopener">official document</a></span><a href="#fnref:8" rev="footnote"> ↩</a>
-</li>
-<li id="fn:9">
-<span style="display: inline-block; vertical-align: top; padding-right: 10px;">9.</span><span style="display: inline-block; vertical-align: top;">Compression for Great Video and Audio: Master Tips and Common Sense</span><a href="#fnref:9" rev="footnote"> ↩</a>
-</li>
-</ol>
-</div>
-</div>
-]]></content>
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;"><a href="https://blog.csdn.net/leixiaohua1020/article/details/15811977" target="_blank" rel="noopener">Blog from CSDN</a> this is the most recommended learning material</span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">https://ffmpeg.org/</span><a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">3.</span><span style="display: inline-block; vertical-align: top;">https://blog.csdn.net/leixiaohua1020/article/details/18893769</span><a href="#fnref:3" rev="footnote"> ↩</a></li><li id="fn:4"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">4.</span><span style="display: inline-block; vertical-align: top;">https://github.com/feixiao/ffmpeg/blob/master/src/01_ffmpeg.md</span><a href="#fnref:4" rev="footnote"> ↩</a></li><li id="fn:5"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">5.</span><span style="display: inline-block; vertical-align: top;"><a href="https://github.com/FFmpeg/FFmpeg/blob/master/libavutil/pixdesc.c" target="_blank" rel="noopener">Source code of pixel format standard</a></span><a href="#fnref:5" rev="footnote"> ↩</a></li><li id="fn:6"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">6.</span><span style="display: inline-block; vertical-align: top;"><code>ffmpeg -pix_fmts</code></span><a href="#fnref:6" rev="footnote"> ↩</a></li><li id="fn:7"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">7.</span><span style="display: inline-block; vertical-align: top;">https://www.cnblogs.com/azraelly/archive/2013/01/01/2841269.html</span><a href="#fnref:7" rev="footnote"> ↩</a></li><li id="fn:8"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">8.</span><span style="display: inline-block; vertical-align: top;"><a href="https://www.ffmpeg.org/ffmpeg.html" target="_blank" rel="noopener">official document</a></span><a href="#fnref:8" rev="footnote"> ↩</a></li><li id="fn:9"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">9.</span><span style="display: inline-block; vertical-align: top;">Compression for Great Video and Audio: Master Tips and Common Sense</span><a href="#fnref:9" rev="footnote"> ↩</a></li></ol></div></div>]]></content>
       <categories>
         <category>FFmpeg</category>
       </categories>

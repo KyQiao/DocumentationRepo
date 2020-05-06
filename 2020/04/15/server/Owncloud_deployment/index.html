@@ -17,13 +17,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"kyqiao.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="deployment of Owncloud on docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Owncloud deployment">
-<meta property="og:url" content="http://yoursite.com/2020/04/15/server/Owncloud_deployment/index.html">
+<meta property="og:url" content="https://kyqiao.github.io/DocumentationRepo/2020/04/15/server/Owncloud_deployment/index.html">
 <meta property="og:site_name" content="Documentation Repo">
 <meta property="og:description" content="deployment of Owncloud on docker">
 <meta property="og:locale" content="zh_CN">
@@ -34,7 +34,7 @@
 <meta property="article:tag" content="服务器">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/04/15/server/Owncloud_deployment/">
+<link rel="canonical" href="https://kyqiao.github.io/DocumentationRepo/2020/04/15/server/Owncloud_deployment/">
 
 
 <script id="page-configurations">
@@ -191,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/15/server/Owncloud_deployment/">
+    <link itemprop="mainEntityOfPage" href="https://kyqiao.github.io/DocumentationRepo/2020/04/15/server/Owncloud_deployment/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -249,7 +249,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="install-with-docker">Install with docker</h2>
+        <h2 id="Install-with-docker"><a class="header-anchor" href="#Install-with-docker">¶</a>Install with docker</h2>
 <p>Environment set. Download necessary library</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">docker volume create owncloud_redis</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name redis \</span><br><span class="line">  -e REDIS_DATABASES=1 \</span><br><span class="line">  --volume owncloud_redis:/var/lib/redis \</span><br><span class="line">  webhippie/redis:latest</span><br><span class="line"></span><br><span class="line">docker volume create owncloud_mysql</span><br><span class="line">docker volume create owncloud_backup</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name mariadb \</span><br><span class="line">  -e MARIADB_ROOT_PASSWORD=owncloud \</span><br><span class="line">  -e MARIADB_USERNAME=owncloud \</span><br><span class="line">  -e MARIADB_PASSWORD=owncloud \</span><br><span class="line">  -e MARIADB_DATABASE=owncloud \</span><br><span class="line">  --volume owncloud_mysql:/var/lib/mysql \</span><br><span class="line">  --volume owncloud_backup:/var/lib/backup \</span><br><span class="line">  webhippie/mariadb:latest</span><br></pre></td></tr></table></figure>
 <p>run the owncloud</p>
@@ -340,7 +340,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#install-with-docker"><span class="nav-number">1.</span> <span class="nav-text">Install with docker</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-with-docker"><span class="nav-number">1.</span> <span class="nav-text">Install with docker</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
