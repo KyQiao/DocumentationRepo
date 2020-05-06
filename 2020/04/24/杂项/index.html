@@ -27,14 +27,11 @@
 <meta property="og:site_name" content="Documentation Repo">
 <meta property="og:description" content="...">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png">
-<meta property="og:image" content="file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png">
 <meta property="article:published_time" content="2020-04-24T14:01:38.000Z">
 <meta property="article:modified_time" content="2020-04-25T03:56:40.744Z">
 <meta property="article:author" content="KY">
 <meta property="article:tag" content="others">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png">
 
 <link rel="canonical" href="https://kyqiao.github.io/DocumentationRepo/2020/04/24/%E6%9D%82%E9%A1%B9/">
 
@@ -247,11 +244,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="右键添加git-bash-here">右键添加git bash here</h2>
+        <h2 id="右键添加git-bash-here"><a class="header-anchor" href="#右键添加git-bash-here">¶</a>右键添加git bash here</h2>
 <p>保存为.reg格式的文件添加至注册表</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version <span class="number">5</span>.<span class="number">00</span></span><br><span class="line">; Open files</span><br><span class="line">; Default Git-Bash Location C:\Program Files\Git\git-bash.exe</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell\Open Git Bash]</span><br><span class="line">@="Open Git Bash"</span><br><span class="line">"Icon"="C:\\Program Files\\Git\\git-bash.exe"</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\*\shell\Open Git Bash\command]</span><br><span class="line">@="\"C:\\Program Files\\Git\\git-bash.exe\" \"--<span class="built_in">cd</span>=%<span class="number">1</span>\""</span><br><span class="line"></span><br><span class="line">; This will make it appear when you right click ON a folder</span><br><span class="line">; The "Icon" line can be removed <span class="keyword">if</span> you don't want the icon to appear</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\bash]</span><br><span class="line">@="Open Git Bash"</span><br><span class="line">"Icon"="C:\\Program Files\\Git\\git-bash.exe"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\shell\bash\command]</span><br><span class="line">@="\"C:\\Program Files\\Git\\git-bash.exe\" \"--<span class="built_in">cd</span>=%<span class="number">1</span>\""</span><br><span class="line"></span><br><span class="line">; This will make it appear when you right click INSIDE a folder</span><br><span class="line">; The "Icon" line can be removed <span class="keyword">if</span> you don't want the icon to appear</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\Background\shell\bash]</span><br><span class="line">@="Open Git Bash"</span><br><span class="line">"Icon"="C:\\Program Files\\Git\\git-bash.exe"</span><br><span class="line"></span><br><span class="line">[HKEY_CLASSES_ROOT\Directory\Background\shell\bash\command]</span><br><span class="line">@="\"C:\\Program Files\\Git\\git-bash.exe\" \"--<span class="built_in">cd</span>=%v.\""</span><br></pre></td></tr></table></figure>
-<h2 id="实验">实验</h2>
-<h3 id="制备椭球">制备椭球</h3>
+<h2 id="实验"><a class="header-anchor" href="#实验">¶</a>实验</h2>
+<h3 id="制备椭球"><a class="header-anchor" href="#制备椭球">¶</a>制备椭球</h3>
 <blockquote>
 <p>取一小瓶</p>
 <p>86g 去离子水</p>
@@ -262,7 +259,7 @@
 <p>加入stun，在加热炉上设定如下条件：</p>
 <p>60C 300hz左右</p>
 <p>等待PVA完全溶解。此时应为透明澄清的液体。</p>
-<p>加入300<img src="file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png" alt="img" />小球，再次加热使其分散均匀。</p>
+<p>加入300![img](file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png)小球，再次加热使其分散均匀。</p>
 <p>倒在培养皿上，加盖，自然风干。</p>
 <p>会形成塑料状的凝聚物。</p>
 <p>剪成均匀的小条，e.g.4x6cm</p>
@@ -276,49 +273,50 @@
 <blockquote>
 <p>制备椭球</p>
 <p>1.5g polyvimal alcohol，加水至瓶身圆柱形顶即可</p>
-<p>加入stun，温度为50，加上磁场，震荡至均匀，液体中无微小颗粒，再加入300<img src="file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png" alt="img" />的ps或者pmma，而且需要调配浓度。粒子一定要non crosslink 的</p>
+<p>加入stun，温度为50，加上磁场，震荡至均匀，液体中无微小颗粒，再加入300![img](file:///C:/Users/kyqiao/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png)的ps或者pmma，而且需要调配浓度。粒子一定要non crosslink 的</p>
 <p>再次震荡至均匀，震荡之前不要在垂直方向上剧烈摇晃，轻微翻转瓶身即可。</p>
 <p>震荡后倒入器皿，将小气泡挑至器皿边缘。等待蒸干。</p>
 <p>在此过程中，直接使用温度梯度加速蒸发多半是不可行的，因为温度梯度会使液体表面起皱，这样会影响样品的质量。但是，如果在器皿的边缘上加上一些别的升温装置，直接在器皿内部对液体进行加热，不知道是否有好的效果。</p>
 <p>最后烘干的温度不超过115度。</p>
 <p>同时需要解决椭球粘板的问题。</p>
 </blockquote>
-<h3 id="油液交界面水液交接面">油液交界面；水液交接面</h3>
+<h3 id="油液交界面；水液交接面"><a class="header-anchor" href="#油液交界面；水液交接面">¶</a>油液交界面；水液交接面</h3>
 <blockquote>
 <p>封底：使用小的盖玻片，使用ab胶的白胶（树脂），这样便于清洗。</p>
 <p>能够直接使用透明胶封底吗？</p>
 <p>在底部注入DI water，与最底层的阶梯平齐，然后在上面加上油或者使用气界面，在水油界面上加入particle，这样粒子会被confine在两个界面之间，达到良好的二维效果。</p>
 <p>问题：如何使用显微镜观察？</p>
 </blockquote>
-<h2 id="checksum-on-windows">Checksum on windows</h2>
+<h2 id="Checksum-on-windows"><a class="header-anchor" href="#Checksum-on-windows">¶</a>Checksum on windows</h2>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">certutil -hashfile filename MD5</span><br><span class="line">certutil -hashfile filename SHA1</span><br><span class="line">certutil -hashfile filename SHA256</span><br></pre></td></tr></table></figure>
-<h2 id="delete-hoomd-tedious-citation">Delete Hoomd tedious citation</h2>
+<h2 id="Delete-Hoomd-tedious-citation"><a class="header-anchor" href="#Delete-Hoomd-tedious-citation">¶</a>Delete Hoomd tedious citation</h2>
 <p>Find the cite file in</p>
 <p><code>.../anaconda3/pkgs/hoomd-2.2.1-py36hff74422_0/lib/python3.6/site-packages/hoomd</code></p>
 <p>and replace raw 402 and below citation information with:</p>
-<pre><code>    hoomd_base = article(cite_key = &#39; &#39;,
-                    author = [&#39; &#39;,&#39; &#39;,&#39; &#39;],
-                    title = &#39; &#39;,
-                    journal = &#39; &#39;,
+<pre><code>    hoomd_base = article(cite_key = ' ',
+                    author = [' ',' ',' '],
+                    title = ' ',
+                    journal = ' ',
                     volume = 0,
                     number = 0,
-                    pages = &#39; &#39;,
+                    pages = ' ',
                     year = 0,
-                    month = &#39; &#39;,
-                    doi = &#39; &#39;,
-                    feature = &#39; &#39;)
+                    month = ' ',
+                    doi = ' ',
+                    feature = ' ')
 
-    hoomd_mpi = article(cite_key = &#39; &#39;,
-                    author = [&#39; &#39;,&#39; &#39;,&#39; &#39;],
-                    title = &#39; &#39;,
-                    journal = &#39; &#39;,
+    hoomd_mpi = article(cite_key = ' ',
+                    author = [' ',' ',' '],
+                    title = ' ',
+                    journal = ' ',
                     volume = 0,
                     number = 0,
-                    pages = &#39; &#39;,
+                    pages = ' ',
                     year = 0,
-                    month = &#39; &#39;,
-                    doi = &#39; &#39;,
-                    feature = &#39; &#39;)</code></pre>
+                    month = ' ',
+                    doi = ' ',
+                    feature = ' ')
+</code></pre>
 <p>and everything return to peace.</p>
 
     </div>
@@ -338,12 +336,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/DocumentationRepo/2020/04/24/RaspberryPi/" rel="prev" title="RaspberryPi">
-      <i class="fa fa-chevron-left"></i> RaspberryPi
+    <a href="/DocumentationRepo/2020/04/24/buildGuide/build%20Aseprite/" rel="prev" title="Build Aseprite on Win10">
+      <i class="fa fa-chevron-left"></i> Build Aseprite on Win10
     </a></div>
       <div class="post-nav-item">
-    <a href="/DocumentationRepo/2020/04/24/buildGuide/build%20Aseprite/" rel="next" title="Build Aseprite on Win10">
-      Build Aseprite on Win10 <i class="fa fa-chevron-right"></i>
+    <a href="/DocumentationRepo/2020/04/24/FFmpeg/ffmpegBackup/" rel="next" title="ffmpegBackup">
+      ffmpegBackup <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -403,7 +401,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#右键添加git-bash-here"><span class="nav-number">1.</span> <span class="nav-text">右键添加git bash here</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#制备椭球"><span class="nav-number">2.1.</span> <span class="nav-text">制备椭球</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#油液交界面水液交接面"><span class="nav-number">2.2.</span> <span class="nav-text">油液交界面；水液交接面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#checksum-on-windows"><span class="nav-number">3.</span> <span class="nav-text">Checksum on windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#delete-hoomd-tedious-citation"><span class="nav-number">4.</span> <span class="nav-text">Delete Hoomd tedious citation</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#右键添加git-bash-here"><span class="nav-number">1.</span> <span class="nav-text">右键添加git bash here</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#制备椭球"><span class="nav-number">2.1.</span> <span class="nav-text">制备椭球</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#油液交界面；水液交接面"><span class="nav-number">2.2.</span> <span class="nav-text">油液交界面；水液交接面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Checksum-on-windows"><span class="nav-number">3.</span> <span class="nav-text">Checksum on windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Delete-Hoomd-tedious-citation"><span class="nav-number">4.</span> <span class="nav-text">Delete Hoomd tedious citation</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -249,7 +249,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="install-with-docker">Install with docker</h2>
+        <h2 id="Install-with-docker"><a class="header-anchor" href="#Install-with-docker">¶</a>Install with docker</h2>
 <p>Environment set. Download necessary library</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">docker volume create owncloud_redis</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name redis \</span><br><span class="line">  -e REDIS_DATABASES=1 \</span><br><span class="line">  --volume owncloud_redis:/var/lib/redis \</span><br><span class="line">  webhippie/redis:latest</span><br><span class="line"></span><br><span class="line">docker volume create owncloud_mysql</span><br><span class="line">docker volume create owncloud_backup</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name mariadb \</span><br><span class="line">  -e MARIADB_ROOT_PASSWORD=owncloud \</span><br><span class="line">  -e MARIADB_USERNAME=owncloud \</span><br><span class="line">  -e MARIADB_PASSWORD=owncloud \</span><br><span class="line">  -e MARIADB_DATABASE=owncloud \</span><br><span class="line">  --volume owncloud_mysql:/var/lib/mysql \</span><br><span class="line">  --volume owncloud_backup:/var/lib/backup \</span><br><span class="line">  webhippie/mariadb:latest</span><br></pre></td></tr></table></figure>
 <p>run the owncloud</p>
@@ -340,7 +340,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#install-with-docker"><span class="nav-number">1.</span> <span class="nav-text">Install with docker</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-with-docker"><span class="nav-number">1.</span> <span class="nav-text">Install with docker</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
