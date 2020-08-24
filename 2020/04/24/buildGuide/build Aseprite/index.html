@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/DocumentationRepo/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/DocumentationRepo/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/DocumentationRepo/images/favicon-16x16-next.png">
@@ -249,15 +249,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Denpendecy"><a class="header-anchor" href="#Denpendecy">¶</a>Denpendecy</h2>
+        <h2 id="denpendecy">Denpendecy</h2>
 <pre><code>1. Win10 vs 2017 with C++ and SDK(community edition)
 2. CMAKE 3.4 以上 `cmake`(3.14 pass)
 3. Ninja build system (for `Skia` build)
-4. `Skia` lib
-</code></pre>
-<h2 id="Build-Skia-on-Win10"><a class="header-anchor" href="#Build-Skia-on-Win10">¶</a>Build <code>Skia</code> on Win10</h2>
+4. `Skia` lib</code></pre>
+<h2 id="build-skia-on-win10">Build <code>Skia</code> on Win10</h2>
 <p>you need download <a href="http://releases.llvm.org/download.html" target="_blank" rel="noopener">clang</a> and <a href="https://github.com/ninja-build/ninja" target="_blank" rel="noopener">ninja</a>, if you can <code>cmake</code> and <code>vs2017</code>, you can download and build.</p>
-<p>Just put <code>clang</code>  somewhere you like.</p>
+<p>Just put <code>clang</code> somewhere you like.</p>
 <p>git python is required</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/ninja-build/ninja.git &amp;&amp; <span class="built_in">cd</span> ninja</span><br><span class="line">git checkout release</span><br><span class="line">./configure.py --bootstrap</span><br></pre></td></tr></table></figure>
 <p>This will give you a binary file named <code>ninja.exe</code></p>
@@ -273,7 +272,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">set</span> PATH=C:\Program Files\LLVM\bin;%PATH%</span><br><span class="line">gn gen out/Release --args=<span class="string">"is_official_build=true skia_use_system_expat=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false target_cpu="</span><span class="string">"x64"</span><span class="string">" cc="</span><span class="string">"clang"</span><span class="string">" cxx="</span><span class="string">"clang++"</span><span class="string">" clang_win="</span><span class="string">"C:\Program Files\LLVM"</span><span class="string">""</span></span><br><span class="line">ninja -C out/Release skia</span><br></pre></td></tr></table></figure>
 <p><strong>Note the PATH of <code>clang</code> is the root path, not the binary one.</strong></p>
 <p>This will give you <code>Skia</code> in the <code>out/release</code> folder.</p>
-<h2 id="Build-Aseprite"><a class="header-anchor" href="#Build-Aseprite">¶</a>Build Aseprite</h2>
+<h2 id="build-aseprite">Build Aseprite</h2>
 <p>Since build <code>libpng</code> need <code>awk</code>. You can follow the official instruction or just use <code>cygwin</code>'s <code>gawk</code>.(<code>cygwin</code> pass)</p>
 <p><strong>This step probably will result future failure. So you can download at release part.</strong></p>
 <p>First git:</p>
@@ -282,7 +281,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> Aseprite</span><br><span class="line">mkdir build</span><br></pre></td></tr></table></figure>
 <p>Open <code>cmake-GUI</code>, choose source as <code>Aseprite</code>. Set build folder as build. Choose <code>vs2017</code> and <code>x64</code>. Then add entry with your own path:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_BUILD_TYPE=RelWithDebInfo <span class="comment">#this is default</span></span><br><span class="line">LAF_OS_BACKEND=skia </span><br><span class="line">SKIA_DIR=C:\Game\skia </span><br><span class="line">SKIA_OUT_DIR=C:\Game\skia\out\Release</span><br></pre></td></tr></table></figure>
-<p>If everything’s fine. Configure and open project.</p>
+<p>If everything's fine. Configure and open project.</p>
 <p>Open <code>vs2017</code> with administer privilege. Generate <code>Buildall</code> and <code>INSTALL</code>.</p>
 <p>Copy <code>data</code> folder under Aseprite root folder to <code>bin</code> where binary is installed. All you need is just binary and data folder.</p>
 
@@ -304,12 +303,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/DocumentationRepo/2020/04/24/RaspberryPi/" rel="prev" title="RaspberryPi">
-      <i class="fa fa-chevron-left"></i> RaspberryPi
+    <a href="/DocumentationRepo/2020/04/24/%E6%9D%82%E9%A1%B9/" rel="prev" title="杂项">
+      <i class="fa fa-chevron-left"></i> 杂项
     </a></div>
       <div class="post-nav-item">
-    <a href="/DocumentationRepo/2020/04/24/%E6%9D%82%E9%A1%B9/" rel="next" title="杂项">
-      杂项 <i class="fa fa-chevron-right"></i>
+    <a href="/DocumentationRepo/2020/04/24/FFmpeg/ffmpegBackup/" rel="next" title="ffmpegBackup">
+      ffmpegBackup <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -369,7 +368,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Denpendecy"><span class="nav-number">1.</span> <span class="nav-text">Denpendecy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Skia-on-Win10"><span class="nav-number">2.</span> <span class="nav-text">Build Skia on Win10</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Aseprite"><span class="nav-number">3.</span> <span class="nav-text">Build Aseprite</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#denpendecy"><span class="nav-number">1.</span> <span class="nav-text">Denpendecy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-skia-on-win10"><span class="nav-number">2.</span> <span class="nav-text">Build Skia on Win10</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-aseprite"><span class="nav-number">3.</span> <span class="nav-text">Build Aseprite</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -390,7 +389,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/DocumentationRepo/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

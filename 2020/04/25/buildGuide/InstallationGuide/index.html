@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/DocumentationRepo/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/DocumentationRepo/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/DocumentationRepo/images/favicon-16x16-next.png">
@@ -239,17 +239,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Install-IDL-on-modern-Linux-system"><a class="header-anchor" href="#Install-IDL-on-modern-Linux-system">¶</a>Install IDL on modern Linux system</h2>
-<h3 id="System-info"><a class="header-anchor" href="#System-info">¶</a>System info</h3>
+        <h2 id="install-idl-on-modern-linux-system">Install IDL on modern Linux system</h2>
+<h3 id="system-info">System info</h3>
 <p>Centos 7.0 installed on Aug-17-2018</p>
 <p>kernel information:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname -a</span><br><span class="line">Linux PHZ320 3.10.0-862.11.6.el7.x86_64 #1 SMP Tue Aug 14 21:49:04 UTC 2018 x86_64 x86_64 x86_64 GNU&#x2F;Linux</span><br></pre></td></tr></table></figure>
-<h3 id="IDL-version"><a class="header-anchor" href="#IDL-version">¶</a>IDL version</h3>
+<h3 id="idl-version">IDL version</h3>
 <p>IDL 6.4</p>
 <p>license info. i.e. license.dat</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">############ license file comments, do not delete ############### </span><br><span class="line"># License Number(s):706340</span><br><span class="line">SERVER phz320.phys.ust.hk 90B11C821C81 1700</span><br><span class="line">DAEMON idl_lmgrd</span><br><span class="line">INCREMENT idl idl_lmgrd 8.200 1-jan-0000 20 5D61A5FA7E6F2096 \</span><br><span class="line">    VENDOR_STRING&#x3D;706340HKUST ck&#x3D;143 SIGN&#x3D;&quot;1FF1 7311 0D0F 627F \</span><br><span class="line">    74EE A528 B118 A84C 9544 D3F6 D71D D957 32DD B7BA 05D2 0F63 \</span><br><span class="line">    E112 6C18 3B37 46FD 25F9 F623 E0C0 F63E CDD4 1C58 9012 7FAB \</span><br><span class="line">    5F23 E2F9&quot;</span><br><span class="line">INCREMENT idl_bridge_assist idl_lmgrd 8.200 1-jan-0000 2 \</span><br><span class="line">    F6914B1090E810D6 VENDOR_STRING&#x3D;706340HKUST ck&#x3D;56 SIGN&#x3D;&quot;0DFB \</span><br><span class="line">    26EC 113B 7606 912A 2CAB F9BB 0716 E060 C078 81B1 D76D 772A \</span><br><span class="line">    80A4 2693 0D2E 5F86 6B72 C202 AC23 C62B 5005 4D9C 0D89 56F1 \</span><br><span class="line">    3D0C E5B5 D6D1 A87E 4432&quot;</span><br><span class="line">INCREMENT idl_video_write idl_lmgrd 8.200 1-jan-0000 2 \</span><br><span class="line">    BBBF0CED22C75373 VENDOR_STRING&#x3D;706340HKUST ck&#x3D;83 SIGN&#x3D;&quot;0535 \</span><br><span class="line">    EA8D 6113 8339 D90B A11B E46C 1BAC FEE2 4B3D 0F87 B9AF F588 \</span><br><span class="line">    A4F9 C74B 13E2 67A8 4A9A 84E5 1D13 85A6 F0E5 E8FA F50D 462D \</span><br><span class="line">    3F96 E3DB 9FDB 2C04 C0E6&quot;</span><br><span class="line">INCREMENT idl_wavelet idl_lmgrd 8.200 1-jan-0000 2 CA70AE4EE178F544 \</span><br><span class="line">    VENDOR_STRING&#x3D;706340HKUST ck&#x3D;133 SIGN&#x3D;&quot;0E65 3CE5 D6C6 AAAF \</span><br><span class="line">    5122 3EA6 C1E9 88D6 35C6 9C1A DC67 10E1 3DC3 54C3 84B8 0ABF \</span><br><span class="line">    499F 070F 7BBF E09A 3F87 ED9B 085A CCC0 0D8D FE8E F631 FC62 \</span><br><span class="line">    E7BE C4C9&quot;</span><br><span class="line">FEATURESET idl_lmgrd A3E6A64A67DFE9F4</span><br><span class="line"></span><br><span class="line">##################### end of license file #######################</span><br></pre></td></tr></table></figure>
-<p>This license can only be used on the phz320 server. Default folder of the license file is in the <code>/usr/local/itt/license</code>  folder, which is the folder IDL installed by default.</p>
-<h3 id="Installation"><a class="header-anchor" href="#Installation">¶</a>Installation</h3>
+<p>This license can only be used on the phz320 server. Default folder of the license file is in the <code>/usr/local/itt/license</code> folder, which is the folder IDL installed by default.</p>
+<h3 id="installation">Installation</h3>
 <p>You need:</p>
 <ul>
 <li>X windows</li>
@@ -258,36 +258,20 @@
 </ul>
 <p>which are old lib. When finishing install X windows, type <code>startx</code> to open GNOME.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install xwindows    ?not sure</span><br><span class="line">yum groupinstall &quot;GNOME Desktop&quot;</span><br><span class="line">yum install libXp.so.5 </span><br><span class="line">yum install libstdc++.so.6   ??not sure</span><br></pre></td></tr></table></figure>
-<h4 id="Step-by-step-installation"><a class="header-anchor" href="#Step-by-step-installation">¶</a>Step by step installation:</h4>
-<ol>
-<li>
-<p>Mount the cd-rom according to the guidebook.</p>
-</li>
-<li>
-<p>Using root privilege to install <code>xinstall.sh</code></p>
-</li>
-<li>
-<p>Choosing the compartment according to the license file.</p>
-</li>
-<li>
-<p>Install and wait.</p>
-</li>
-<li>
-<p>Copy the license into license wizard.</p>
-</li>
-<li>
-<p>Install flexm?? in the cd-rom.</p>
-</li>
-<li>
-<p>Change the ether card name to <code>eth0</code>  according to this article :<a href="http://new.nginxs.net/read.php/post-201602251858/" target="_blank" rel="noopener">http://new.nginxs.net/read.php/post-201602251858/</a></p>
-</li>
-<li>
-<p>Run <code>lmgrd</code> in the <code>idl64/bin</code> and change the folder of the license if necessary.</p>
-</li>
+<h4 id="step-by-step-installation">Step by step installation:</h4>
+<ol type="1">
+<li><p>Mount the cd-rom according to the guidebook.</p></li>
+<li><p>Using root privilege to install <code>xinstall.sh</code></p></li>
+<li><p>Choosing the compartment according to the license file.</p></li>
+<li><p>Install and wait.</p></li>
+<li><p>Copy the license into license wizard.</p></li>
+<li><p>Install flexm?? in the cd-rom.</p></li>
+<li><p>Change the ether card name to <code>eth0</code> according to this article :http://new.nginxs.net/read.php/post-201602251858/</p></li>
+<li><p>Run <code>lmgrd</code> in the <code>idl64/bin</code> and change the folder of the license if necessary.</p></li>
 </ol>
-<p><a href="http://e2e.ti.com/support/development_tools/code_composer_studio/f/81/p/268805/941664" target="_blank" rel="noopener">http://e2e.ti.com/support/development_tools/code_composer_studio/f/81/p/268805/941664</a></p>
-<p><a href="http://blog.51cto.com/bjwxjy/1710309" target="_blank" rel="noopener">http://blog.51cto.com/bjwxjy/1710309</a></p>
-<p><a href="https://blog.csdn.net/Jmilk/article/details/51629299" target="_blank" rel="noopener">https://blog.csdn.net/Jmilk/article/details/51629299</a></p>
+<p>http://e2e.ti.com/support/development_tools/code_composer_studio/f/81/p/268805/941664</p>
+<p>http://blog.51cto.com/bjwxjy/1710309</p>
+<p>https://blog.csdn.net/Jmilk/article/details/51629299</p>
 
     </div>
 
@@ -372,7 +356,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-IDL-on-modern-Linux-system"><span class="nav-number">1.</span> <span class="nav-text">Install IDL on modern Linux system</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#System-info"><span class="nav-number">1.1.</span> <span class="nav-text">System info</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IDL-version"><span class="nav-number">1.2.</span> <span class="nav-text">IDL version</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installation"><span class="nav-number">1.3.</span> <span class="nav-text">Installation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Step-by-step-installation"><span class="nav-number">1.3.1.</span> <span class="nav-text">Step by step installation:</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#install-idl-on-modern-linux-system"><span class="nav-number">1.</span> <span class="nav-text">Install IDL on modern Linux system</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#system-info"><span class="nav-number">1.1.</span> <span class="nav-text">System info</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#idl-version"><span class="nav-number">1.2.</span> <span class="nav-text">IDL version</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#installation"><span class="nav-number">1.3.</span> <span class="nav-text">Installation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#step-by-step-installation"><span class="nav-number">1.3.1.</span> <span class="nav-text">Step by step installation:</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -393,7 +377,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/DocumentationRepo/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
