@@ -1,0 +1,98 @@
+\documentclass[12pt]{article}
+%\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{url}
+\usepackage[a4paper]{geometry}
+%\usepackage{bm}
+%\usepackage{subfig}
+%\usepackage{float}
+%\usepackage{multicol}
+%\usepackage{multirow}
+%\usepackage{ulem}
+%\usepackage{SIunits}
+%\usepackage{booktabs}
+
+
+%crtl+shift+alt+-> to comment
+%crtl+shift+alt+<- to uncomment
+\usepackage{algorithm}
+\usepackage{algorithmic}
+%\usepackage[]{algorithm2e}
+
+\setlength{\topmargin}{2pt}
+\addtolength{\textwidth}{4cm}
+\addtolength{\hoffset}{-2cm}
+\setlength{\marginparsep}{0pt}
+\setlength{\marginparwidth}{0pt}
+\addtolength{\voffset}{-1cm}
+\addtolength{\textheight}{3cm}
+\begin{document}
+
+\section{$q_l$}
+A proper definition of  $q_l$ \cite{mickelShortcomingsBondOrientational2013} is:
+\begin{equation}
+  q'_l=\sqrt{\frac{4\pi}{2l+1}\sum_{m=-l}^{l}|\sum_{f\in\mathfrak{F}(a)}\frac{A(f)}{A}Y^{m}_{l}(\theta_f,\psi_f)|^2}
+\end{equation}
+and the symmetry properties of $Y_{lm}$:
+\begin{eqnarray*}
+% \nonumber % Remove numbering (before each equation)
+  Y^{m*}_{l}(\theta,\psi) &=& (-1)^mY^{-m}_{l}(\theta,\psi) \\
+  Y^{m}_{l}(-\textbf{r}) &=& (-1)^lY^{m}_{l}(\textbf{r})
+\end{eqnarray*}
+thus leading a shorter version of $q_l$:
+\begin{equation}
+  q'_l=\sqrt{\frac{4\pi}{(2l+1)A^2}\{ |\sum_{f\in\mathfrak{F}(a)}A(f)Y_l^0(\theta_f,\psi_f)|^2 + \sum_{m=1}^{l}2|\sum_{f\in\mathfrak{F}(a)}A(f)Y^{m}_{l}(\theta_f,\psi_f)|^2} \}
+\end{equation}
+Using voro++\cite{rycroftVOROThreedimensionalVoronoi2009} we can build a specific $q6$ algorithm. Noting that directly using hardcoded $Y_{lm}$ is faster than using recursion version. The algorithm can be formulated as follow:
+
+\begin{algorithm}
+\caption{specific q6}
+\label{alg:q6}
+\begin{algorithmic}
+\STATE iteration on all particle
+\FOR {all neighbors of particle}
+    \IF{$neighbor\_id> particle\_id$}
+        \STATE $q_6list\gets Y_{60}$
+        \FOR {$i=1\rightarrow 6$}
+        \STATE $q_6list\gets Y_{6i}$
+        \ENDFOR
+    \ENDIF
+    \FOR{$i=0 $ to $ particle\_number$}
+        \STATE $q_6\gets\sum|q_6list|^2$
+    \ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+Noting that periodic boundary condition is used so that distance between particle is changed. Also notice that the id from xyz file is useless in calculating single frame quantities. Using that will cause more trouble. $Q_4$ is done in a similar way.
+
+\section{$w_l$}
+The definition of  $w_l$ \cite{steinhardtBondorientationalOrderLiquids1983} is:
+\begin{equation*}
+  {w_l} = \sum\limits_{\scriptstyle {m_1},{m_2},{m_3} \hfill \atop
+  \scriptstyle {m_1} + {m_2} + {m_3} = 0 \hfill} {\left( {\begin{array}{*{20}{c}}
+   l & l & l  \\
+   {{m_1}} & {{m_2}} & {{m_3}}  \\
+\end{array}} \right) \times {q_{l{m_1}}}{q_{l{m_2}}}{q_{l{m_3}}}}
+\end{equation*}
+where
+\begin{equation*}
+  q_{lm}=\frac{A(f)}{A}Y^{m}_{l}(\theta_f,\psi_f)
+\end{equation*}
+and
+\begin{equation*}
+  \hat{w}_l=w_l/[\sum_{m=-l}^{l}|q_{lm}|^2]^{3/2}
+\end{equation*}
+so that the calculated $q_l$ can be used and we only need to calculate half of the $q_6list$:
+\begin{equation*}
+  \hat{w}_l=(\frac{4\pi}{2l+1})^{3/2} w_l/ q_l^3
+\end{equation*}
+$w_l$ is real so that imaginary part can be throw away in calculation.
+
+\medskip
+
+\bibliographystyle{plain}
+\bibliography{algorithm}
+
+\end{document}
