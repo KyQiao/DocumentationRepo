@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/DocumentationRepo/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/DocumentationRepo/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/DocumentationRepo/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/DocumentationRepo/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/DocumentationRepo/css/main.css">
+
+
+<link rel="stylesheet" href="/DocumentationRepo/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"kyqiao.github.io","root":"/DocumentationRepo/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Write own polydisperse LJ potential">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Modify Lammps LJ potential">
+<meta property="og:url" content="https://kyqiao.github.io/DocumentationRepo/2021/04/07/simulation/Modify%20Lammps%20lj%20potential/index.html">
+<meta property="og:site_name" content="Documentation Repo">
+<meta property="og:description" content="Write own polydisperse LJ potential">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lammps.sandia.gov/doc/_images/lammps-classes.png">
+<meta property="article:published_time" content="2021-04-07T13:46:54.964Z">
+<meta property="article:modified_time" content="2021-06-17T04:16:56.703Z">
+<meta property="article:author" content="KY">
+<meta property="article:tag" content="simulation">
+<meta property="article:tag" content="Lammps">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lammps.sandia.gov/doc/_images/lammps-classes.png">
+
+<link rel="canonical" href="https://kyqiao.github.io/DocumentationRepo/2021/04/07/simulation/Modify%20Lammps%20lj%20potential/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Modify Lammps LJ potential | Documentation Repo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/DocumentationRepo/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Documentation Repo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/DocumentationRepo/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/DocumentationRepo/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/DocumentationRepo/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/DocumentationRepo/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kyqiao.github.io/DocumentationRepo/2021/04/07/simulation/Modify%20Lammps%20lj%20potential/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/DocumentationRepo/images/avatar.gif">
+      <meta itemprop="name" content="KY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Documentation Repo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Modify Lammps LJ potential
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-07 21:46:54" itemprop="dateCreated datePublished" datetime="2021-04-07T21:46:54+08:00">2021-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-17 12:16:56" itemprop="dateModified" datetime="2021-06-17T12:16:56+08:00">2021-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/DocumentationRepo/categories/Lammps/" itemprop="url" rel="index"><span itemprop="name">Lammps</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/DocumentationRepo/categories/simulation/" itemprop="url" rel="index"><span itemprop="name">simulation</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">Write own polydisperse LJ potential</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="section"></h1>
+<h2 id="class-topology">Class topology</h2>
+<figure>
+<img src="https://lammps.sandia.gov/doc/_images/lammps-classes.png" alt="_images/lammps-classes.png" /><figcaption aria-hidden="true">_images/lammps-classes.png</figcaption>
+</figure>
+<p>The image from <a href="https://lammps.sandia.gov/doc/Developer_org.html#class-topology" target="_blank" rel="noopener">lammps doc</a> is of vital importance.</p>
+<p>and read <a href="https://lammps.sandia.gov/doc/Developer_flow.html" target="_blank" rel="noopener">this article</a> on what happens in a timestep.</p>
+<h2 id="pair.h"><code>pair.h</code></h2>
+<p>the pair_style is a class containing following contents:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    PairLJCut(class LAMMPS *);</span><br><span class="line">    <span class="keyword">virtual</span> ~PairLJCut();</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">compute</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">settings</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">char</span> **)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">coeff</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">char</span> **)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init_style</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">init_one</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//must for a potential</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">write_restart</span><span class="params">(FILE *)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">read_restart</span><span class="params">(FILE *)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">write_restart_settings</span><span class="params">(FILE *)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">read_restart_settings</span><span class="params">(FILE *)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">write_data</span><span class="params">(FILE *)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">write_data_all</span><span class="params">(FILE *)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//compute for single particle</span></span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">single</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">double</span>, <span class="keyword">double</span>, <span class="keyword">double</span>, <span class="keyword">double</span> &amp;)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> *<span class="title">extract</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *, <span class="keyword">int</span> &amp;)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//compute for rrespa integrate method, not compulsory</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">compute_inner</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">compute_middle</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">compute_outer</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">double</span> cut_global;</span><br><span class="line">    <span class="keyword">double</span> **cut;</span><br><span class="line">    <span class="keyword">double</span> **epsilon, **sigma;</span><br><span class="line">    <span class="keyword">double</span> **lj1, **lj2, **lj3, **lj4, **offset;</span><br><span class="line">    <span class="keyword">double</span> *cut_respa;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">allocate</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[
+V_{LJ}=4\epsilon [(\frac{\sigma}{r})^{12}-(\frac{\sigma}{r})^6]
+\]</span> take derivative: <span class="math display">\[
+\frac{\partial V}{\partial r}=-48\epsilon \frac{\sigma^{12}}{r^{13}}+24\epsilon \frac{\sigma^{6}}{r^{7}}
+\]</span></p>
+<p>in the spherical coordinates: <span class="math display">\[
+-\vec{\nabla} V=\left(48\epsilon \frac{\sigma^{12}}{r^{13}}-24\epsilon \frac{\sigma^{6}}{r^{7}}\right)\vec{e}_r
+\]</span> in the Cartesian coordinates: <span class="math display">\[
+-\vec{\nabla} V=\left(48\epsilon \frac{\sigma^{12}}{r^{13}}-24\epsilon \frac{\sigma^{6}}{r^{7}}\right)(\frac{x}{r}\vec{i}+\frac{y}{r}\vec{j}+\frac{z}{r}\vec{k})=\left(48\epsilon \frac{\sigma^{12}}{r^{14}}-24\epsilon \frac{\sigma^{6}}{r^{8}}\right)(x\vec{i}+y\vec{j}+z\vec{k})
+\]</span></p>
+<h2 id="class-member">Class member</h2>
+<h3 id="summary">Summary</h3>
+<table>
+<thead>
+<tr class="header">
+<th>compute</th>
+<th>workhorse routine that computes pairwise interactions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>settings</td>
+<td>reads the input script line with arguments you define</td>
+</tr>
+<tr class="even">
+<td>coeff</td>
+<td>set coefficients for one i,j type pair</td>
+</tr>
+<tr class="odd">
+<td>init_one</td>
+<td>perform initialization for one i,j type pair</td>
+</tr>
+<tr class="even">
+<td>init_style</td>
+<td>initialization specific to this pair style</td>
+</tr>
+<tr class="odd">
+<td>write &amp; read_restart</td>
+<td>write/read i,j pair coeffs to restart files</td>
+</tr>
+<tr class="even">
+<td>write &amp; read_restart_settings</td>
+<td>write/read global settings to restart files</td>
+</tr>
+<tr class="odd">
+<td>single</td>
+<td>force and energy of a single pairwise interaction between 2 atoms</td>
+</tr>
+<tr class="even">
+<td>compute_inner/middle/outer</td>
+<td>versions of compute used by rRESPA</td>
+</tr>
+</tbody>
+</table>
+<p>The inner/middle/outer routines are optional.</p>
+<p>from <a href="https://lammps.sandia.gov/doc/Modify_pair.html" target="_blank" rel="noopener">lammps doc</a></p>
+<h3 id="compute">compute</h3>
+<p><span class="math display">\[
+lj1= 48 \epsilon \sigma^{12}  \\\\
+lj2 = 24 \epsilon \sigma^{6} \\\\
+lj3 = 4 \epsilon \sigma^{12} \\\\
+lj4 = 4 \epsilon \sigma^{6}
+\]</span> so that the potential and force can be represented as: <span class="math display">\[
+V_{LJ}=lj3\frac{1}{r^{12}}-lj4\frac{1}{r^{6}} \\\\
+\frac{\partial V}{\partial r}=-lj1 \frac{1}{r^{13}}+lj2 \frac{1}{r^{7}}
+\]</span></p>
+<p>For different type the four parameters are different. Thus, each pair of different type need to be calculated.</p>
+<h3 id="allocate">allocate</h3>
+<p><strong>n</strong> is the number of types. This function will set memory for the following variable:</p>
+<p>setflags: <strong>n+1 by n+1</strong> matrix, set upper triangle to 0.</p>
+<p>also create:</p>
+<p>cutsq: cutoff square</p>
+<p>cut</p>
+<p>epsilon</p>
+<p>sigma</p>
+<p>lj1234</p>
+<p>offset</p>
+<p>all <strong>n+1 by n+1</strong> matrix</p>
+<h2 id="how-lammps-perform-simulation">How LAMMPS perform simulation</h2>
+<p>In the source file <code>main.cpp</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LAMMPS *lammps = <span class="keyword">new</span> LAMMPS(argc,argv,MPI_COMM_WORLD);</span><br><span class="line">lammps-&gt;input-&gt;file();</span><br><span class="line"><span class="keyword">delete</span> lammps;</span><br></pre></td></tr></table></figure>
+<p>this is how lammps runs. In the <code>input.cpp</code> defines how it runs:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Input::file</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// read a line from input script</span></span><br><span class="line">    <span class="comment">// n = length of line including str terminator, 0 if end of file</span></span><br><span class="line">    <span class="comment">// if line ends in continuation char '&amp;', concatenate next line</span></span><br><span class="line">	readinput() </span><br><span class="line"></span><br><span class="line">    parse();</span><br><span class="line">    <span class="comment">// parse will generate a command in the form with char*</span></span><br><span class="line">    <span class="comment">// commnad is a member of class input</span></span><br><span class="line">    <span class="keyword">if</span> (command == <span class="literal">nullptr</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// if scanning for label, skip command unless it's a label command</span></span><br><span class="line">    <span class="keyword">if</span> (label_active &amp;&amp; <span class="built_in">strcmp</span>(command,<span class="string">"label"</span>) != <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// execute the command</span></span><br><span class="line">    <span class="keyword">if</span> (execute_command() &amp;&amp; <span class="built_in">line</span>)</span><br><span class="line">      error-&gt;all(FLERR,fmt::format(<span class="string">"Unknown command: &#123;&#125;"</span>,<span class="built_in">line</span>));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>in function <code>execute_command</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Input::execute_command</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> flag = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(command,<span class="string">"clear"</span>)) <span class="built_in">clear</span>();</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(command,<span class="string">"echo"</span>)) echo();</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(command,<span class="string">"units"</span>)) units();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">else</span> flag = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// return if command was listed above</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (flag) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// invoke commands added via style_command.h</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (command_map-&gt;<span class="built_in">find</span>(command) != command_map-&gt;<span class="built_in">end</span>()) &#123;</span><br><span class="line">    CommandCreator &amp;command_creator = (*command_map)[command];</span><br><span class="line">    command_creator(lmp,narg,arg);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// unrecognized command</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>the function will deal with all kinds of script. We need to see how the <code>run</code> command is executed. it should be found in the function <code>command_map()</code>. The commands in <code>style_command.h</code> are included in <code>command_map()</code> and it contains <code>run.h</code>. The function <code>run</code> is defined.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//file /src/run.cpp</span></span><br><span class="line"><span class="comment">// perform a single run</span></span><br><span class="line">  <span class="comment">// use start/stop to set begin/end step</span></span><br><span class="line">  <span class="comment">// if pre or 1st run, do System init/setup,</span></span><br><span class="line">  <span class="comment">//   else just init timer and setup output</span></span><br><span class="line">  <span class="comment">// if post, do full Finish, else just print time</span></span><br><span class="line"></span><br><span class="line">  update-&gt;whichflag = <span class="number">1</span>;</span><br><span class="line">  timer-&gt;init_timeout();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (nevery == <span class="number">0</span>) &#123;</span><br><span class="line">    update-&gt;nsteps = nsteps;</span><br><span class="line">    update-&gt;firststep = update-&gt;ntimestep;</span><br><span class="line">    update-&gt;laststep = update-&gt;ntimestep + nsteps;</span><br><span class="line">    <span class="keyword">if</span> (update-&gt;laststep &lt; <span class="number">0</span> || update-&gt;laststep &lt; update-&gt;firststep)</span><br><span class="line">      error-&gt;all(FLERR,<span class="string">"Too many timesteps"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (startflag) update-&gt;beginstep = start;</span><br><span class="line">    <span class="keyword">else</span> update-&gt;beginstep = update-&gt;firststep;</span><br><span class="line">    <span class="keyword">if</span> (stopflag) update-&gt;endstep = <span class="built_in">stop</span>;</span><br><span class="line">    <span class="keyword">else</span> update-&gt;endstep = update-&gt;laststep;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (preflag || update-&gt;first_update == <span class="number">0</span>) &#123;</span><br><span class="line">      lmp-&gt;init();</span><br><span class="line">      update-&gt;integrate-&gt;<span class="built_in">setup</span>(<span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> output-&gt;<span class="built_in">setup</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    timer-&gt;init();</span><br><span class="line">    timer-&gt;barrier_start();</span><br><span class="line">    update-&gt;integrate-&gt;<span class="built_in">run</span>(nsteps);</span><br><span class="line">    timer-&gt;barrier_stop();</span><br><span class="line"></span><br><span class="line">    update-&gt;integrate-&gt;cleanup();</span><br><span class="line"></span><br><span class="line">    <span class="function">Finish <span class="title">finish</span><span class="params">(lmp)</span></span>;</span><br><span class="line">    finish.<span class="built_in">end</span>(postflag);</span><br></pre></td></tr></table></figure>
+<p><code>update-&gt;integrate-&gt;run(nsteps);</code> is the key. In file <code>update.h</code> a <code>integrate.h</code> is include.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Integrate</span> :</span> <span class="keyword">protected</span> Pointers &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  Integrate(class LAMMPS *, <span class="keyword">int</span>, <span class="keyword">char</span> **);</span><br><span class="line">  <span class="keyword">virtual</span> ~Integrate();</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">setup</span><span class="params">(<span class="keyword">int</span> flag)</span> </span>= <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">setup_minimal</span><span class="params">(<span class="keyword">int</span>)</span> </span>= <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(<span class="keyword">int</span>)</span> </span>= <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">cleanup</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">reset_dt</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">memory_usage</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="number">0</span>;&#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">protected</span>:</span><br><span class="line">  <span class="keyword">int</span> eflag,vflag;                  <span class="comment">// flags for energy/virial computation</span></span><br><span class="line">  <span class="keyword">int</span> virial_style;                 <span class="comment">// compute virial explicitly or implicitly</span></span><br><span class="line">  <span class="keyword">int</span> external_force_clear;         <span class="comment">// clear forces locally or externally</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> nelist_global,nelist_atom;    <span class="comment">// # of PE,virial computes to check</span></span><br><span class="line">  <span class="keyword">int</span> nvlist_global,nvlist_atom,ncvlist_atom;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Compute</span> **<span class="title">elist_global</span>;</span>     <span class="comment">// lists of PE,virial Computes</span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Compute</span> **<span class="title">elist_atom</span>;</span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Compute</span> **<span class="title">vlist_global</span>;</span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Compute</span> **<span class="title">vlist_atom</span>;</span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Compute</span> **<span class="title">cvlist_atom</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> pair_compute_flag;            <span class="comment">// 0 if pair-&gt;compute is skipped</span></span><br><span class="line">  <span class="keyword">int</span> kspace_compute_flag;          <span class="comment">// 0 if kspace-&gt;compute is skipped</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">ev_setup</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">ev_set</span><span class="params">(bigint)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>function <code>run</code> is virtual and should be override in valid integrate file. The style file contain to integrate method: <code>verlet</code> and <code>respa</code>. <code>respa</code> can be viewed as a adapted method(varied-step) for integrate.</p>
+<p>Function <code>run</code> of <code>verlet</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Verlet::run</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  bigint ntimestep;</span><br><span class="line">  <span class="keyword">int</span> nflag,sortflag;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// set up modify. aim for compute property</span></span><br><span class="line">  <span class="keyword">int</span> n_post_integrate = modify-&gt;n_post_integrate;</span><br><span class="line">  <span class="keyword">int</span> n_pre_exchange = modify-&gt;n_pre_exchange;</span><br><span class="line">  <span class="keyword">int</span> n_pre_neighbor = modify-&gt;n_pre_neighbor;</span><br><span class="line">  <span class="keyword">int</span> n_post_neighbor = modify-&gt;n_post_neighbor;</span><br><span class="line">  <span class="keyword">int</span> n_pre_force = modify-&gt;n_pre_force;</span><br><span class="line">  <span class="keyword">int</span> n_pre_reverse = modify-&gt;n_pre_reverse;</span><br><span class="line">  <span class="keyword">int</span> n_post_force = modify-&gt;n_post_force;</span><br><span class="line">  <span class="keyword">int</span> n_end_of_step = modify-&gt;n_end_of_step;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (atom-&gt;sortfreq &gt; <span class="number">0</span>) sortflag = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span> sortflag = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// start simulation</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (timer-&gt;check_timeout(i)) &#123;</span><br><span class="line">      update-&gt;nsteps = i;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ntimestep = ++update-&gt;ntimestep;</span><br><span class="line">    ev_set(ntimestep);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// initial time integration</span></span><br><span class="line"></span><br><span class="line">    timer-&gt;stamp();</span><br><span class="line">    modify-&gt;initial_integrate(vflag);</span><br><span class="line">    <span class="keyword">if</span> (n_post_integrate) modify-&gt;post_integrate();</span><br><span class="line">    timer-&gt;stamp(Timer::MODIFY);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// regular communication vs neighbor list rebuild</span></span><br><span class="line"></span><br><span class="line">    nflag = neighbor-&gt;decide();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (nflag == <span class="number">0</span>) &#123;</span><br><span class="line">      timer-&gt;stamp();</span><br><span class="line">      comm-&gt;forward_comm();</span><br><span class="line">      timer-&gt;stamp(Timer::COMM);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (n_pre_exchange) &#123;</span><br><span class="line">        timer-&gt;stamp();</span><br><span class="line">        modify-&gt;pre_exchange();</span><br><span class="line">        timer-&gt;stamp(Timer::MODIFY);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (triclinic) domain-&gt;x2lamda(atom-&gt;nlocal);</span><br><span class="line">      domain-&gt;pbc();</span><br><span class="line">      <span class="keyword">if</span> (domain-&gt;box_change) &#123;</span><br><span class="line">        domain-&gt;reset_box();</span><br><span class="line">        comm-&gt;<span class="built_in">setup</span>();</span><br><span class="line">        <span class="keyword">if</span> (neighbor-&gt;style) neighbor-&gt;setup_bins();</span><br><span class="line">      &#125;</span><br><span class="line">      timer-&gt;stamp();</span><br><span class="line">      comm-&gt;exchange();</span><br><span class="line">      <span class="keyword">if</span> (sortflag &amp;&amp; ntimestep &gt;= atom-&gt;nextsort) atom-&gt;sort();</span><br><span class="line">      comm-&gt;borders();</span><br><span class="line">      <span class="keyword">if</span> (triclinic) domain-&gt;lamda2x(atom-&gt;nlocal+atom-&gt;nghost);</span><br><span class="line">      timer-&gt;stamp(Timer::COMM);</span><br><span class="line">      <span class="keyword">if</span> (n_pre_neighbor) &#123;</span><br><span class="line">        modify-&gt;pre_neighbor();</span><br><span class="line">        timer-&gt;stamp(Timer::MODIFY);</span><br><span class="line">      &#125;</span><br><span class="line">      neighbor-&gt;build(<span class="number">1</span>);</span><br><span class="line">      timer-&gt;stamp(Timer::NEIGH);</span><br><span class="line">      <span class="keyword">if</span> (n_post_neighbor) &#123;</span><br><span class="line">        modify-&gt;post_neighbor();</span><br><span class="line">        timer-&gt;stamp(Timer::MODIFY);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// force computations</span></span><br><span class="line">    <span class="comment">// important for pair to come before bonded contributions</span></span><br><span class="line">    <span class="comment">// since some bonded potentials tally pairwise energy/virial</span></span><br><span class="line">    <span class="comment">// and Pair:ev_tally() needs to be called before any tallying</span></span><br><span class="line"></span><br><span class="line">    force_clear();</span><br><span class="line"></span><br><span class="line">    timer-&gt;stamp();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (n_pre_force) &#123;</span><br><span class="line">      modify-&gt;pre_force(vflag);</span><br><span class="line">      timer-&gt;stamp(Timer::MODIFY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pair_compute_flag) &#123;</span><br><span class="line">      force-&gt;pair-&gt;compute(eflag,vflag);</span><br><span class="line">      timer-&gt;stamp(Timer::PAIR);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (atom-&gt;molecular) &#123;</span><br><span class="line">      <span class="keyword">if</span> (force-&gt;bond) force-&gt;bond-&gt;compute(eflag,vflag);</span><br><span class="line">      <span class="keyword">if</span> (force-&gt;angle) force-&gt;angle-&gt;compute(eflag,vflag);</span><br><span class="line">      <span class="keyword">if</span> (force-&gt;dihedral) force-&gt;dihedral-&gt;compute(eflag,vflag);</span><br><span class="line">      <span class="keyword">if</span> (force-&gt;improper) force-&gt;improper-&gt;compute(eflag,vflag);</span><br><span class="line">      timer-&gt;stamp(Timer::BOND);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (kspace_compute_flag) &#123;</span><br><span class="line">      force-&gt;kspace-&gt;compute(eflag,vflag);</span><br><span class="line">      timer-&gt;stamp(Timer::KSPACE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (n_pre_reverse) &#123;</span><br><span class="line">      modify-&gt;pre_reverse(eflag,vflag);</span><br><span class="line">      timer-&gt;stamp(Timer::MODIFY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// reverse communication of forces</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (force-&gt;newton) &#123;</span><br><span class="line">      comm-&gt;reverse_comm();</span><br><span class="line">      timer-&gt;stamp(Timer::COMM);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// force modifications, final time integration, diagnostics</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (n_post_force) modify-&gt;post_force(vflag);</span><br><span class="line">    modify-&gt;final_integrate();</span><br><span class="line">    <span class="keyword">if</span> (n_end_of_step) modify-&gt;end_of_step();</span><br><span class="line">    timer-&gt;stamp(Timer::MODIFY);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// all output</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ntimestep == output-&gt;next) &#123;</span><br><span class="line">      timer-&gt;stamp();</span><br><span class="line">      output-&gt;<span class="built_in">write</span>(ntimestep);</span><br><span class="line">      timer-&gt;stamp(Timer::<span class="literal">OUTPUT</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>the useful part is:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">if</span> (pair_compute_flag) &#123;</span><br><span class="line">   <span class="comment">//eflag != 0 means: compute energy contributions in this step</span></span><br><span class="line"><span class="comment">//vflag != 0 means: compute virial contributions in this step</span></span><br><span class="line">   force-&gt;pair-&gt;compute(eflag,vflag);</span><br><span class="line">   timer-&gt;stamp(Timer::PAIR);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">if</span> (atom-&gt;molecular) &#123;</span><br><span class="line">   <span class="keyword">if</span> (force-&gt;bond) force-&gt;bond-&gt;compute(eflag,vflag);</span><br><span class="line">   <span class="keyword">if</span> (force-&gt;angle) force-&gt;angle-&gt;compute(eflag,vflag);</span><br><span class="line">   <span class="keyword">if</span> (force-&gt;dihedral) force-&gt;dihedral-&gt;compute(eflag,vflag);</span><br><span class="line">   <span class="keyword">if</span> (force-&gt;improper) force-&gt;improper-&gt;compute(eflag,vflag);</span><br><span class="line">   timer-&gt;stamp(Timer::BOND);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>The <code>pair.cpp</code> contains more info and also refer <a href="https://lammps.sandia.gov/doc/Modify_pair.html" target="_blank" rel="noopener">develop guide of lammps</a>.</p>
+<h2 id="how-to-modify-potential">How to modify potential</h2>
+<p>Class <code>pair</code> got multiple standard procedure to simulation. This is showed in the compute function of every potential:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PairLJCut::compute</span><span class="params">(<span class="keyword">int</span> eflag, <span class="keyword">int</span> vflag)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// some dumb variables</span></span><br><span class="line">  <span class="keyword">int</span> i,j,ii,jj,inum,jnum,itype,jtype;</span><br><span class="line">  <span class="comment">// tmp variable for xyz, dx,dy,dz. evdwl: energy van der waal, fpair:?</span></span><br><span class="line">  <span class="keyword">double</span> xtmp,ytmp,ztmp,delx,dely,delz,evdwl,fpair;</span><br><span class="line">  <span class="comment">//r square, 1/r^2, 1/r^6, forcelj:? factor_lj: coeff for special potential</span></span><br><span class="line">  <span class="keyword">double</span> rsq,r2inv,r6inv,forcelj,factor_lj;</span><br><span class="line">  <span class="comment">// pointer array </span></span><br><span class="line">  <span class="keyword">int</span> *ilist,*jlist,*numneigh,**firstneigh;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//evdwl and ecoul such that epair = evdwl + ecoul </span></span><br><span class="line">  evdwl = <span class="number">0.0</span>;</span><br><span class="line">  ev_init(eflag,vflag);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//atom are atom vector storing atomic info</span></span><br><span class="line">  <span class="keyword">double</span> **x = atom-&gt;x;<span class="comment">//position</span></span><br><span class="line">  <span class="keyword">double</span> **f = atom-&gt;f;<span class="comment">//force</span></span><br><span class="line">  <span class="keyword">int</span> *type = atom-&gt;type;<span class="comment">//type</span></span><br><span class="line">  <span class="keyword">int</span> nlocal = atom-&gt;nlocal;<span class="comment">//# of owned atoms on this proc</span></span><br><span class="line">  <span class="keyword">double</span> *special_lj = force-&gt;special_lj;<span class="comment">// 1-2, 1-3, 1-4 prefactors for LJ. This is for polymer CG simulation</span></span><br><span class="line">    								     <span class="comment">// https://zhuanlan.zhihu.com/p/24637501</span></span><br><span class="line">    									 <span class="comment">// default 1 0 0 0 for LJ potential(a length 4 array)</span></span><br><span class="line">  <span class="keyword">int</span> newton_pair = force-&gt;newton_pair;  <span class="comment">// Newton's 3rd law settings</span></span><br><span class="line">    									 <span class="comment">// 1 for LJ and only half force will be counted</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// list here is the neighbor list(neigh_list.h)</span></span><br><span class="line">  inum = <span class="built_in">list</span>-&gt;inum;<span class="comment">// # of I atoms neighbors are stored for </span></span><br><span class="line">  ilist = <span class="built_in">list</span>-&gt;ilist;<span class="comment">// local indices of I atoms</span></span><br><span class="line">  numneigh = <span class="built_in">list</span>-&gt;numneigh;<span class="comment">// # of J neighbors for each I atom</span></span><br><span class="line">  firstneigh = <span class="built_in">list</span>-&gt;firstneigh;<span class="comment">// ptr to 1st J int value of each I atom</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// loop over neighbors of my atoms</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (ii = <span class="number">0</span>; ii &lt; inum; ii++) &#123;</span><br><span class="line">    i = ilist[ii];<span class="comment">// loop through all I type. get the index of the I atom</span></span><br><span class="line">    xtmp = x[i][<span class="number">0</span>];<span class="comment">// get its position and type</span></span><br><span class="line">    ytmp = x[i][<span class="number">1</span>];</span><br><span class="line">    ztmp = x[i][<span class="number">2</span>];</span><br><span class="line">    itype = type[i];</span><br><span class="line">    jlist = firstneigh[i];<span class="comment">// get its neighbor list(first neighbor)</span></span><br><span class="line">    jnum = numneigh[i];<span class="comment">//count number of neighbor of index==i</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (jj = <span class="number">0</span>; jj &lt; jnum; jj++) &#123;<span class="comment">//loop through neighbors</span></span><br><span class="line">      j = jlist[jj];</span><br><span class="line">      <span class="comment">// sbmask is short for speacil bond mask.</span></span><br><span class="line">      <span class="comment">//lmptype.h defines SBBITS=30, and sbmask return</span></span><br><span class="line">      <span class="comment">//return j &gt;&gt; SBBITS &amp; 3; 3 is 0011 </span></span><br><span class="line">      factor_lj = special_lj[sbmask(j)];</span><br><span class="line">      <span class="comment">// and also #define NEIGHMASK 0x3FFFFFFF which is </span></span><br><span class="line">      <span class="comment">// 00111111 11111111 11111111 11111111 	30 1s</span></span><br><span class="line">      <span class="comment">// if doing polymer simulation, high bit will be used as neighbor index</span></span><br><span class="line">      j &amp;= NEIGHMASK;</span><br><span class="line">	  <span class="comment">// the above does nothing to LJ pair potential</span></span><br><span class="line">        </span><br><span class="line">      delx = xtmp - x[j][<span class="number">0</span>];<span class="comment">//calculate distance vector</span></span><br><span class="line">      dely = ytmp - x[j][<span class="number">1</span>];</span><br><span class="line">      delz = ztmp - x[j][<span class="number">2</span>];</span><br><span class="line">      rsq = delx*delx + dely*dely + delz*delz;<span class="comment">// r square</span></span><br><span class="line">      jtype = type[j];</span><br><span class="line">        </span><br><span class="line">	  <span class="comment">//doing force calculation</span></span><br><span class="line">      <span class="keyword">if</span> (rsq &lt; cutsq[itype][jtype]) &#123;<span class="comment">//type cutoff</span></span><br><span class="line">        r2inv = <span class="number">1.0</span>/rsq;</span><br><span class="line">        r6inv = r2inv*r2inv*r2inv;</span><br><span class="line">        <span class="comment">// refer the first part of this doc</span></span><br><span class="line">        forcelj = r6inv * (lj1[itype][jtype]*r6inv - lj2[itype][jtype]);</span><br><span class="line">        <span class="comment">//factor_lj=1 for LJ particle</span></span><br><span class="line">        fpair = factor_lj*forcelj*r2inv;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//force in each direction</span></span><br><span class="line">        f[i][<span class="number">0</span>] += delx*fpair;</span><br><span class="line">        f[i][<span class="number">1</span>] += dely*fpair;</span><br><span class="line">        f[i][<span class="number">2</span>] += delz*fpair;</span><br><span class="line">        <span class="comment">// newton on to save half calculation</span></span><br><span class="line">        <span class="keyword">if</span> (newton_pair || j &lt; nlocal) &#123;</span><br><span class="line">          f[j][<span class="number">0</span>] -= delx*fpair;</span><br><span class="line">          f[j][<span class="number">1</span>] -= dely*fpair;</span><br><span class="line">          f[j][<span class="number">2</span>] -= delz*fpair;</span><br><span class="line">        &#125;</span><br><span class="line">          </span><br><span class="line">		<span class="comment">//if calculate energy</span></span><br><span class="line">        <span class="keyword">if</span> (eflag) &#123;</span><br><span class="line">          <span class="comment">// simply the V_lj formular</span></span><br><span class="line">          evdwl = r6inv*(lj3[itype][jtype]*r6inv-lj4[itype][jtype]) -</span><br><span class="line">            offset[itype][jtype];</span><br><span class="line">          evdwl *= factor_lj;</span><br><span class="line">        &#125;</span><br><span class="line"> 		<span class="comment">//see details of ev_flags</span></span><br><span class="line">        <span class="keyword">if</span> (evflag) ev_tally(i,j,nlocal,newton_pair,</span><br><span class="line">                             evdwl,<span class="number">0.0</span>,fpair,delx,dely,delz);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (vflag_fdotr) virial_fdotr_compute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="detail-of-ev_flags">Detail of ev_flags</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//pair.cpp</span></span><br><span class="line"><span class="comment">/* ----------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">   setup for energy, virial computation</span></span><br><span class="line"><span class="comment">   see integrate::ev_set() for bitwise settings of eflag/vflag</span></span><br><span class="line"><span class="comment">   set the following flags, values are otherwise set to 0:</span></span><br><span class="line"><span class="comment">     eflag_global != 0 if ENERGY_GLOBAL bit of eflag set</span></span><br><span class="line"><span class="comment">     eflag_atom   != 0 i1f ENERGY_ATOM bit of eflag set</span></span><br><span class="line"><span class="comment">     eflag_either != 0 if eflag_global or eflag_atom is set</span></span><br><span class="line"><span class="comment">     vflag_global != 0 if VIRIAL_PAIR bit of vflag set, OR</span></span><br><span class="line"><span class="comment">                       if VIRIAL_FDOTR bit of vflag is set but no_virial_fdotr = 1</span></span><br><span class="line"><span class="comment">     vflag_fdotr  != 0 if VIRIAL_FDOTR bit of vflag set and no_virial_fdotr = 0</span></span><br><span class="line"><span class="comment">     vflag_atom   != 0 if VIRIAL_ATOM bit of vflag set, OR</span></span><br><span class="line"><span class="comment">                       if VIRIAL_CENTROID bit of vflag set</span></span><br><span class="line"><span class="comment">                       and centroidstressflag != CENTROID_AVAIL</span></span><br><span class="line"><span class="comment">     cvflag_atom  != 0 if VIRIAL_CENTROID bit of vflag set</span></span><br><span class="line"><span class="comment">                       and centroidstressflag = CENTROID_AVAIL</span></span><br><span class="line"><span class="comment">     vflag_either != 0 if any of vflag_global, vflag_atom, cvflag_atom is set</span></span><br><span class="line"><span class="comment">     evflag       != 0 if eflag_either or vflag_either is set</span></span><br><span class="line"><span class="comment">   centroidstressflag is set by the pair style to one of these values:</span></span><br><span class="line"><span class="comment">     CENTROID_SAME = same as two-body stress</span></span><br><span class="line"><span class="comment">     CENTROID_AVAIL = different and implemented</span></span><br><span class="line"><span class="comment">     CENTROID_NOTAVAIL = different but not yet implemented</span></span><br><span class="line"><span class="comment">------------------------------------------------------------------------- */</span></span><br></pre></td></tr></table></figure>
+<p><code>ev_tally</code> is used to record energy and virial calculation for atom.</p>
+<p>Now see <code>pair_lj_cut_coul.cpp</code> to see how to use charge.</p>
+<h4 id="modify-compute">modify <code>compute</code></h4>
+<p>change force calculation</p>
+<p>change offset, compute at each time.</p>
+<h4 id="modify-single">modify <code>single</code></h4>
+<p>make same change</p>
+<p>The rest of the code can remain the same. Especially the restart part, no need to make change on it.</p>
+<p>Delete all the <code>Rrespa</code> code if use verlet only.</p>
+<h2 id="some-details">Some details</h2>
+<p>Change atom style to use charge as variable:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">atom_style	charge</span><br></pre></td></tr></table></figure>
+<p>For unit LJ, the source code states:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//file update.cpp </span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">strcmp</span>(style,<span class="string">"lj"</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">    force-&gt;boltz = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;hplanck = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;mvv2e = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;ftm2v = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;mv2d = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;nktv2p = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;qqr2e = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;qe2f = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;vxmu2f = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;xxt2kmu = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;e_mass = <span class="number">0.0</span>;    <span class="comment">// not yet set</span></span><br><span class="line">    force-&gt;hhmrr2e = <span class="number">0.0</span>;</span><br><span class="line">    force-&gt;mvh2r = <span class="number">0.0</span>;</span><br><span class="line">    force-&gt;angstrom = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;femtosecond = <span class="number">1.0</span>;</span><br><span class="line">    force-&gt;qelectron = <span class="number">1.0</span>;&#125;</span><br></pre></td></tr></table></figure>
+<p>so that the charge set in input file is reduced charge: <span class="math inline">\(q^*=q/\sqrt{4\pi\epsilon\sigma}\)</span> . Set that as 1 is equivalent to sigma 1.</p>
+<h3 id="atomfile"><code>atomfile</code></h3>
+<p>Using variable with type <code>atomfile</code> to load charge file. The file should follow the format:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">N # number of lines </span><br><span class="line">ID1  property1</span><br><span class="line">ID2  property2</span><br><span class="line">...</span><br><span class="line">IDN  propertyN</span><br></pre></td></tr></table></figure>
+<h2 id="polydisperse-lj-potential">Polydisperse LJ potential</h2>
+<p>General form of poly-lj is: <span class="math display">\[
+\phi(r/\sigma_{\alpha\beta})=\left\{
+\begin{align*}
+&amp;v_0[(\frac{\sigma_{\alpha\beta}}{r})^m-(\frac{\sigma_{\alpha\beta}}{r})^n ]+\sum_{k=0}^qc_k(\frac{r^{\alpha\beta}}{\sigma_{\alpha\beta}})^{2k} \quad &amp;r/\sigma_{\alpha\beta}\le \tilde r_c \\
+    &amp;0 \quad &amp;otherwise
+\end{align*} \right \}
+\]</span> and <span class="math display">\[
+\sigma_{\alpha\beta}=\frac{1}{2}(\sigma_\alpha+\sigma_\beta)(1-\epsilon|\sigma_\alpha-\sigma_\beta|)
+\]</span></p>
+<table>
+<thead>
+<tr class="header">
+<th>Model Name</th>
+<th>q</th>
+<th>m</th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>polydisperse12</td>
+<td>2</td>
+<td>12</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>polydisperse18</td>
+<td>2</td>
+<td>18</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>polydisperselj</td>
+<td>2</td>
+<td>12</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>polydisperse10</td>
+<td>3</td>
+<td>10</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>polydisperse106</td>
+<td>2</td>
+<td>10</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>the polynomial in the end is one way of flatten the cutoff.</p>
+<p>The normal cutoff version just set cutoff at <span class="math inline">\(r_c=2.5\sigma_{ij}\)</span></p>
+<p>Some notes on modify the potential:</p>
+<ul>
+<li>cutoff is set for each pair of <span class="math inline">\(\sigma_{ij}\)</span>,</li>
+</ul>
+<p>how the neighbor build?</p>
+<p>for <span class="math inline">\(\epsilon&gt;0\)</span>, this non-additive rule will make <span class="math inline">\(\sigma_{ij} &lt;\sigma_{max}=1.55\)</span>, if set cutoff as 2.5 in the dimensionless way, cutoff for such <span class="math inline">\(\sigma_{ij}\)</span> is <span class="math inline">\(2.5*\sigma_{max}=3.875\)</span> gives a skin of at least 1.375. We use a longer skin distance to make sure neighbor lists are correct.</p>
+<p><code>neigh_modify check</code> should set to <code>no</code> since this is not the true skin distance.</p>
+<p>Once neighbor list is correct, the force range:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// here cut will be a dimensionless number which represents cut*sigma_ij</span></span><br><span class="line"><span class="keyword">if</span> (rsq &lt; cutsq[itype][jtype] * sigma_ij2)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">  f[i][<span class="number">0</span>] += delx * fpair;</span><br><span class="line">  f[i][<span class="number">1</span>] += dely * fpair;</span><br><span class="line">  f[i][<span class="number">2</span>] += delz * fpair;</span><br><span class="line">  <span class="keyword">if</span> (newton_pair || j &lt; nlocal)</span><br><span class="line">  &#123;</span><br><span class="line">    f[j][<span class="number">0</span>] -= delx * fpair;</span><br><span class="line">    f[j][<span class="number">1</span>] -= dely * fpair;</span><br><span class="line">    f[j][<span class="number">2</span>] -= delz * fpair;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>For more info, refer https://github.com/KyQiao/polyLJ</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">neighbor        1.5 bin </span><br><span class="line">#1.375 is minimum skin distance</span><br><span class="line">neigh_modify    every 20 delay 0 check no </span><br><span class="line">#check no to make sure build neighbor list correctly</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/DocumentationRepo/tags/simulation/" rel="tag"># simulation</a>
+              <a href="/DocumentationRepo/tags/Lammps/" rel="tag"># Lammps</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/DocumentationRepo/2021/04/07/simulation/Lammps%20simulation%20details/" rel="prev" title="LAMMPS simulation details">
+      <i class="fa fa-chevron-left"></i> LAMMPS simulation details
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/DocumentationRepo/2021/04/08/Initialize%20a%20new%20wsl2%20system/" rel="next" title="Initialize a new wsl2 system">
+      Initialize a new wsl2 system <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#section"><span class="nav-number">1.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#class-topology"><span class="nav-number">1.1.</span> <span class="nav-text">Class topology</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pair.h"><span class="nav-number">1.2.</span> <span class="nav-text">pair.h</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class-member"><span class="nav-number">1.3.</span> <span class="nav-text">Class member</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary"><span class="nav-number">1.3.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compute"><span class="nav-number">1.3.2.</span> <span class="nav-text">compute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#allocate"><span class="nav-number">1.3.3.</span> <span class="nav-text">allocate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how-lammps-perform-simulation"><span class="nav-number">1.4.</span> <span class="nav-text">How LAMMPS perform simulation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how-to-modify-potential"><span class="nav-number">1.5.</span> <span class="nav-text">How to modify potential</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#detail-of-ev_flags"><span class="nav-number">1.5.1.</span> <span class="nav-text">Detail of ev_flags</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#modify-compute"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">modify compute</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#modify-single"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">modify single</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#some-details"><span class="nav-number">1.6.</span> <span class="nav-text">Some details</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#atomfile"><span class="nav-number">1.6.1.</span> <span class="nav-text">atomfile</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#polydisperse-lj-potential"><span class="nav-number">1.7.</span> <span class="nav-text">Polydisperse LJ potential</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">KY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/DocumentationRepo/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/DocumentationRepo/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/DocumentationRepo/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KY</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <br>
+    <span id="busuanzi_container_site_pv" style="display: inline;">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv" style="display: inline;">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+
+
+        
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/DocumentationRepo/lib/anime.min.js"></script>
+  <script src="/DocumentationRepo/lib/velocity/velocity.min.js"></script>
+  <script src="/DocumentationRepo/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/DocumentationRepo/js/utils.js"></script>
+
+<script src="/DocumentationRepo/js/motion.js"></script>
+
+
+<script src="/DocumentationRepo/js/schemes/pisces.js"></script>
+
+
+<script src="/DocumentationRepo/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/DocumentationRepo/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/DocumentationRepo/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
